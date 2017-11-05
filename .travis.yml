@@ -5,7 +5,7 @@ rvm:
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: '929b4b1fe9192813ac13175ae1797259e43c61b2' # Set in travis-ci.org dashboard
+  github_token: 'f07c073d0cc628252485c9cdd30775d49fee4196' # Set in travis-ci.org dashboard
   on:
     branch: master
 
