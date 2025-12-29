@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Utilities - James Washington</title>
+    <meta name="description" content="Collection of browser-based utilities for web scraping, IPTV management, and privacy analysis">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .tool-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .tool-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+
+        .tool-description {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .tool-features li {
+            padding: 8px 0;
+            color: #475569;
+            font-size: 0.95rem;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .tool-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .badge-new {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-popular {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-privacy {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            padding: 30px;
+            opacity: 0.9;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .info-card h2 {
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .info-card p {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tech-tag {
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ Browser Utilities</h1>
+            <p>Standalone tools that run entirely in your browser. No backend, no tracking, no BS.</p>
+        </div>
+
+        <div class="tools-grid">
+            <a href="contact-scraper.html" class="tool-card">
+                <div class="tool-icon">🔍</div>
+                <div class="tool-title">Contact Scraper</div>
+                <div>
+                    <span class="tool-badge badge-new">NEW</span>
+                    <span class="tool-badge badge-popular">POPULAR</span>
+                </div>
+                <p class="tool-description">
+                    Extract contact information from any website. Perfect for lead generation, research, or data collection.
+                </p>
+                <ul class="tool-features">
+                    <li>Scrape emails, phones, addresses & avatars</li>
+                    <li>Schema.org structured data support</li>
+                    <li>Export as JSON or CSV</li>
+                    <li>CORS proxy included</li>
+                </ul>
+                <span class="cta-button">Launch Tool →</span>
+            </a>
+
+            <a href="m3u-editor.html" class="tool-card">
+                <div class="tool-icon">📺</div>
+                <div class="tool-title">M3U Editor</div>
+                <div>
+                    <span class="tool-badge badge-new">NEW</span>
+                </div>
+                <p class="tool-description">
+                    Professional IPTV playlist manager with Xtream Codes API integration and cloud sync capabilities.
+                </p>
+                <ul class="tool-features">
+                    <li>Xtream Codes API support</li>
+                    <li>Edit and organize channels</li>
+                    <li>S3-compatible cloud sync</li>
+                    <li>Drag-and-drop reordering</li>
+                </ul>
+                <span class="cta-button">Launch Tool →</span>
+            </a>
+
+            <a href="fingerprint-analyzer.html" class="tool-card">
+                <div class="tool-icon">🔐</div>
+                <div class="tool-title">Fingerprint Analyzer</div>
+                <div>
+                    <span class="tool-badge badge-new">NEW</span>
+                    <span class="tool-badge badge-privacy">PRIVACY</span>
+                </div>
+                <p class="tool-description">
+                    Comprehensive privacy analysis tool. See how unique your browser is and what data you're leaking.
+                </p>
+                <ul class="tool-features">
+                    <li>Uniqueness score calculation</li>
+                    <li>Canvas & WebGL fingerprinting</li>
+                    <li>WebRTC leak detection</li>
+                    <li>Privacy risk assessment</li>
+                </ul>
+                <span class="cta-button">Launch Tool →</span>
+            </a>
+        </div>
+
+        <div class="info-card">
+            <h2>💡 About These Tools</h2>
+            <p>
+                All utilities are built as standalone HTML files with inline CSS and JavaScript.
+                No build tools, no npm packages, no complex setup. Just open and use.
+            </p>
+            <p>
+                <strong>Privacy First:</strong> Your data never leaves your device unless you explicitly
+                fetch from external URLs or sync to your own cloud storage. No tracking, no analytics,
+                no data collection.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Pure HTML/CSS/JS</span>
+                <span class="tech-tag">CDN Libraries</span>
+                <span class="tech-tag">No Build Tools</span>
+                <span class="tech-tag">Offline Capable</span>
+                <span class="tech-tag">Mobile Responsive</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🔧 Technology Stack</h2>
+            <p>These tools leverage modern browser APIs and CDN-hosted libraries:</p>
+            <div class="tech-stack">
+                <span class="tech-tag">Fetch API</span>
+                <span class="tech-tag">Web Storage API</span>
+                <span class="tech-tag">Canvas API</span>
+                <span class="tech-tag">WebGL</span>
+                <span class="tech-tag">WebRTC</span>
+                <span class="tech-tag">AWS SDK (Browser)</span>
+                <span class="tech-tag">File API</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                Built with ❤️ by <a href="https://github.com/jbwashington" target="_blank">James Washington</a>
+            </p>
+            <p style="margin-top: 15px; font-size: 0.9rem;">
+                Open source utilities for the modern web. No frameworks, no bloat.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

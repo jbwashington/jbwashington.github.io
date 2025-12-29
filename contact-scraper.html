@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Scraper - Extract Contact Info from Websites</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group textarea {
+            min-height: 150px;
+            font-family: monospace;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .results-count {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .contact-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .contact-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .contact-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e0e0e0;
+        }
+
+        .contact-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-detail-icon {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .contact-detail-value {
+            color: #666;
+            word-break: break-all;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Contact Scraper</h1>
+            <p>Extract contact information from any website</p>
+        </div>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('url')">Scrape by URL</button>
+                <button class="tab" onclick="switchTab('html')">Paste HTML</button>
+            </div>
+
+            <div id="url-tab" class="tab-content active">
+                <div class="input-group">
+                    <label for="url-input">Website URL</label>
+                    <input type="url" id="url-input" placeholder="https://example.com/about">
+                </div>
+                <div class="input-group">
+                    <label for="proxy-select">CORS Proxy (if needed)</label>
+                    <select id="proxy-select" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                        <option value="">None (may fail due to CORS)</option>
+                        <option value="https://api.allorigins.win/raw?url=">AllOrigins (Recommended)</option>
+                        <option value="https://corsproxy.io/?">CORSProxy.io</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="scrapeFromUrl()">🔍 Scrape Contacts</button>
+                </div>
+            </div>
+
+            <div id="html-tab" class="tab-content">
+                <div class="input-group">
+                    <label for="html-input">Paste HTML Content</label>
+                    <textarea id="html-input" placeholder="Paste the HTML source code here..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="scrapeFromHtml()">🔍 Extract Contacts</button>
+                </div>
+            </div>
+
+            <div class="loading" id="loading">
+                <p>⏳ Scraping contacts...</p>
+            </div>
+        </div>
+
+        <div class="card results" id="results">
+            <div class="results-header">
+                <h2 class="results-count">Found <span id="contact-count">0</span> contacts</h2>
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="exportJson()">📥 Export JSON</button>
+                    <button class="btn-secondary" onclick="exportCsv()">📄 Export CSV</button>
+                    <button class="btn-danger" onclick="clearResults()">🗑️ Clear</button>
+                </div>
+            </div>
+            <div id="contacts-container"></div>
+        </div>
+    </div>
+
+    <script>
+        let contactsData = [];
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        async function scrapeFromUrl() {
+            const url = document.getElementById('url-input').value.trim();
+            const proxy = document.getElementById('proxy-select').value;
+
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+
+            const fetchUrl = proxy ? proxy + encodeURIComponent(url) : url;
+
+            showLoading();
+
+            try {
+                const response = await fetch(fetchUrl);
+                const html = await response.text();
+                parseAndDisplayContacts(html);
+            } catch (error) {
+                alert('Error fetching URL: ' + error.message + '\n\nTry using a CORS proxy or paste the HTML directly.');
+                hideLoading();
+            }
+        }
+
+        function scrapeFromHtml() {
+            const html = document.getElementById('html-input').value.trim();
+
+            if (!html) {
+                alert('Please paste HTML content');
+                return;
+            }
+
+            showLoading();
+            parseAndDisplayContacts(html);
+        }
+
+        function parseAndDisplayContacts(html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            contactsData = extractContacts(doc);
+
+            displayContacts(contactsData);
+            hideLoading();
+        }
+
+        function extractContacts(doc) {
+            const contacts = new Map();
+
+            // Regex patterns
+            const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+            const phoneRegex = /(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+            const nameRegex = /\b([A-Z][a-z]+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\b/g;
+
+            // Extract from structured data (schema.org)
+            const schemaScripts = doc.querySelectorAll('script[type="application/ld+json"]');
+            schemaScripts.forEach(script => {
+                try {
+                    const data = JSON.parse(script.textContent);
+                    extractFromSchemaData(data, contacts);
+                } catch (e) {
+                    console.error('Error parsing schema data:', e);
+                }
+            });
+
+            // Extract from common contact elements
+            const contactSelectors = [
+                '[itemtype*="Person"]',
+                '[itemtype*="Organization"]',
+                '.contact',
+                '.team-member',
+                '.staff',
+                '.employee',
+                '[class*="contact"]',
+                '[class*="team"]',
+                '[class*="staff"]',
+                'address'
+            ];
+
+            contactSelectors.forEach(selector => {
+                doc.querySelectorAll(selector).forEach(el => {
+                    extractFromElement(el, contacts);
+                });
+            });
+
+            // Extract from text content
+            const textContent = doc.body.innerText;
+            const emails = textContent.match(emailRegex) || [];
+            const phones = textContent.match(phoneRegex) || [];
+            const names = textContent.match(nameRegex) || [];
+
+            // Create contacts from extracted data
+            emails.forEach((email, i) => {
+                const id = email;
+                if (!contacts.has(id)) {
+                    contacts.set(id, {
+                        id: id,
+                        email: email,
+                        name: names[i] || null,
+                        phone: phones[i] || null,
+                        address: null,
+                        avatar: null
+                    });
+                }
+            });
+
+            return Array.from(contacts.values()).filter(contact =>
+                contact.email || contact.phone || contact.name
+            );
+        }
+
+        function extractFromSchemaData(data, contacts) {
+            if (Array.isArray(data)) {
+                data.forEach(item => extractFromSchemaData(item, contacts));
+                return;
+            }
+
+            if (data['@type'] === 'Person' || data['@type'] === 'Organization') {
+                const contact = {
+                    id: data.email || data.telephone || Math.random().toString(36),
+                    name: data.name || null,
+                    email: data.email || null,
+                    phone: data.telephone || null,
+                    address: data.address?.streetAddress ||
+                            (typeof data.address === 'string' ? data.address : null),
+                    avatar: data.image || null
+                };
+
+                if (contact.email || contact.phone) {
+                    contacts.set(contact.id, contact);
+                }
+            }
+        }
+
+        function extractFromElement(el, contacts) {
+            const contact = {
+                id: Math.random().toString(36),
+                name: null,
+                email: null,
+                phone: null,
+                address: null,
+                avatar: null
+            };
+
+            // Extract name
+            const nameEl = el.querySelector('[itemprop="name"], .name, h2, h3, h4') || el;
+            if (nameEl) {
+                contact.name = nameEl.textContent.trim();
+            }
+
+            // Extract email
+            const emailEl = el.querySelector('[itemprop="email"], a[href^="mailto:"]');
+            if (emailEl) {
+                const href = emailEl.getAttribute('href');
+                contact.email = href ? href.replace('mailto:', '') : emailEl.textContent.trim();
+            } else {
+                const emailMatch = el.textContent.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/);
+                if (emailMatch) contact.email = emailMatch[0];
+            }
+
+            // Extract phone
+            const phoneEl = el.querySelector('[itemprop="telephone"], a[href^="tel:"]');
+            if (phoneEl) {
+                const href = phoneEl.getAttribute('href');
+                contact.phone = href ? href.replace('tel:', '') : phoneEl.textContent.trim();
+            } else {
+                const phoneMatch = el.textContent.match(/(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
+                if (phoneMatch) contact.phone = phoneMatch[0];
+            }
+
+            // Extract address
+            const addressEl = el.querySelector('[itemprop="address"], address, .address');
+            if (addressEl) {
+                contact.address = addressEl.textContent.trim();
+            }
+
+            // Extract avatar
+            const imgEl = el.querySelector('img');
+            if (imgEl) {
+                contact.avatar = imgEl.src;
+            }
+
+            if (contact.email || contact.phone) {
+                contact.id = contact.email || contact.phone;
+                contacts.set(contact.id, contact);
+            }
+        }
+
+        function displayContacts(contacts) {
+            const container = document.getElementById('contacts-container');
+            const countEl = document.getElementById('contact-count');
+
+            countEl.textContent = contacts.length;
+
+            if (contacts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>No contacts found. Try a different URL or adjust the scraping settings.</p>
+                    </div>
+                `;
+                document.getElementById('results').classList.add('active');
+                return;
+            }
+
+            container.innerHTML = contacts.map(contact => `
+                <div class="contact-card">
+                    <div class="contact-header">
+                        ${contact.avatar ?
+                            `<img src="${contact.avatar}" alt="${contact.name || 'Contact'}" class="contact-avatar">` :
+                            `<div class="contact-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>`
+                        }
+                        <div class="contact-name">${contact.name || 'Unknown'}</div>
+                    </div>
+                    <div class="contact-details">
+                        ${contact.email ? `
+                            <div class="contact-detail">
+                                <span class="contact-detail-icon">📧</span>
+                                <span class="contact-detail-value">${contact.email}</span>
+                            </div>
+                        ` : ''}
+                        ${contact.phone ? `
+                            <div class="contact-detail">
+                                <span class="contact-detail-icon">📱</span>
+                                <span class="contact-detail-value">${contact.phone}</span>
+                            </div>
+                        ` : ''}
+                        ${contact.address ? `
+                            <div class="contact-detail">
+                                <span class="contact-detail-icon">📍</span>
+                                <span class="contact-detail-value">${contact.address}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('results').classList.add('active');
+        }
+
+        function exportJson() {
+            const dataStr = JSON.stringify(contactsData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            downloadFile(blob, 'contacts.json');
+        }
+
+        function exportCsv() {
+            const headers = ['Name', 'Email', 'Phone', 'Address', 'Avatar'];
+            const rows = contactsData.map(c => [
+                c.name || '',
+                c.email || '',
+                c.phone || '',
+                c.address || '',
+                c.avatar || ''
+            ]);
+
+            const csv = [
+                headers.join(','),
+                ...rows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(','))
+            ].join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            downloadFile(blob, 'contacts.csv');
+        }
+
+        function downloadFile(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearResults() {
+            contactsData = [];
+            document.getElementById('results').classList.remove('active');
+            document.getElementById('contacts-container').innerHTML = '';
+        }
+
+        function showLoading() {
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('results').classList.remove('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
