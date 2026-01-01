@@ -24,7 +24,7 @@ github_username:  jbwashington
 
 # AI Domain Data configuration
 ai_domain_data:
-  entity_type: "person"
+  entity_type: "Person"
   logo: "https://github.com/jbwashington.png"
 
 # Build settings
