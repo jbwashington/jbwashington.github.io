@@ -2,7 +2,7 @@
 layout: home
 ---
 
-# Full-Stack Developer & Gray Hat Hacker
+# Full-Stack Developer
 
 I build **privacy-first browser utilities** and **high-performance SaaS platforms** with modern web technologies. Passionate about open source software, the GNU project, Tor, and the biohacking movement.
 

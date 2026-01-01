@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-## Full-Stack Developer & Gray Hat Hacker
+## Full-Stack Developer
 
 I build modern web applications and browser-based utilities with a focus on performance, privacy, and developer experience. My work spans SaaS platforms, headless CMS implementations, and self-contained browser tools that respect user privacy.
 
