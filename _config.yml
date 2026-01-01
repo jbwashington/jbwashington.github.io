@@ -30,6 +30,8 @@ ai_domain_data:
 # Build settings
 markdown: kramdown
 theme: minima
+include:
+    - .well-known
 plugins:
     - jekyll-feed
     - jekyll-redirect-from
