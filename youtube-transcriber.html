@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Transcriber - Offline AI-Powered Transcription</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #fdfdfd;
+            color: #5c5c5c;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 500;
+            color: #111111;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #5c5c5c;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #d4d4d4;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #111111;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d4d4d4;
+            background: white;
+            font-size: 14px;
+            font-family: inherit;
+            color: #111111;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #1e69d8;
+        }
+
+        button {
+            background: white;
+            color: #111111;
+            border: 1px solid #d4d4d4;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background-color 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            background: #f6f8fa;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.primary {
+            margin-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .progress {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #f0f0f0;
+            border: 1px solid #d4d4d4;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #1e69d8;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            margin-top: 8px;
+            color: #5c5c5c;
+        }
+
+        .status {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #d4d4d4;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status.info {
+            background: #f6f8fa;
+            color: #5c5c5c;
+        }
+
+        .status.error {
+            background: #fff5f5;
+            color: #d32f2f;
+            border-color: #ffcdd2;
+        }
+
+        .status.success {
+            background: #f1f8f4;
+            color: #2e7d32;
+            border-color: #c8e6c9;
+        }
+
+        #transcript {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .transcript-content {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 16px;
+            background: #fafafa;
+            border: 1px solid #d4d4d4;
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .timestamp {
+            color: #1e69d8;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: #5c5c5c;
+            margin-top: 6px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5c5c5c;
+            margin-bottom: -1px;
+        }
+
+        .tab.active {
+            background: #fdfdfd;
+            color: #111111;
+            border-bottom: 2px solid #fdfdfd;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #d4d4d4;
+            font-size: 13px;
+            color: #5c5c5c;
+            text-align: center;
+        }
+
+        footer a {
+            color: #1e69d8;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+            .tab.active {
+                border-bottom: 1px solid #d4d4d4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>YouTube Video Transcriber</h1>
+            <p class="subtitle">Offline AI-powered transcription using Whisper model - All processing happens in your browser</p>
+        </header>
+
+        <div class="card">
+            <div class="tabs">
+                <div class="tab active" data-tab="url">YouTube URL</div>
+                <div class="tab" data-tab="file">Upload Audio File</div>
+            </div>
+
+            <div class="tab-content active" id="url-tab">
+                <div class="input-group">
+                    <label for="youtubeUrl">YouTube Video URL</label>
+                    <input type="text" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                    <p class="help-text">Enter a YouTube video URL. Audio will be extracted via Invidious.</p>
+                </div>
+
+                <div class="input-group">
+                    <label for="invidiousInstance">Invidious Instance</label>
+                    <select id="invidiousInstance">
+                        <option value="https://inv.perditum.com">inv.perditum.com (Recommended - 98% uptime)</option>
+                        <option value="https://yewtu.be">yewtu.be</option>
+                        <option value="https://vid.puffyan.us">vid.puffyan.us</option>
+                        <option value="https://yt.artemislena.eu">yt.artemislena.eu</option>
+                        <option value="https://invidious.privacydev.net">invidious.privacydev.net</option>
+                        <option value="custom">Custom Instance...</option>
+                    </select>
+                    <p class="help-text">Privacy-focused YouTube proxy. Try different instances if one fails.</p>
+                </div>
+
+                <div class="input-group" id="customInstanceGroup" style="display: none;">
+                    <label for="customInstance">Custom Invidious URL</label>
+                    <input type="text" id="customInstance" placeholder="https://your-instance.com">
+                    <p class="help-text">Enter your self-hosted Invidious instance URL (without trailing slash).</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="file-tab">
+                <div class="input-group">
+                    <label for="audioFile">Upload Audio/Video File</label>
+                    <input type="file" id="audioFile" accept="audio/*,video/*">
+                    <p class="help-text">Upload an audio or video file from your device. Supported formats: MP3, MP4, WAV, M4A, WEBM, OGG</p>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="modelSize">Model Size</label>
+                <select id="modelSize">
+                    <option value="tiny">Tiny (fastest, ~39MB, less accurate)</option>
+                    <option value="base" selected>Base (balanced, ~74MB, recommended)</option>
+                    <option value="small">Small (slower, ~244MB, more accurate)</option>
+                </select>
+                <p class="help-text">Larger models are more accurate but take longer to load and process.</p>
+            </div>
+
+            <div class="input-group">
+                <label for="language">Language</label>
+                <select id="language">
+                    <option value="auto">Auto-detect</option>
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="it">Italian</option>
+                    <option value="pt">Portuguese</option>
+                    <option value="zh">Chinese</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                </select>
+                <p class="help-text">Select language for better accuracy, or use auto-detect.</p>
+            </div>
+
+            <div class="button-group">
+                <button id="transcribeBtn" class="primary">Start Transcription</button>
+                <button id="cancelBtn" style="display: none;">Cancel</button>
+            </div>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <div class="progress" id="progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Initializing...</div>
+        </div>
+
+        <div id="transcript" class="card">
+            <h2 style="font-size: 18px; font-weight: 500; margin-bottom: 16px; color: #111111;">Transcript</h2>
+            <div class="transcript-content" id="transcriptContent"></div>
+            <div class="button-group" style="margin-top: 16px;">
+                <button id="downloadTxt">Download as TXT</button>
+                <button id="downloadSrt">Download as SRT</button>
+                <button id="downloadVtt">Download as VTT</button>
+                <button id="copyBtn">Copy to Clipboard</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 18px; font-weight: 500; margin-bottom: 12px; color: #111111;">How It Works</h2>
+            <ul style="margin-left: 20px; font-size: 14px; line-height: 1.8;">
+                <li>All transcription happens in your browser using OpenAI's Whisper model</li>
+                <li>YouTube audio is fetched via Invidious (privacy-focused YouTube proxy)</li>
+                <li>Choose from multiple Invidious instances or use your own self-hosted instance</li>
+                <li>First run downloads the AI model (~74MB for base model)</li>
+                <li>Model is cached locally for future use</li>
+                <li>Works offline after initial model download (file upload mode)</li>
+                <li>Supports 99+ languages with auto-detection</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 18px; font-weight: 500; margin-bottom: 12px; color: #111111;">Privacy & Security</h2>
+            <ul style="margin-left: 20px; font-size: 14px; line-height: 1.8;">
+                <li>Transcription happens entirely in your browser - audio never sent to servers</li>
+                <li>YouTube audio fetched via Invidious (open-source, privacy-respecting proxy)</li>
+                <li>You control which Invidious instance to use (or self-host your own)</li>
+                <li>No tracking or analytics</li>
+                <li>No API keys required</li>
+                <li>Open source technologies (Whisper AI + Invidious)</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Built with <a href="https://huggingface.co/docs/transformers.js" target="_blank">Transformers.js</a>, <a href="https://github.com/openai/whisper" target="_blank">Whisper</a>, and <a href="https://invidious.io/" target="_blank">Invidious</a></p>
+            <p>Part of <a href="tools.html">Browser Utilities Collection</a></p>
+        </footer>
+    </div>
+
+    <script type="module">
+        // Import Transformers.js from CDN
+        import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
+
+        // Configure to use local models cache
+        env.allowLocalModels = false;
+        env.allowRemoteModels = true;
+
+        let transcriber = null;
+        let isTranscribing = false;
+        let currentAudioUrl = null;
+
+        // DOM Elements
+        const transcribeBtn = document.getElementById('transcribeBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const youtubeUrlInput = document.getElementById('youtubeUrl');
+        const audioFileInput = document.getElementById('audioFile');
+        const invidiousInstanceSelect = document.getElementById('invidiousInstance');
+        const customInstanceInput = document.getElementById('customInstance');
+        const customInstanceGroup = document.getElementById('customInstanceGroup');
+        const modelSizeSelect = document.getElementById('modelSize');
+        const languageSelect = document.getElementById('language');
+        const statusDiv = document.getElementById('status');
+        const progressDiv = document.getElementById('progress');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const transcriptDiv = document.getElementById('transcript');
+        const transcriptContent = document.getElementById('transcriptContent');
+        const downloadTxtBtn = document.getElementById('downloadTxt');
+        const downloadSrtBtn = document.getElementById('downloadSrt');
+        const downloadVttBtn = document.getElementById('downloadVtt');
+        const copyBtn = document.getElementById('copyBtn');
+
+        let transcriptData = null;
+
+        // Show/hide custom instance input
+        invidiousInstanceSelect.addEventListener('change', () => {
+            if (invidiousInstanceSelect.value === 'custom') {
+                customInstanceGroup.style.display = 'block';
+            } else {
+                customInstanceGroup.style.display = 'none';
+            }
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+            });
+        });
+
+        // Show status message
+        function showStatus(message, type = 'info') {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+
+        // Hide status
+        function hideStatus() {
+            statusDiv.style.display = 'none';
+        }
+
+        // Update progress
+        function updateProgress(percent, message) {
+            progressDiv.style.display = 'block';
+            progressFill.style.width = `${percent}%`;
+            progressText.textContent = message;
+        }
+
+        // Hide progress
+        function hideProgress() {
+            progressDiv.style.display = 'none';
+            progressFill.style.width = '0%';
+        }
+
+        // Extract YouTube video ID
+        function getYouTubeVideoId(url) {
+            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[7].length === 11) ? match[7] : null;
+        }
+
+        // Download YouTube audio via Invidious
+        async function downloadYouTubeAudio(videoId) {
+            showStatus('Fetching audio from Invidious...', 'info');
+            updateProgress(10, 'Connecting to Invidious instance...');
+
+            // Get selected instance
+            let instanceUrl = invidiousInstanceSelect.value;
+            if (instanceUrl === 'custom') {
+                instanceUrl = customInstanceInput.value.trim();
+                if (!instanceUrl) {
+                    throw new Error('Please enter a custom Invidious instance URL');
+                }
+                // Remove trailing slash
+                instanceUrl = instanceUrl.replace(/\/$/, '');
+            }
+
+            try {
+                // Fetch video info from Invidious API
+                updateProgress(20, 'Fetching video information...');
+                const apiUrl = `${instanceUrl}/api/v1/videos/${videoId}`;
+
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`Invidious API error: ${response.status} ${response.statusText}`);
+                }
+
+                const videoData = await response.json();
+
+                // Find best audio format
+                updateProgress(40, 'Finding best audio format...');
+                const audioFormats = videoData.adaptiveFormats.filter(f =>
+                    f.type && f.type.includes('audio')
+                );
+
+                if (!audioFormats || audioFormats.length === 0) {
+                    throw new Error('No audio formats available for this video');
+                }
+
+                // Sort by bitrate (highest first)
+                audioFormats.sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0));
+                const bestAudio = audioFormats[0];
+
+                // Get audio URL
+                const audioUrl = bestAudio.url;
+                if (!audioUrl) {
+                    throw new Error('Could not extract audio URL from video');
+                }
+
+                updateProgress(60, 'Audio URL obtained successfully');
+                showStatus(`Audio found: ${videoData.title}`, 'success');
+
+                return audioUrl;
+
+            } catch (error) {
+                // Try to provide helpful error messages
+                if (error.message.includes('Failed to fetch')) {
+                    throw new Error(`Could not connect to ${instanceUrl}. Instance may be down or blocked. Try selecting a different instance.`);
+                }
+                throw error;
+            }
+        }
+
+        // Get audio from file input
+        async function getAudioFromFile(file) {
+            showStatus('Loading audio file...', 'info');
+            updateProgress(10, 'Reading file...');
+
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const audioUrl = e.target.result;
+                    resolve(audioUrl);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Initialize transcriber
+        async function initTranscriber() {
+            const modelSize = modelSizeSelect.value;
+            const modelName = `Xenova/whisper-${modelSize}`;
+
+            showStatus(`Loading ${modelSize} model... This may take a minute on first run.`, 'info');
+            updateProgress(20, `Downloading ${modelSize} model...`);
+
+            try {
+                transcriber = await pipeline('automatic-speech-recognition', modelName, {
+                    progress_callback: (progress) => {
+                        if (progress.status === 'downloading') {
+                            const percent = 20 + (progress.progress || 0) * 30;
+                            updateProgress(percent, `Downloading model: ${Math.round(progress.progress * 100)}%`);
+                        } else if (progress.status === 'loading') {
+                            updateProgress(50, 'Loading model into memory...');
+                        }
+                    }
+                });
+
+                updateProgress(60, 'Model loaded successfully');
+                return true;
+            } catch (error) {
+                showStatus(`Error loading model: ${error.message}`, 'error');
+                hideProgress();
+                return false;
+            }
+        }
+
+        // Transcribe audio
+        async function transcribeAudio(audioUrl) {
+            try {
+                if (!transcriber) {
+                    const success = await initTranscriber();
+                    if (!success) return;
+                }
+
+                updateProgress(70, 'Transcribing audio... This may take several minutes.');
+                showStatus('Transcribing... Please wait.', 'info');
+
+                const language = languageSelect.value;
+                const options = {
+                    chunk_length_s: 30,
+                    stride_length_s: 5,
+                    return_timestamps: true,
+                };
+
+                if (language !== 'auto') {
+                    options.language = language;
+                }
+
+                // Perform transcription
+                const result = await transcriber(audioUrl, options);
+
+                updateProgress(100, 'Transcription complete!');
+                showStatus('Transcription completed successfully!', 'success');
+
+                return result;
+            } catch (error) {
+                showStatus(`Transcription error: ${error.message}`, 'error');
+                hideProgress();
+                throw error;
+            }
+        }
+
+        // Format transcript for display
+        function formatTranscript(result) {
+            if (!result.chunks || result.chunks.length === 0) {
+                return result.text;
+            }
+
+            let formatted = '';
+            result.chunks.forEach(chunk => {
+                const start = formatTimestamp(chunk.timestamp[0]);
+                const end = formatTimestamp(chunk.timestamp[1]);
+                formatted += `<span class="timestamp">[${start} - ${end}]</span>${chunk.text}\n\n`;
+            });
+            return formatted;
+        }
+
+        // Format timestamp (seconds to HH:MM:SS)
+        function formatTimestamp(seconds) {
+            if (!seconds && seconds !== 0) return '00:00:00';
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // Display transcript
+        function displayTranscript(result) {
+            transcriptData = result;
+            transcriptContent.innerHTML = formatTranscript(result);
+            transcriptDiv.style.display = 'block';
+            hideProgress();
+        }
+
+        // Download as TXT
+        function downloadAsTxt() {
+            if (!transcriptData) return;
+
+            const text = transcriptData.text || transcriptContent.textContent;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transcript_${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Download as SRT
+        function downloadAsSrt() {
+            if (!transcriptData || !transcriptData.chunks) {
+                showStatus('SRT format requires timestamp data', 'error');
+                return;
+            }
+
+            let srt = '';
+            transcriptData.chunks.forEach((chunk, index) => {
+                const start = formatSrtTimestamp(chunk.timestamp[0]);
+                const end = formatSrtTimestamp(chunk.timestamp[1]);
+                srt += `${index + 1}\n${start} --> ${end}\n${chunk.text.trim()}\n\n`;
+            });
+
+            const blob = new Blob([srt], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transcript_${Date.now()}.srt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Download as VTT
+        function downloadAsVtt() {
+            if (!transcriptData || !transcriptData.chunks) {
+                showStatus('VTT format requires timestamp data', 'error');
+                return;
+            }
+
+            let vtt = 'WEBVTT\n\n';
+            transcriptData.chunks.forEach((chunk, index) => {
+                const start = formatSrtTimestamp(chunk.timestamp[0]);
+                const end = formatSrtTimestamp(chunk.timestamp[1]);
+                vtt += `${index + 1}\n${start} --> ${end}\n${chunk.text.trim()}\n\n`;
+            });
+
+            const blob = new Blob([vtt], { type: 'text/vtt' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transcript_${Date.now()}.vtt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Format timestamp for SRT/VTT (HH:MM:SS,mmm)
+        function formatSrtTimestamp(seconds) {
+            if (!seconds && seconds !== 0) return '00:00:00,000';
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            const ms = Math.floor((seconds % 1) * 1000);
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')},${String(ms).padStart(3, '0')}`;
+        }
+
+        // Copy to clipboard
+        async function copyToClipboard() {
+            if (!transcriptData) return;
+
+            const text = transcriptData.text || transcriptContent.textContent;
+            try {
+                await navigator.clipboard.writeText(text);
+                showStatus('Copied to clipboard!', 'success');
+                setTimeout(hideStatus, 2000);
+            } catch (error) {
+                showStatus('Failed to copy to clipboard', 'error');
+            }
+        }
+
+        // Main transcription handler
+        async function handleTranscribe() {
+            if (isTranscribing) return;
+
+            hideStatus();
+            hideProgress();
+            transcriptDiv.style.display = 'none';
+
+            // Determine audio source
+            let audioUrl = null;
+            const activeTab = document.querySelector('.tab.active').dataset.tab;
+
+            try {
+                if (activeTab === 'url') {
+                    const youtubeUrl = youtubeUrlInput.value.trim();
+                    if (!youtubeUrl) {
+                        showStatus('Please enter a YouTube URL', 'error');
+                        return;
+                    }
+
+                    const videoId = getYouTubeVideoId(youtubeUrl);
+                    if (!videoId) {
+                        showStatus('Invalid YouTube URL', 'error');
+                        return;
+                    }
+
+                    audioUrl = await downloadYouTubeAudio(videoId);
+                } else {
+                    const file = audioFileInput.files[0];
+                    if (!file) {
+                        showStatus('Please select an audio file', 'error');
+                        return;
+                    }
+
+                    audioUrl = await getAudioFromFile(file);
+                }
+
+                isTranscribing = true;
+                transcribeBtn.disabled = true;
+                cancelBtn.style.display = 'inline-block';
+
+                // Transcribe
+                const result = await transcribeAudio(audioUrl);
+                displayTranscript(result);
+
+            } catch (error) {
+                console.error('Transcription error:', error);
+                showStatus(error.message, 'error');
+                hideProgress();
+            } finally {
+                isTranscribing = false;
+                transcribeBtn.disabled = false;
+                cancelBtn.style.display = 'none';
+
+                // Clean up audio URL
+                if (audioUrl && audioUrl.startsWith('blob:')) {
+                    URL.revokeObjectURL(audioUrl);
+                }
+            }
+        }
+
+        // Event listeners
+        transcribeBtn.addEventListener('click', handleTranscribe);
+        downloadTxtBtn.addEventListener('click', downloadAsTxt);
+        downloadSrtBtn.addEventListener('click', downloadAsSrt);
+        downloadVttBtn.addEventListener('click', downloadAsVtt);
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // Cancel button (placeholder - would need to implement actual cancellation)
+        cancelBtn.addEventListener('click', () => {
+            showStatus('Cancellation not yet implemented', 'error');
+        });
+
+        // Show initial info
+        showStatus('Ready! Enter a YouTube URL or upload an audio file. First run will download the AI model (~74MB).', 'info');
+    </script>
+</body>
+</html>

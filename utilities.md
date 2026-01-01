@@ -116,20 +116,22 @@ Live markdown editor with instant preview and one-click PDF export. Perfect for 
 ---
 
 ## YouTube Video Transcriber
-Offline AI-powered video transcription using OpenAI's Whisper model running entirely in your browser. Upload audio or video files and get accurate transcripts with timestamps.
+Offline AI-powered video transcription using OpenAI's Whisper model running entirely in your browser. Enter YouTube URLs directly or upload audio files for accurate transcripts with timestamps.
 
 **Features:**
+- Direct YouTube URL support via Invidious (privacy-focused proxy)
+- Choose from multiple Invidious instances or use your own self-hosted instance
 - Whisper AI model (tiny, base, or small) runs in browser via Transformers.js
 - Support for 99+ languages with auto-detection
 - Upload audio/video files (MP3, MP4, WAV, M4A, WEBM, OGG)
 - Export transcripts as TXT, SRT (subtitles), or VTT (captions)
 - Timestamp support for video editing
 - Copy to clipboard functionality
-- 100% privacy-focused - all processing in browser
+- Privacy-focused - transcription happens entirely in browser
 - Model cached locally after first download (~74MB for base model)
-- Works offline after initial setup
+- Works offline after initial setup (file upload mode)
 
-**Note:** YouTube URL support requires downloading videos manually first (use yt-dlp or similar), then upload via the file input. This ensures your privacy - no data sent to external servers.
+**Privacy:** YouTube audio is fetched via Invidious, an open-source privacy-respecting YouTube proxy. You control which instance to use.
 
 [Open YouTube Transcriber](youtube-transcriber.html){: .btn}
 
@@ -175,7 +177,7 @@ All utilities are built with:
 - **M3U Editor**: Xtream Codes API, AWS SDK for S3 sync
 - **Fingerprint Analyzer**: IPify (IP detection), ipapi.co (geolocation)
 - **Markdown to PDF**: Marked.js (markdown parsing), jsPDF (PDF generation), html2canvas (HTML rendering)
-- **YouTube Transcriber**: Transformers.js (Whisper model via CDN) - 100% offline after model download
+- **YouTube Transcriber**: Transformers.js (Whisper model via CDN), Invidious API (privacy-focused YouTube proxy)
 - **OpenGraph Inspector**: AllOrigins/CORSProxy for cross-origin requests - all parsing done locally
 
 ---

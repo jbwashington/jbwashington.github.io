@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workbench - Local-First LLM Interface</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-primary: #fdfdfd;
+            --bg-secondary: #f6f8fa;
+            --bg-code: #222222;
+            --text-primary: #111111;
+            --text-secondary: #5c5c5c;
+            --border-color: #d4d4d4;
+            --link-color: #1e69d8;
+            --success-color: #22863a;
+            --warning-color: #b08800;
+            --error-color: #cb2431;
+            --font-sans: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", monospace;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .app-container {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .provider-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            font-size: 0.875rem;
+        }
+
+        .provider-badge .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success-color);
+        }
+
+        .provider-badge .status-dot.warning {
+            background: var(--warning-color);
+        }
+
+        .provider-badge .status-dot.error {
+            background: var(--error-color);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-family: inherit;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+
+        .tab:hover {
+            background: var(--bg-primary);
+        }
+
+        .tab.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+            .sidebar.mobile-visible {
+                display: block;
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                max-width: 350px;
+                z-index: 100;
+                background: var(--bg-primary);
+                border-left: 1px solid var(--border-color);
+                overflow-y: auto;
+            }
+        }
+
+        /* Chat Panel */
+        .chat-panel {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 110px);
+            overflow: hidden;
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Messages */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .message {
+            max-width: 85%;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+        }
+
+        .message.user {
+            margin-left: auto;
+            background: var(--bg-secondary);
+        }
+
+        .message.assistant {
+            margin-right: auto;
+        }
+
+        .message.system {
+            max-width: 100%;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-align: center;
+            border-style: dashed;
+        }
+
+        .message-role {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .message-content {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .message-content code {
+            font-family: var(--font-mono);
+            background: var(--bg-code);
+            color: #e6e6e6;
+            padding: 2px 6px;
+            font-size: 0.875em;
+        }
+
+        .message-content pre {
+            background: var(--bg-code);
+            color: #e6e6e6;
+            padding: 12px;
+            overflow-x: auto;
+            margin: 8px 0;
+        }
+
+        .message-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+        }
+
+        .input-wrapper textarea {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            resize: none;
+            min-height: 60px;
+            max-height: 200px;
+        }
+
+        .input-wrapper textarea:focus {
+            outline: none;
+            border-color: var(--text-secondary);
+        }
+
+        .input-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Buttons */
+        button {
+            font-family: inherit;
+            font-size: 0.875rem;
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+
+        button:hover {
+            background: var(--bg-secondary);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+        }
+
+        button.primary:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            background: var(--bg-primary);
+        }
+
+        .sidebar-section {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-section h3 {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        /* Provider Status */
+        .provider-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .provider-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            font-size: 0.875rem;
+        }
+
+        .provider-item.active {
+            border-color: var(--success-color);
+        }
+
+        .provider-item .name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .provider-item .status {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .provider-item .status.available {
+            color: var(--success-color);
+        }
+
+        .provider-item .status.unavailable {
+            color: var(--error-color);
+        }
+
+        .provider-item .status.loading {
+            color: var(--warning-color);
+        }
+
+        /* Settings Form */
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            font-family: inherit;
+            font-size: 0.875rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--text-secondary);
+        }
+
+        .form-group .hint {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Documents Panel */
+        .documents-panel {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--border-color);
+            padding: 48px 24px;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            transition: background-color 0.15s;
+        }
+
+        .drop-zone.dragover {
+            background: var(--bg-secondary);
+            border-color: var(--text-secondary);
+        }
+
+        .drop-zone input[type="file"] {
+            display: none;
+        }
+
+        .document-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .document-item .info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .document-item .name {
+            font-weight: 500;
+        }
+
+        .document-item .meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .document-item .status-badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .document-item .status-badge.embedded {
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        /* Write Panel */
+        .write-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 24px;
+            gap: 16px;
+        }
+
+        .write-panel textarea {
+            flex: 1;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: none;
+        }
+
+        .write-panel textarea:focus {
+            outline: none;
+            border-color: var(--text-secondary);
+        }
+
+        .write-tools {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .settings-section {
+            margin-bottom: 32px;
+        }
+
+        .settings-section h2 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .api-key-input {
+            display: flex;
+            gap: 8px;
+        }
+
+        .api-key-input input {
+            flex: 1;
+        }
+
+        /* Loading States */
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        /* Mobile Toggle */
+        .mobile-sidebar-toggle {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .mobile-sidebar-toggle {
+                display: block;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .header h1 {
+                font-size: 1.1rem;
+            }
+
+            .tab {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+
+            .messages-container,
+            .documents-panel,
+            .write-panel,
+            .settings-panel {
+                padding: 16px;
+            }
+
+            .input-area {
+                padding: 12px 16px;
+            }
+
+            .message {
+                max-width: 95%;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Model Select in Sidebar */
+        .model-select-group {
+            margin-top: 12px;
+        }
+
+        .model-select-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            font-family: inherit;
+            font-size: 0.875rem;
+            background: var(--bg-primary);
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            padding: 12px 16px;
+            background: var(--bg-code);
+            color: #e6e6e6;
+            font-size: 0.875rem;
+            max-width: 350px;
+            animation: slideIn 0.2s ease-out;
+        }
+
+        .toast.error {
+            border-left: 3px solid var(--error-color);
+        }
+
+        .toast.success {
+            border-left: 3px solid var(--success-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+
+        .sidebar-overlay.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>AI Workbench</h1>
+            <div class="header-right">
+                <div class="provider-badge" id="currentProviderBadge">
+                    <span class="status-dot"></span>
+                    <span class="provider-name">Detecting...</span>
+                </div>
+                <button class="mobile-sidebar-toggle" onclick="toggleSidebar()">Settings</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="chat">Chat</button>
+            <button class="tab" data-tab="documents">Documents</button>
+            <button class="tab" data-tab="write">Write</button>
+            <button class="tab" data-tab="settings">Settings</button>
+        </div>
+
+        <div class="main-content">
+            <div class="chat-panel">
+                <!-- Chat Tab -->
+                <div class="tab-content active" id="tab-chat">
+                    <div class="messages-container" id="messagesContainer">
+                        <div class="message system">
+                            <div class="message-content">
+                                AI Workbench is initializing. Detecting available providers...
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <div class="input-wrapper">
+                            <textarea
+                                id="chatInput"
+                                placeholder="Type your message... (Shift+Enter for new line)"
+                                rows="2"
+                            ></textarea>
+                            <div class="input-actions">
+                                <button class="primary" id="sendBtn" onclick="sendMessage()">Send</button>
+                                <button onclick="clearChat()">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documents Tab -->
+                <div class="tab-content" id="tab-documents">
+                    <div class="documents-panel">
+                        <div class="drop-zone" id="dropZone">
+                            <p>Drop files here or click to upload</p>
+                            <p style="font-size: 0.875rem; margin-top: 8px;">
+                                Supports: TXT, MD, HTML, JSON, PDF
+                            </p>
+                            <input type="file" id="fileInput" multiple accept=".txt,.md,.html,.json,.pdf">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label>Or paste text directly:</label>
+                            <textarea
+                                id="pasteInput"
+                                placeholder="Paste document content here..."
+                                style="min-height: 100px; width: 100%; padding: 12px; border: 1px solid var(--border-color);"
+                            ></textarea>
+                            <button onclick="addPastedDocument()" style="margin-top: 8px;">Add Document</button>
+                        </div>
+
+                        <h3 style="font-size: 0.875rem; margin-bottom: 12px; color: var(--text-secondary);">
+                            Loaded Documents (<span id="docCount">0</span>)
+                        </h3>
+                        <div class="document-list" id="documentList">
+                            <p style="color: var(--text-secondary); font-size: 0.875rem;">
+                                No documents loaded. Add documents to provide context for your conversations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Write Tab -->
+                <div class="tab-content" id="tab-write">
+                    <div class="write-panel">
+                        <div class="write-tools">
+                            <button onclick="writeAction('improve')">Improve</button>
+                            <button onclick="writeAction('simplify')">Simplify</button>
+                            <button onclick="writeAction('expand')">Expand</button>
+                            <button onclick="writeAction('summarize')">Summarize</button>
+                            <button onclick="writeAction('proofread')">Proofread</button>
+                            <button onclick="writeAction('formal')">More Formal</button>
+                            <button onclick="writeAction('casual')">More Casual</button>
+                        </div>
+                        <textarea
+                            id="writeInput"
+                            placeholder="Enter text to work with..."
+                        ></textarea>
+                        <div id="writeOutput" style="flex: 1; padding: 16px; border: 1px solid var(--border-color); background: var(--bg-secondary); overflow-y: auto; white-space: pre-wrap; display: none;"></div>
+                        <div class="write-tools">
+                            <button onclick="copyWriteOutput()">Copy Result</button>
+                            <button onclick="useAsInput()">Use as Input</button>
+                            <button onclick="clearWrite()">Clear All</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-content" id="tab-settings">
+                    <div class="settings-panel">
+                        <div class="settings-section">
+                            <h2>Provider Priority</h2>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 16px;">
+                                AI Workbench automatically selects the best available provider in this order:
+                            </p>
+                            <ol style="margin-left: 20px; font-size: 0.875rem; color: var(--text-secondary);">
+                                <li>Chrome Built-in AI (Gemini Nano) - Zero config, runs locally</li>
+                                <li>Ollama - Local server at localhost:11434</li>
+                                <li>API Keys - OpenAI, Anthropic, Groq, or OpenRouter</li>
+                                <li>Transformers.js - In-browser fallback (downloads model)</li>
+                            </ol>
+                        </div>
+
+                        <div class="settings-section">
+                            <h2>Ollama Configuration</h2>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Ollama URL</label>
+                                    <input type="text" id="ollamaUrl" value="http://localhost:11434" placeholder="http://localhost:11434">
+                                    <span class="hint">Default: http://localhost:11434</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Model</label>
+                                    <select id="ollamaModel">
+                                        <option value="">Detecting models...</option>
+                                    </select>
+                                </div>
+                                <button onclick="testOllama()">Test Connection</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h2>API Keys (BYOK)</h2>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 16px;">
+                                Keys are stored in localStorage and never sent to any server except the provider's API.
+                            </p>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>OpenAI API Key</label>
+                                    <div class="api-key-input">
+                                        <input type="password" id="openaiKey" placeholder="sk-...">
+                                        <button onclick="testApiKey('openai')">Test</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Anthropic API Key</label>
+                                    <div class="api-key-input">
+                                        <input type="password" id="anthropicKey" placeholder="sk-ant-...">
+                                        <button onclick="testApiKey('anthropic')">Test</button>
+                                    </div>
+                                    <span class="hint">Note: Anthropic API requires CORS proxy or extension</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Groq API Key</label>
+                                    <div class="api-key-input">
+                                        <input type="password" id="groqKey" placeholder="gsk_...">
+                                        <button onclick="testApiKey('groq')">Test</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>OpenRouter API Key</label>
+                                    <div class="api-key-input">
+                                        <input type="password" id="openrouterKey" placeholder="sk-or-...">
+                                        <button onclick="testApiKey('openrouter')">Test</button>
+                                    </div>
+                                </div>
+                                <button onclick="saveApiKeys()">Save API Keys</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h2>Model Parameters</h2>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Temperature: <span id="tempValue">0.7</span></label>
+                                    <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7"
+                                        oninput="document.getElementById('tempValue').textContent = this.value">
+                                    <span class="hint">Lower = more focused, Higher = more creative</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>System Prompt</label>
+                                    <textarea
+                                        id="systemPrompt"
+                                        placeholder="You are a helpful assistant..."
+                                        style="min-height: 80px; width: 100%; padding: 12px; border: 1px solid var(--border-color);"
+                                    >You are a helpful AI assistant. Be concise and accurate.</textarea>
+                                </div>
+                                <button onclick="saveSettings()">Save Settings</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h2>Transformers.js Fallback</h2>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Model</label>
+                                    <select id="transformersModel">
+                                        <option value="Xenova/Phi-3-mini-4k-instruct">Phi-3 Mini (2.3GB) - Best quality</option>
+                                        <option value="Xenova/Qwen2-1.5B-Instruct">Qwen2 1.5B (1.5GB) - Balanced</option>
+                                        <option value="Xenova/TinyLlama-1.1B-Chat-v1.0">TinyLlama (600MB) - Fastest</option>
+                                    </select>
+                                    <span class="hint">Model will download on first use</span>
+                                </div>
+                                <button onclick="preloadTransformers()">Pre-download Model</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h2>Data Management</h2>
+                            <div class="settings-form" style="flex-direction: row; gap: 8px;">
+                                <button onclick="exportData()">Export All Data</button>
+                                <button onclick="importData()">Import Data</button>
+                                <button onclick="clearAllData()" style="color: var(--error-color);">Clear All Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-section">
+                    <h3>Provider Status</h3>
+                    <div class="provider-list" id="providerList">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    <div class="model-select-group">
+                        <label style="font-size: 0.75rem; color: var(--text-secondary);">Override Provider:</label>
+                        <select id="providerOverride" onchange="overrideProvider(this.value)">
+                            <option value="auto">Auto (Best Available)</option>
+                            <option value="chrome">Chrome AI</option>
+                            <option value="ollama">Ollama</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="groq">Groq</option>
+                            <option value="openrouter">OpenRouter</option>
+                            <option value="transformers">Transformers.js</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Context</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        <span id="contextDocCount">0</span> documents loaded
+                    </p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">
+                        Documents are included as context in your conversations.
+                    </p>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Session</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        <span id="messageCount">0</span> messages
+                    </p>
+                    <button onclick="exportChat()" style="width: 100%; margin-top: 8px;">Export Chat</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module">
+        // ============================================================
+        // AI Workbench - Unified LLM Provider Interface
+        // ============================================================
+
+        // State
+        const state = {
+            provider: null,
+            capabilities: {},
+            messages: [],
+            documents: [],
+            settings: {
+                temperature: 0.7,
+                systemPrompt: 'You are a helpful AI assistant. Be concise and accurate.',
+                ollamaUrl: 'http://localhost:11434',
+                ollamaModel: '',
+                transformersModel: 'Xenova/Phi-3-mini-4k-instruct',
+                apiKeys: {}
+            },
+            chromeSession: null,
+            transformersPipeline: null,
+            isGenerating: false,
+            providerOverride: 'auto'
+        };
+
+        // ============================================================
+        // Provider Detection & Management
+        // ============================================================
+
+        async function detectProviders() {
+            updateProviderBadge('Detecting...', 'warning');
+
+            state.capabilities = {
+                chrome: await detectChromeAI(),
+                ollama: await detectOllama(),
+                byok: detectBYOK(),
+                transformers: { available: true, status: 'available' }
+            };
+
+            // Select best provider
+            if (state.providerOverride !== 'auto') {
+                state.provider = state.providerOverride;
+            } else if (state.capabilities.chrome.available) {
+                state.provider = 'chrome';
+            } else if (state.capabilities.ollama.available) {
+                state.provider = 'ollama';
+            } else if (state.capabilities.byok.configured) {
+                state.provider = state.capabilities.byok.providers[0];
+            } else {
+                state.provider = 'transformers';
+            }
+
+            updateProviderUI();
+            addSystemMessage(`Ready. Using ${getProviderDisplayName(state.provider)}.`);
+        }
+
+        async function detectChromeAI() {
+            const result = {
+                available: false,
+                availability: 'unavailable',
+                apis: {
+                    prompt: 'LanguageModel' in window,
+                    summarizer: 'Summarizer' in window,
+                    writer: 'Writer' in window,
+                    rewriter: 'Rewriter' in window,
+                    translator: 'Translator' in window,
+                    languageDetector: 'LanguageDetector' in window
+                }
+            };
+
+            if (result.apis.prompt) {
+                try {
+                    result.availability = await window.LanguageModel.availability();
+                    result.available = result.availability !== 'unavailable';
+                } catch (e) {
+                    console.warn('Chrome AI detection failed:', e);
+                }
+            }
+
+            return result;
+        }
+
+        async function detectOllama() {
+            const url = state.settings.ollamaUrl || 'http://localhost:11434';
+            try {
+                const res = await fetch(`${url}/api/tags`, {
+                    signal: AbortSignal.timeout(2000)
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const models = data.models || [];
+
+                    // Update model dropdown
+                    const select = document.getElementById('ollamaModel');
+                    select.innerHTML = models.length
+                        ? models.map(m => `<option value="${m.name}">${m.name}</option>`).join('')
+                        : '<option value="">No models found</option>';
+
+                    if (models.length && !state.settings.ollamaModel) {
+                        state.settings.ollamaModel = models[0].name;
+                    }
+
+                    return { available: true, models, status: 'available' };
+                }
+            } catch (e) {
+                console.warn('Ollama detection failed:', e);
+            }
+
+            document.getElementById('ollamaModel').innerHTML = '<option value="">Not connected</option>';
+            return { available: false, models: [], status: 'unavailable' };
+        }
+
+        function detectBYOK() {
+            const keys = state.settings.apiKeys || {};
+            const providers = [];
+
+            if (keys.openai) providers.push('openai');
+            if (keys.anthropic) providers.push('anthropic');
+            if (keys.groq) providers.push('groq');
+            if (keys.openrouter) providers.push('openrouter');
+
+            return {
+                configured: providers.length > 0,
+                providers,
+                status: providers.length > 0 ? 'available' : 'unavailable'
+            };
+        }
+
+        function getProviderDisplayName(provider) {
+            const names = {
+                chrome: 'Chrome AI (Gemini Nano)',
+                ollama: `Ollama (${state.settings.ollamaModel || 'local'})`,
+                openai: 'OpenAI',
+                anthropic: 'Anthropic',
+                groq: 'Groq',
+                openrouter: 'OpenRouter',
+                transformers: 'Transformers.js (Browser)'
+            };
+            return names[provider] || provider;
+        }
+
+        function updateProviderUI() {
+            // Update badge
+            const statusClass = state.provider === 'transformers' ? 'warning' : '';
+            updateProviderBadge(getProviderDisplayName(state.provider), statusClass);
+
+            // Update provider list
+            const list = document.getElementById('providerList');
+            list.innerHTML = `
+                <div class="provider-item ${state.provider === 'chrome' ? 'active' : ''}">
+                    <span class="name">Chrome AI</span>
+                    <span class="status ${state.capabilities.chrome?.available ? 'available' : 'unavailable'}">
+                        ${state.capabilities.chrome?.availability || 'unavailable'}
+                    </span>
+                </div>
+                <div class="provider-item ${state.provider === 'ollama' ? 'active' : ''}">
+                    <span class="name">Ollama</span>
+                    <span class="status ${state.capabilities.ollama?.available ? 'available' : 'unavailable'}">
+                        ${state.capabilities.ollama?.available ? `${state.capabilities.ollama.models.length} models` : 'not running'}
+                    </span>
+                </div>
+                <div class="provider-item ${['openai', 'anthropic', 'groq', 'openrouter'].includes(state.provider) ? 'active' : ''}">
+                    <span class="name">API Keys</span>
+                    <span class="status ${state.capabilities.byok?.configured ? 'available' : 'unavailable'}">
+                        ${state.capabilities.byok?.configured ? state.capabilities.byok.providers.join(', ') : 'not configured'}
+                    </span>
+                </div>
+                <div class="provider-item ${state.provider === 'transformers' ? 'active' : ''}">
+                    <span class="name">Transformers.js</span>
+                    <span class="status available">always available</span>
+                </div>
+            `;
+        }
+
+        function updateProviderBadge(text, statusClass = '') {
+            const badge = document.getElementById('currentProviderBadge');
+            badge.querySelector('.provider-name').textContent = text;
+            const dot = badge.querySelector('.status-dot');
+            dot.className = 'status-dot ' + statusClass;
+        }
+
+        function overrideProvider(provider) {
+            state.providerOverride = provider;
+            if (provider === 'auto') {
+                detectProviders();
+            } else {
+                state.provider = provider;
+                updateProviderUI();
+                addSystemMessage(`Switched to ${getProviderDisplayName(provider)}.`);
+            }
+        }
+        window.overrideProvider = overrideProvider;
+
+        // ============================================================
+        // Message Generation
+        // ============================================================
+
+        async function generateResponse(prompt) {
+            const provider = state.provider;
+
+            // Build context from documents
+            let context = '';
+            if (state.documents.length > 0) {
+                context = '\n\nContext from documents:\n' +
+                    state.documents.map(d => `--- ${d.name} ---\n${d.content}`).join('\n\n');
+            }
+
+            const fullPrompt = context ? prompt + context : prompt;
+
+            switch (provider) {
+                case 'chrome':
+                    return await generateChrome(fullPrompt);
+                case 'ollama':
+                    return await generateOllama(fullPrompt);
+                case 'openai':
+                    return await generateOpenAI(fullPrompt);
+                case 'groq':
+                    return await generateGroq(fullPrompt);
+                case 'openrouter':
+                    return await generateOpenRouter(fullPrompt);
+                case 'anthropic':
+                    return await generateAnthropic(fullPrompt);
+                case 'transformers':
+                    return await generateTransformers(fullPrompt);
+                default:
+                    throw new Error(`Unknown provider: ${provider}`);
+            }
+        }
+
+        async function generateChrome(prompt) {
+            if (!state.chromeSession) {
+                state.chromeSession = await window.LanguageModel.create({
+                    temperature: state.settings.temperature,
+                    systemPrompt: state.settings.systemPrompt
+                });
+            }
+
+            const responseDiv = createAssistantMessage();
+            let fullResponse = '';
+
+            try {
+                const stream = state.chromeSession.promptStreaming(prompt);
+                for await (const chunk of stream) {
+                    fullResponse = chunk; // Chrome AI returns cumulative text
+                    responseDiv.querySelector('.message-content').textContent = fullResponse;
+                    scrollToBottom();
+                }
+            } catch (e) {
+                // If streaming fails, try non-streaming
+                fullResponse = await state.chromeSession.prompt(prompt);
+                responseDiv.querySelector('.message-content').textContent = fullResponse;
+            }
+
+            return fullResponse;
+        }
+
+        async function generateOllama(prompt) {
+            const responseDiv = createAssistantMessage();
+            let fullResponse = '';
+
+            const messages = [
+                { role: 'system', content: state.settings.systemPrompt },
+                ...state.messages.slice(-10).map(m => ({
+                    role: m.role,
+                    content: m.content
+                })),
+                { role: 'user', content: prompt }
+            ];
+
+            const res = await fetch(`${state.settings.ollamaUrl}/api/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: state.settings.ollamaModel,
+                    messages,
+                    stream: true,
+                    options: {
+                        temperature: state.settings.temperature
+                    }
+                })
+            });
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const lines = decoder.decode(value).split('\n').filter(l => l.trim());
+                for (const line of lines) {
+                    try {
+                        const data = JSON.parse(line);
+                        if (data.message?.content) {
+                            fullResponse += data.message.content;
+                            responseDiv.querySelector('.message-content').textContent = fullResponse;
+                            scrollToBottom();
+                        }
+                    } catch {}
+                }
+            }
+
+            return fullResponse;
+        }
+
+        async function generateOpenAI(prompt) {
+            const responseDiv = createAssistantMessage();
+            let fullResponse = '';
+
+            const messages = [
+                { role: 'system', content: state.settings.systemPrompt },
+                ...state.messages.slice(-10).map(m => ({
+                    role: m.role,
+                    content: m.content
+                })),
+                { role: 'user', content: prompt }
+            ];
+
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${state.settings.apiKeys.openai}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    messages,
+                    stream: true,
+                    temperature: state.settings.temperature
+                })
+            });
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const lines = decoder.decode(value).split('\n').filter(l => l.startsWith('data: '));
+                for (const line of lines) {
+                    const data = line.slice(6);
+                    if (data === '[DONE]') continue;
+                    try {
+                        const parsed = JSON.parse(data);
+                        const content = parsed.choices?.[0]?.delta?.content;
+                        if (content) {
+                            fullResponse += content;
+                            responseDiv.querySelector('.message-content').textContent = fullResponse;
+                            scrollToBottom();
+                        }
+                    } catch {}
+                }
+            }
+
+            return fullResponse;
+        }
+
+        async function generateGroq(prompt) {
+            const responseDiv = createAssistantMessage();
+            let fullResponse = '';
+
+            const messages = [
+                { role: 'system', content: state.settings.systemPrompt },
+                ...state.messages.slice(-10).map(m => ({
+                    role: m.role,
+                    content: m.content
+                })),
+                { role: 'user', content: prompt }
+            ];
+
+            const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${state.settings.apiKeys.groq}`
+                },
+                body: JSON.stringify({
+                    model: 'llama-3.1-8b-instant',
+                    messages,
+                    stream: true,
+                    temperature: state.settings.temperature
+                })
+            });
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const lines = decoder.decode(value).split('\n').filter(l => l.startsWith('data: '));
+                for (const line of lines) {
+                    const data = line.slice(6);
+                    if (data === '[DONE]') continue;
+                    try {
+                        const parsed = JSON.parse(data);
+                        const content = parsed.choices?.[0]?.delta?.content;
+                        if (content) {
+                            fullResponse += content;
+                            responseDiv.querySelector('.message-content').textContent = fullResponse;
+                            scrollToBottom();
+                        }
+                    } catch {}
+                }
+            }
+
+            return fullResponse;
+        }
+
+        async function generateOpenRouter(prompt) {
+            const responseDiv = createAssistantMessage();
+            let fullResponse = '';
+
+            const messages = [
+                { role: 'system', content: state.settings.systemPrompt },
+                ...state.messages.slice(-10).map(m => ({
+                    role: m.role,
+                    content: m.content
+                })),
+                { role: 'user', content: prompt }
+            ];
+
+            const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${state.settings.apiKeys.openrouter}`,
+                    'HTTP-Referer': window.location.href,
+                    'X-Title': 'AI Workbench'
+                },
+                body: JSON.stringify({
+                    model: 'meta-llama/llama-3.1-8b-instruct:free',
+                    messages,
+                    stream: true,
+                    temperature: state.settings.temperature
+                })
+            });
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const lines = decoder.decode(value).split('\n').filter(l => l.startsWith('data: '));
+                for (const line of lines) {
+                    const data = line.slice(6);
+                    if (data === '[DONE]') continue;
+                    try {
+                        const parsed = JSON.parse(data);
+                        const content = parsed.choices?.[0]?.delta?.content;
+                        if (content) {
+                            fullResponse += content;
+                            responseDiv.querySelector('.message-content').textContent = fullResponse;
+                            scrollToBottom();
+                        }
+                    } catch {}
+                }
+            }
+
+            return fullResponse;
+        }
+
+        async function generateAnthropic(prompt) {
+            // Note: Anthropic API doesn't allow browser CORS, would need proxy
+            showToast('Anthropic API requires a CORS proxy. Try OpenRouter instead.', 'error');
+            throw new Error('Anthropic API requires CORS proxy');
+        }
+
+        async function generateTransformers(prompt) {
+            const responseDiv = createAssistantMessage();
+            responseDiv.querySelector('.message-content').innerHTML =
+                '<span class="loading-dots">Loading model</span>';
+
+            if (!state.transformersPipeline) {
+                const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1');
+                state.transformersPipeline = await pipeline(
+                    'text-generation',
+                    state.settings.transformersModel,
+                    { progress_callback: (progress) => {
+                        if (progress.status === 'downloading') {
+                            const pct = Math.round((progress.loaded / progress.total) * 100);
+                            responseDiv.querySelector('.message-content').textContent =
+                                `Downloading model: ${pct}%`;
+                        }
+                    }}
+                );
+            }
+
+            responseDiv.querySelector('.message-content').textContent = 'Generating...';
+
+            const fullPrompt = `<|system|>${state.settings.systemPrompt}</s><|user|>${prompt}</s><|assistant|>`;
+
+            const result = await state.transformersPipeline(fullPrompt, {
+                max_new_tokens: 512,
+                temperature: state.settings.temperature,
+                do_sample: true
+            });
+
+            let response = result[0].generated_text;
+            // Extract just the assistant response
+            const assistantMarker = '<|assistant|>';
+            if (response.includes(assistantMarker)) {
+                response = response.split(assistantMarker).pop().trim();
+            }
+
+            responseDiv.querySelector('.message-content').textContent = response;
+            scrollToBottom();
+
+            return response;
+        }
+
+        // ============================================================
+        // UI Helpers
+        // ============================================================
+
+        function createAssistantMessage() {
+            const container = document.getElementById('messagesContainer');
+            const div = document.createElement('div');
+            div.className = 'message assistant';
+            div.innerHTML = `
+                <div class="message-role">Assistant</div>
+                <div class="message-content"></div>
+            `;
+            container.appendChild(div);
+            scrollToBottom();
+            return div;
+        }
+
+        function addUserMessage(content) {
+            const container = document.getElementById('messagesContainer');
+            const div = document.createElement('div');
+            div.className = 'message user';
+            div.innerHTML = `
+                <div class="message-role">You</div>
+                <div class="message-content">${escapeHtml(content)}</div>
+            `;
+            container.appendChild(div);
+            state.messages.push({ role: 'user', content });
+            updateMessageCount();
+            scrollToBottom();
+        }
+
+        function addSystemMessage(content) {
+            const container = document.getElementById('messagesContainer');
+            const div = document.createElement('div');
+            div.className = 'message system';
+            div.innerHTML = `<div class="message-content">${escapeHtml(content)}</div>`;
+            container.appendChild(div);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            const container = document.getElementById('messagesContainer');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function updateMessageCount() {
+            document.getElementById('messageCount').textContent = state.messages.length;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+        }
+
+        // ============================================================
+        // User Actions
+        // ============================================================
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const prompt = input.value.trim();
+
+            if (!prompt || state.isGenerating) return;
+
+            state.isGenerating = true;
+            document.getElementById('sendBtn').disabled = true;
+            input.value = '';
+
+            addUserMessage(prompt);
+
+            try {
+                const response = await generateResponse(prompt);
+                state.messages.push({ role: 'assistant', content: response });
+                updateMessageCount();
+            } catch (e) {
+                console.error('Generation error:', e);
+                showToast(`Error: ${e.message}`, 'error');
+                addSystemMessage(`Error: ${e.message}`);
+            } finally {
+                state.isGenerating = false;
+                document.getElementById('sendBtn').disabled = false;
+            }
+        }
+        window.sendMessage = sendMessage;
+
+        function clearChat() {
+            state.messages = [];
+            state.chromeSession = null;
+            document.getElementById('messagesContainer').innerHTML = '';
+            addSystemMessage(`Chat cleared. Using ${getProviderDisplayName(state.provider)}.`);
+            updateMessageCount();
+        }
+        window.clearChat = clearChat;
+
+        function exportChat() {
+            const data = {
+                exported: new Date().toISOString(),
+                provider: state.provider,
+                messages: state.messages
+            };
+            downloadJson(data, `ai-workbench-chat-${Date.now()}.json`);
+        }
+        window.exportChat = exportChat;
+
+        // ============================================================
+        // Documents
+        // ============================================================
+
+        function setupDropZone() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+        }
+
+        async function handleFiles(files) {
+            for (const file of files) {
+                try {
+                    const content = await file.text();
+                    addDocument(file.name, content);
+                } catch (e) {
+                    showToast(`Failed to read ${file.name}`, 'error');
+                }
+            }
+        }
+
+        function addDocument(name, content) {
+            const doc = {
+                id: Date.now(),
+                name,
+                content: content.slice(0, 50000), // Limit size
+                addedAt: new Date().toISOString()
+            };
+
+            state.documents.push(doc);
+            updateDocumentList();
+            showToast(`Added: ${name}`);
+        }
+
+        function addPastedDocument() {
+            const input = document.getElementById('pasteInput');
+            const content = input.value.trim();
+
+            if (!content) {
+                showToast('Please paste some content first', 'error');
+                return;
+            }
+
+            const name = `Pasted text ${state.documents.length + 1}`;
+            addDocument(name, content);
+            input.value = '';
+        }
+        window.addPastedDocument = addPastedDocument;
+
+        function removeDocument(id) {
+            state.documents = state.documents.filter(d => d.id !== id);
+            updateDocumentList();
+        }
+        window.removeDocument = removeDocument;
+
+        function updateDocumentList() {
+            const list = document.getElementById('documentList');
+            const count = state.documents.length;
+
+            document.getElementById('docCount').textContent = count;
+            document.getElementById('contextDocCount').textContent = count;
+
+            if (count === 0) {
+                list.innerHTML = `<p style="color: var(--text-secondary); font-size: 0.875rem;">
+                    No documents loaded. Add documents to provide context for your conversations.
+                </p>`;
+                return;
+            }
+
+            list.innerHTML = state.documents.map(doc => `
+                <div class="document-item">
+                    <div class="info">
+                        <span class="name">${escapeHtml(doc.name)}</span>
+                        <span class="meta">${(doc.content.length / 1000).toFixed(1)}KB</span>
+                    </div>
+                    <button onclick="removeDocument(${doc.id})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // Write Mode
+        // ============================================================
+
+        async function writeAction(action) {
+            const input = document.getElementById('writeInput');
+            const output = document.getElementById('writeOutput');
+            const text = input.value.trim();
+
+            if (!text) {
+                showToast('Please enter some text first', 'error');
+                return;
+            }
+
+            const prompts = {
+                improve: `Improve this text while maintaining its meaning:\n\n${text}`,
+                simplify: `Simplify this text to be easier to understand:\n\n${text}`,
+                expand: `Expand this text with more detail:\n\n${text}`,
+                summarize: `Summarize this text concisely:\n\n${text}`,
+                proofread: `Proofread and correct any errors in this text:\n\n${text}`,
+                formal: `Rewrite this text in a more formal tone:\n\n${text}`,
+                casual: `Rewrite this text in a more casual, friendly tone:\n\n${text}`
+            };
+
+            output.style.display = 'block';
+            output.textContent = 'Processing...';
+
+            try {
+                // Try Chrome AI specialized APIs first
+                if (state.provider === 'chrome') {
+                    if (action === 'summarize' && 'Summarizer' in window) {
+                        const summarizer = await window.Summarizer.create({ length: 'medium' });
+                        output.textContent = await summarizer.summarize(text);
+                        return;
+                    }
+                    if (['formal', 'casual', 'simplify'].includes(action) && 'Rewriter' in window) {
+                        const tone = action === 'formal' ? 'more-formal' :
+                                     action === 'casual' ? 'more-casual' : 'simpler';
+                        const rewriter = await window.Rewriter.create({ tone });
+                        output.textContent = await rewriter.rewrite(text);
+                        return;
+                    }
+                    if (action === 'proofread' && 'Proofreader' in window) {
+                        const proofreader = await window.Proofreader.create();
+                        output.textContent = await proofreader.proofread(text);
+                        return;
+                    }
+                }
+
+                // Fall back to general prompt
+                const response = await generateResponse(prompts[action]);
+                output.textContent = response;
+            } catch (e) {
+                output.textContent = `Error: ${e.message}`;
+                showToast(`Error: ${e.message}`, 'error');
+            }
+        }
+        window.writeAction = writeAction;
+
+        function copyWriteOutput() {
+            const output = document.getElementById('writeOutput');
+            navigator.clipboard.writeText(output.textContent);
+            showToast('Copied to clipboard');
+        }
+        window.copyWriteOutput = copyWriteOutput;
+
+        function useAsInput() {
+            const output = document.getElementById('writeOutput');
+            const input = document.getElementById('writeInput');
+            input.value = output.textContent;
+            output.style.display = 'none';
+        }
+        window.useAsInput = useAsInput;
+
+        function clearWrite() {
+            document.getElementById('writeInput').value = '';
+            document.getElementById('writeOutput').style.display = 'none';
+        }
+        window.clearWrite = clearWrite;
+
+        // ============================================================
+        // Settings
+        // ============================================================
+
+        function loadSettings() {
+            const saved = localStorage.getItem('ai-workbench-settings');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.settings = { ...state.settings, ...parsed };
+
+                    // Restore UI
+                    document.getElementById('temperature').value = state.settings.temperature;
+                    document.getElementById('tempValue').textContent = state.settings.temperature;
+                    document.getElementById('systemPrompt').value = state.settings.systemPrompt;
+                    document.getElementById('ollamaUrl').value = state.settings.ollamaUrl;
+                    document.getElementById('transformersModel').value = state.settings.transformersModel;
+
+                    if (state.settings.apiKeys.openai) {
+                        document.getElementById('openaiKey').value = state.settings.apiKeys.openai;
+                    }
+                    if (state.settings.apiKeys.groq) {
+                        document.getElementById('groqKey').value = state.settings.apiKeys.groq;
+                    }
+                    if (state.settings.apiKeys.openrouter) {
+                        document.getElementById('openrouterKey').value = state.settings.apiKeys.openrouter;
+                    }
+                    if (state.settings.apiKeys.anthropic) {
+                        document.getElementById('anthropicKey').value = state.settings.apiKeys.anthropic;
+                    }
+                } catch (e) {
+                    console.warn('Failed to load settings:', e);
+                }
+            }
+        }
+
+        function saveSettings() {
+            state.settings.temperature = parseFloat(document.getElementById('temperature').value);
+            state.settings.systemPrompt = document.getElementById('systemPrompt').value;
+            state.settings.ollamaUrl = document.getElementById('ollamaUrl').value;
+            state.settings.transformersModel = document.getElementById('transformersModel').value;
+
+            localStorage.setItem('ai-workbench-settings', JSON.stringify(state.settings));
+
+            // Reset sessions to pick up new settings
+            state.chromeSession = null;
+
+            showToast('Settings saved');
+            detectProviders();
+        }
+        window.saveSettings = saveSettings;
+
+        function saveApiKeys() {
+            state.settings.apiKeys = {
+                openai: document.getElementById('openaiKey').value.trim(),
+                anthropic: document.getElementById('anthropicKey').value.trim(),
+                groq: document.getElementById('groqKey').value.trim(),
+                openrouter: document.getElementById('openrouterKey').value.trim()
+            };
+
+            localStorage.setItem('ai-workbench-settings', JSON.stringify(state.settings));
+            showToast('API keys saved');
+            detectProviders();
+        }
+        window.saveApiKeys = saveApiKeys;
+
+        async function testOllama() {
+            state.settings.ollamaUrl = document.getElementById('ollamaUrl').value;
+            const result = await detectOllama();
+            if (result.available) {
+                showToast(`Connected! Found ${result.models.length} models.`, 'success');
+            } else {
+                showToast('Could not connect to Ollama', 'error');
+            }
+        }
+        window.testOllama = testOllama;
+
+        async function testApiKey(provider) {
+            const keyInputs = {
+                openai: 'openaiKey',
+                groq: 'groqKey',
+                openrouter: 'openrouterKey',
+                anthropic: 'anthropicKey'
+            };
+
+            const key = document.getElementById(keyInputs[provider]).value.trim();
+            if (!key) {
+                showToast('Please enter an API key first', 'error');
+                return;
+            }
+
+            try {
+                let testUrl, headers;
+
+                if (provider === 'openai') {
+                    testUrl = 'https://api.openai.com/v1/models';
+                    headers = { 'Authorization': `Bearer ${key}` };
+                } else if (provider === 'groq') {
+                    testUrl = 'https://api.groq.com/openai/v1/models';
+                    headers = { 'Authorization': `Bearer ${key}` };
+                } else if (provider === 'openrouter') {
+                    testUrl = 'https://openrouter.ai/api/v1/models';
+                    headers = { 'Authorization': `Bearer ${key}` };
+                } else {
+                    showToast('Anthropic API requires CORS proxy', 'error');
+                    return;
+                }
+
+                const res = await fetch(testUrl, { headers });
+                if (res.ok) {
+                    showToast(`${provider} API key is valid!`, 'success');
+                } else {
+                    showToast(`Invalid ${provider} API key`, 'error');
+                }
+            } catch (e) {
+                showToast(`Error testing ${provider}: ${e.message}`, 'error');
+            }
+        }
+        window.testApiKey = testApiKey;
+
+        async function preloadTransformers() {
+            showToast('Starting model download...');
+            try {
+                const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1');
+                state.transformersPipeline = await pipeline(
+                    'text-generation',
+                    state.settings.transformersModel,
+                    { progress_callback: (progress) => {
+                        if (progress.status === 'downloading') {
+                            const pct = Math.round((progress.loaded / progress.total) * 100);
+                            showToast(`Downloading: ${pct}%`);
+                        }
+                    }}
+                );
+                showToast('Model downloaded and ready!', 'success');
+            } catch (e) {
+                showToast(`Download failed: ${e.message}`, 'error');
+            }
+        }
+        window.preloadTransformers = preloadTransformers;
+
+        function exportData() {
+            const data = {
+                exported: new Date().toISOString(),
+                settings: state.settings,
+                messages: state.messages,
+                documents: state.documents
+            };
+            downloadJson(data, `ai-workbench-export-${Date.now()}.json`);
+        }
+        window.exportData = exportData;
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = async (e) => {
+                try {
+                    const file = e.target.files[0];
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+
+                    if (data.settings) state.settings = { ...state.settings, ...data.settings };
+                    if (data.messages) state.messages = data.messages;
+                    if (data.documents) state.documents = data.documents;
+
+                    localStorage.setItem('ai-workbench-settings', JSON.stringify(state.settings));
+                    updateDocumentList();
+                    updateMessageCount();
+                    showToast('Data imported successfully', 'success');
+                    detectProviders();
+                } catch (e) {
+                    showToast(`Import failed: ${e.message}`, 'error');
+                }
+            };
+            input.click();
+        }
+        window.importData = importData;
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                localStorage.removeItem('ai-workbench-settings');
+                state.messages = [];
+                state.documents = [];
+                state.settings = {
+                    temperature: 0.7,
+                    systemPrompt: 'You are a helpful AI assistant. Be concise and accurate.',
+                    ollamaUrl: 'http://localhost:11434',
+                    ollamaModel: '',
+                    transformersModel: 'Xenova/Phi-3-mini-4k-instruct',
+                    apiKeys: {}
+                };
+                location.reload();
+            }
+        }
+        window.clearAllData = clearAllData;
+
+        function downloadJson(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // ============================================================
+        // Tabs
+        // ============================================================
+
+        function setupTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+                });
+            });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('mobile-visible');
+            overlay.classList.toggle('visible');
+        }
+        window.toggleSidebar = toggleSidebar;
+
+        // ============================================================
+        // Keyboard Shortcuts
+        // ============================================================
+
+        function setupKeyboard() {
+            document.getElementById('chatInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+        }
+
+        // ============================================================
+        // Initialize
+        // ============================================================
+
+        async function init() {
+            loadSettings();
+            setupTabs();
+            setupDropZone();
+            setupKeyboard();
+            await detectProviders();
+        }
+
+        init();
+    </script>
+</body>
+</html>
