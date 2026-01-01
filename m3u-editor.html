@@ -12,46 +12,53 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fdfdfd;
+            color: #5c5c5c;
+            line-height: 1.5;
+            font-size: 16px;
+            font-weight: 400;
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px 15px;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .header {
-            text-align: center;
-            color: white;
             margin-bottom: 30px;
+            border-bottom: 1px solid #d4d4d4;
+            padding-bottom: 15px;
         }
 
         .header h1 {
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-weight: 500;
+            color: #111111;
+            margin-bottom: 5px;
         }
 
         .header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            color: #5c5c5c;
         }
 
         .card {
             background: white;
-            border-radius: 12px;
+            border: 1px solid #d4d4d4;
             padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .section-title {
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 20px;
-            color: #1e3a8a;
+            color: #111111;
+            border-bottom: 1px solid #d4d4d4;
+            padding-bottom: 10px;
         }
 
         .input-row {
@@ -68,23 +75,24 @@
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+            font-weight: 500;
+            color: #111111;
             font-size: 0.9rem;
         }
 
         .input-group input, .input-group select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid #d4d4d4;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            font-family: inherit;
+            transition: border-color 0.2s;
+            background-color: white;
         }
 
         .input-group input:focus, .input-group select:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #1e69d8;
         }
 
         .button-group {
@@ -94,50 +102,67 @@
         }
 
         button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border: 1px solid #d4d4d4;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            background-color: white;
+            color: #5c5c5c;
+        }
+
+        button:hover {
+            border-color: #1e69d8;
+            color: #1e69d8;
         }
 
         .btn-primary {
-            background: #3b82f6;
+            background-color: #1e69d8;
             color: white;
+            border-color: #1e69d8;
         }
 
         .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
+            background-color: #0d3a7a;
+            border-color: #0d3a7a;
+            color: white;
         }
 
         .btn-success {
-            background: #10b981;
+            background-color: #28a745;
             color: white;
+            border-color: #28a745;
         }
 
         .btn-success:hover {
-            background: #059669;
+            background-color: #218838;
+            border-color: #218838;
+            color: white;
         }
 
         .btn-danger {
-            background: #ef4444;
+            background-color: #dc3545;
             color: white;
+            border-color: #dc3545;
         }
 
         .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        .btn-secondary {
-            background: #6b7280;
+            background-color: #c82333;
+            border-color: #c82333;
             color: white;
         }
 
+        .btn-secondary {
+            background-color: #5c5c5c;
+            color: white;
+            border-color: #5c5c5c;
+        }
+
         .btn-secondary:hover {
-            background: #4b5563;
+            background-color: #111111;
+            border-color: #111111;
+            color: white;
         }
 
         .playlist-controls {
@@ -156,10 +181,16 @@
 
         .search-box input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid #d4d4d4;
             font-size: 1rem;
+            font-family: inherit;
+            background-color: white;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #1e69d8;
         }
 
         .filter-group {
@@ -177,22 +208,20 @@
         }
 
         .channel-card {
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 1px solid #d4d4d4;
             padding: 15px;
-            transition: all 0.3s;
+            transition: all 0.2s;
             cursor: move;
+            background-color: white;
         }
 
         .channel-card:hover {
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+            border-color: #1e69d8;
         }
 
         .channel-card.selected {
-            border-color: #3b82f6;
-            background: #eff6ff;
+            border-color: #1e69d8;
+            background-color: #f6f8fa;
         }
 
         .channel-header {
@@ -205,9 +234,9 @@
         .channel-logo {
             width: 50px;
             height: 50px;
-            border-radius: 8px;
             object-fit: cover;
-            background: #f3f4f6;
+            background-color: #d4d4d4;
+            border: 1px solid #d4d4d4;
         }
 
         .channel-info {
@@ -215,14 +244,14 @@
         }
 
         .channel-name {
-            font-weight: 600;
-            color: #1e3a8a;
+            font-weight: 500;
+            color: #111111;
             margin-bottom: 5px;
         }
 
         .channel-category {
             font-size: 0.85rem;
-            color: #6b7280;
+            color: #818181;
         }
 
         .channel-actions {
@@ -244,22 +273,23 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
+            background-color: #f6f8fa;
+            color: #111111;
             padding: 20px;
-            border-radius: 8px;
+            border: 1px solid #d4d4d4;
             text-align: center;
         }
 
         .stat-value {
             font-size: 2rem;
-            font-weight: bold;
+            font-weight: 500;
             margin-bottom: 5px;
+            color: #1e69d8;
         }
 
         .stat-label {
             font-size: 0.9rem;
-            opacity: 0.9;
+            color: #5c5c5c;
         }
 
         .loading {
@@ -273,8 +303,8 @@
         }
 
         .loading-spinner {
-            border: 4px solid #f3f4f6;
-            border-top: 4px solid #3b82f6;
+            border: 4px solid #d4d4d4;
+            border-top: 4px solid #1e69d8;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -322,20 +352,21 @@
 
         .modal-header {
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 20px;
-            color: #1e3a8a;
+            color: #111111;
+            border-bottom: 1px solid #d4d4d4;
+            padding-bottom: 10px;
         }
 
         .toast {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #10b981;
+            background-color: #28a745;
             color: white;
             padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid #218838;
             display: none;
             z-index: 2000;
         }
@@ -395,7 +426,7 @@
             </div>
 
             <div id="s3-config" class="collapsible" style="margin-top: 20px;">
-                <h3 style="margin-bottom: 15px; color: #1e3a8a;">S3-Compatible Storage</h3>
+                <h3 style="margin-bottom: 15px; color: #111111;">S3-Compatible Storage</h3>
                 <div class="input-row">
                     <div class="input-group">
                         <label for="s3-endpoint">Endpoint URL</label>
@@ -623,7 +654,7 @@
                         <div class="channel-header">
                             ${channel.logo ?
                                 `<img src="${channel.logo}" alt="${channel.name}" class="channel-logo">` :
-                                `<div class="channel-logo" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);"></div>`
+                                `<div class="channel-logo"></div>`
                             }
                             <div class="channel-info">
                                 <div class="channel-name">${channel.name}</div>

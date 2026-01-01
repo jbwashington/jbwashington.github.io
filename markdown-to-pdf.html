@@ -12,39 +12,44 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fdfdfd;
+            color: #5c5c5c;
+            line-height: 1.5;
+            font-size: 16px;
+            font-weight: 400;
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px 15px;
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .header {
-            text-align: center;
-            color: white;
             margin-bottom: 30px;
+            border-bottom: 1px solid #d4d4d4;
+            padding-bottom: 15px;
         }
 
         .header h1 {
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-weight: 500;
+            color: #111111;
+            margin-bottom: 5px;
         }
 
         .header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            color: #5c5c5c;
         }
 
         .controls {
-            background: white;
-            border-radius: 12px;
+            background-color: white;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 1px solid #d4d4d4;
         }
 
         .controls-row {
@@ -61,54 +66,74 @@
         }
 
         .controls-group label {
-            font-weight: 600;
-            color: #333;
+            font-weight: 500;
+            color: #111111;
             font-size: 0.9rem;
         }
 
         .controls-group select, .controls-group input {
             padding: 8px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
+            border: 1px solid #d4d4d4;
             font-size: 0.9rem;
+            font-family: inherit;
+            background-color: white;
+        }
+
+        .controls-group select:focus, .controls-group input:focus {
+            outline: none;
+            border-color: #1e69d8;
         }
 
         button {
             padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
+            border: 1px solid #d4d4d4;
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            background-color: white;
+            color: #5c5c5c;
+        }
+
+        button:hover {
+            border-color: #1e69d8;
+            color: #1e69d8;
         }
 
         .btn-primary {
-            background: #667eea;
+            background-color: #1e69d8;
             color: white;
+            border-color: #1e69d8;
         }
 
         .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
+            background-color: #0d3a7a;
+            border-color: #0d3a7a;
+            color: white;
         }
 
         .btn-success {
-            background: #10b981;
+            background-color: #28a745;
             color: white;
+            border-color: #28a745;
         }
 
         .btn-success:hover {
-            background: #059669;
-        }
-
-        .btn-secondary {
-            background: #6b7280;
+            background-color: #218838;
+            border-color: #218838;
             color: white;
         }
 
+        .btn-secondary {
+            background-color: #5c5c5c;
+            color: white;
+            border-color: #5c5c5c;
+        }
+
         .btn-secondary:hover {
-            background: #4b5563;
+            background-color: #111111;
+            border-color: #111111;
+            color: white;
         }
 
         .editor-container {
@@ -119,20 +144,20 @@
         }
 
         .editor-panel, .preview-panel {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            background-color: white;
+            border: 1px solid #d4d4d4;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
         .panel-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background-color: #f6f8fa;
+            color: #111111;
             padding: 15px 20px;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 1.1rem;
+            border-bottom: 1px solid #d4d4d4;
         }
 
         .panel-content {
@@ -162,7 +187,7 @@
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: #1e293b;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 1px solid #d4d4d4;
             padding-bottom: 10px;
         }
 
@@ -240,7 +265,7 @@
         }
 
         #preview blockquote {
-            border-left: 4px solid #667eea;
+            border-left: 3px solid #1e69d8;
             padding-left: 20px;
             margin: 20px 0;
             color: #64748b;
@@ -248,9 +273,9 @@
         }
 
         #preview a {
-            color: #667eea;
+            color: #1e69d8;
             text-decoration: none;
-            border-bottom: 1px solid #667eea;
+            border-bottom: 1px solid #d4d4d4;
         }
 
         #preview a:hover {
@@ -333,7 +358,7 @@
 
         .stat-value {
             font-weight: 600;
-            color: #667eea;
+            color: #1e69d8;
         }
 
         @media (max-width: 1024px) {
@@ -372,8 +397,8 @@
 
         .template-btn:hover {
             background: #e2e8f0;
-            border-color: #667eea;
-            color: #667eea;
+            border-color: #1e69d8;
+            color: #1e69d8;
         }
     </style>
 </head>
@@ -605,13 +630,13 @@
             line-height: 1.6;
             color: #333;
         }
-        h1 { color: #1e293b; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
-        h2 { color: #334155; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 30px; }
-        code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
-        pre { background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; overflow-x: auto; }
-        pre code { background: none; color: #e2e8f0; }
-        blockquote { border-left: 4px solid #667eea; padding-left: 20px; color: #64748b; font-style: italic; }
-        a { color: #667eea; text-decoration: none; }
+        h1 { color: #111111; border-bottom: 1px solid #d4d4d4; padding-bottom: 10px; }
+        h2 { color: #111111; border-bottom: 1px solid #d4d4d4; padding-bottom: 8px; margin-top: 30px; }
+        code { background: #f6f8fa; padding: 2px 6px; border-radius: 4px; }
+        pre { background: #222222; color: #28a745; padding: 20px; border-radius: 8px; overflow-x: auto; }
+        pre code { background: none; color: #28a745; }
+        blockquote { border-left: 3px solid #1e69d8; padding-left: 20px; color: #818181; font-style: italic; }
+        a { color: #1e69d8; text-decoration: none; }
         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
         th { background: #f8fafc; padding: 12px; text-align: left; border: 1px solid #e2e8f0; }
         td { padding: 12px; border: 1px solid #e2e8f0; }

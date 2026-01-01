@@ -13,33 +13,37 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fdfdfd;
+            color: #5c5c5c;
+            line-height: 1.5;
+            font-size: 16px;
+            font-weight: 400;
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px 15px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .header {
-            text-align: center;
-            color: white;
             margin-bottom: 50px;
-            padding: 40px 0;
+            padding: 20px 0;
+            border-bottom: 1px solid #d4d4d4;
         }
 
         .header h1 {
             font-size: 3rem;
+            font-weight: 500;
+            color: #111111;
             margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .header p {
-            font-size: 1.3rem;
-            opacity: 0.95;
+            font-size: 1.2rem;
+            color: #5c5c5c;
             max-width: 700px;
             margin: 0 auto;
         }
@@ -52,11 +56,10 @@
         }
 
         .tool-card {
-            background: white;
-            border-radius: 16px;
+            background-color: white;
+            border: 1px solid #d4d4d4;
             padding: 35px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: border-color 0.2s;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
@@ -64,8 +67,7 @@
         }
 
         .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-color: #1e69d8;
         }
 
         .tool-icon {
@@ -75,13 +77,13 @@
 
         .tool-title {
             font-size: 1.8rem;
-            font-weight: 700;
+            font-weight: 500;
             margin-bottom: 15px;
-            color: #1e293b;
+            color: #111111;
         }
 
         .tool-description {
-            color: #64748b;
+            color: #5c5c5c;
             line-height: 1.6;
             margin-bottom: 20px;
             font-size: 1rem;
@@ -94,7 +96,7 @@
 
         .tool-features li {
             padding: 8px 0;
-            color: #475569;
+            color: #5c5c5c;
             font-size: 0.95rem;
             padding-left: 25px;
             position: relative;
@@ -104,83 +106,91 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: #10b981;
+            color: #28a745;
             font-weight: bold;
         }
 
         .tool-badge {
             display: inline-block;
             padding: 6px 14px;
-            border-radius: 20px;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 500;
             margin-right: 8px;
             margin-bottom: 8px;
+            border: 1px solid;
         }
 
         .badge-new {
-            background: #dcfce7;
-            color: #166534;
+            background-color: #e6f9f0;
+            color: #28a745;
+            border-color: #28a745;
         }
 
         .badge-popular {
-            background: #dbeafe;
-            color: #1e40af;
+            background-color: #e3f2fd;
+            color: #1e69d8;
+            border-color: #1e69d8;
         }
 
         .badge-privacy {
-            background: #fef3c7;
-            color: #92400e;
+            background-color: #fff8e6;
+            color: #f59e0b;
+            border-color: #f59e0b;
         }
 
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #1e69d8;
             color: white;
             padding: 12px 28px;
-            border-radius: 8px;
-            font-weight: 600;
+            font-weight: 500;
             text-decoration: none;
-            transition: all 0.3s;
-            border: none;
+            transition: all 0.2s;
+            border: 1px solid #1e69d8;
             font-size: 1rem;
             margin-top: 10px;
         }
 
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background-color: #0d3a7a;
+            border-color: #0d3a7a;
         }
 
         .footer {
             text-align: center;
-            color: white;
+            color: #5c5c5c;
             margin-top: 60px;
             padding: 30px;
-            opacity: 0.9;
+            border-top: 1px solid #d4d4d4;
         }
 
         .footer a {
-            color: white;
+            color: #1e69d8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
             text-decoration: underline;
         }
 
         .info-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 12px;
+            background-color: white;
+            border: 1px solid #d4d4d4;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
         }
 
         .info-card h2 {
-            color: #1e293b;
+            color: #111111;
             margin-bottom: 15px;
             font-size: 1.6rem;
+            font-weight: 500;
+            border-bottom: 1px solid #d4d4d4;
+            padding-bottom: 10px;
         }
 
         .info-card p {
-            color: #475569;
+            color: #5c5c5c;
             line-height: 1.7;
             margin-bottom: 12px;
         }
@@ -193,12 +203,12 @@
         }
 
         .tech-tag {
-            background: #f1f5f9;
+            background-color: #f6f8fa;
             padding: 8px 16px;
-            border-radius: 6px;
             font-size: 0.9rem;
-            color: #334155;
+            color: #5c5c5c;
             font-weight: 500;
+            border: 1px solid #d4d4d4;
         }
 
         @media (max-width: 768px) {

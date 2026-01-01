@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Scraper - Extract Contact Info from Websites</title>
     <style>
+        /* Minima Theme Variables */
         * {
             margin: 0;
             padding: 0;
@@ -12,39 +13,44 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fdfdfd;
+            color: #5c5c5c;
+            line-height: 1.5;
+            font-size: 16px;
+            font-weight: 400;
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px 15px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         .header {
-            text-align: center;
-            color: white;
             margin-bottom: 30px;
+            border-bottom: 1px solid #d4d4d4;
+            padding-bottom: 15px;
         }
 
         .header h1 {
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-weight: 500;
+            color: #111111;
+            margin-bottom: 5px;
         }
 
         .header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            color: #5c5c5c;
         }
 
         .card {
             background: white;
-            border-radius: 12px;
+            border: 1px solid #d4d4d4;
             padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .input-group {
@@ -54,27 +60,28 @@
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+            font-weight: 500;
+            color: #111111;
         }
 
-        .input-group input, .input-group textarea {
+        .input-group input, .input-group textarea, select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid #d4d4d4;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            font-family: inherit;
+            transition: border-color 0.2s;
+            background-color: white;
         }
 
-        .input-group input:focus, .input-group textarea:focus {
+        .input-group input:focus, .input-group textarea:focus, select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #1e69d8;
         }
 
         .input-group textarea {
             min-height: 150px;
-            font-family: monospace;
+            font-family: "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace;
             resize: vertical;
         }
 
@@ -85,49 +92,63 @@
         }
 
         button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border: 1px solid #d4d4d4;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            background-color: white;
+            color: #5c5c5c;
+        }
+
+        button:hover {
+            border-color: #1e69d8;
+            color: #1e69d8;
         }
 
         .btn-primary {
-            background: #667eea;
+            background-color: #1e69d8;
             color: white;
+            border-color: #1e69d8;
         }
 
         .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
+            background-color: #0d3a7a;
+            border-color: #0d3a7a;
+            color: white;
         }
 
         .btn-secondary {
-            background: #48bb78;
+            background-color: #5c5c5c;
             color: white;
+            border-color: #5c5c5c;
         }
 
         .btn-secondary:hover {
-            background: #38a169;
-        }
-
-        .btn-danger {
-            background: #f56565;
+            background-color: #111111;
+            border-color: #111111;
             color: white;
         }
 
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
         .btn-danger:hover {
-            background: #e53e3e;
+            background-color: #c82333;
+            border-color: #c82333;
+            color: white;
         }
 
         .loading {
             display: none;
             text-align: center;
             padding: 20px;
-            color: #667eea;
-            font-weight: 600;
+            color: #5c5c5c;
+            font-weight: 500;
         }
 
         .loading.active {
@@ -147,25 +168,25 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #d4d4d4;
         }
 
         .results-count {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #333;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #111111;
         }
 
         .contact-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            border: 1px solid #d4d4d4;
             padding: 20px;
             margin-bottom: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background-color: white;
         }
 
         .contact-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #1e69d8;
         }
 
         .contact-header {
@@ -173,6 +194,8 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #d4d4d4;
         }
 
         .contact-avatar {
@@ -180,13 +203,13 @@
             height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            background: #e0e0e0;
+            background-color: #d4d4d4;
         }
 
         .contact-name {
             font-size: 1.3rem;
-            font-weight: 600;
-            color: #333;
+            font-weight: 500;
+            color: #111111;
         }
 
         .contact-details {
@@ -202,12 +225,12 @@
         }
 
         .contact-detail-icon {
-            color: #667eea;
-            font-weight: 600;
+            color: #1e69d8;
+            font-weight: 500;
         }
 
         .contact-detail-value {
-            color: #666;
+            color: #5c5c5c;
             word-break: break-all;
         }
 
@@ -215,7 +238,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 1px solid #d4d4d4;
         }
 
         .tab {
@@ -224,15 +247,19 @@
             border: none;
             background: none;
             font-size: 1rem;
-            font-weight: 600;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            font-weight: 500;
+            color: #5c5c5c;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #1e69d8;
         }
 
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #1e69d8;
+            border-bottom-color: #1e69d8;
         }
 
         .tab-content {
@@ -246,7 +273,7 @@
         .empty-state {
             text-align: center;
             padding: 40px;
-            color: #999;
+            color: #818181;
         }
 
         .empty-state svg {
@@ -254,6 +281,27 @@
             height: 80px;
             margin-bottom: 20px;
             opacity: 0.5;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
         }
     </style>
 </head>
@@ -535,7 +583,7 @@
                     <div class="contact-header">
                         ${contact.avatar ?
                             `<img src="${contact.avatar}" alt="${contact.name || 'Contact'}" class="contact-avatar">` :
-                            `<div class="contact-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>`
+                            `<div class="contact-avatar"></div>`
                         }
                         <div class="contact-name">${contact.name || 'Unknown'}</div>
                     </div>
