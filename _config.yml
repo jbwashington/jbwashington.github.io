@@ -22,6 +22,22 @@ url: "https://jbwashington.github.io" # the base hostname & protocol for your si
 twitter_username: jtothadub_
 github_username:  jbwashington
 
+# Social/OpenGraph settings for jekyll-seo-tag
+logo: "https://github.com/jbwashington.png"
+social:
+  name: James Washington
+  links:
+    - https://twitter.com/jtothadub_
+    - https://github.com/jbwashington
+
+# Default OpenGraph image (used by jekyll-seo-tag)
+image: "/assets/og-image.png"
+
+# Twitter Card settings
+twitter:
+  username: jtothadub_
+  card: summary_large_image
+
 # AI Domain Data configuration
 ai_domain_data:
   entity_type: "Person"
