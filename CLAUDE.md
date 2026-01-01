@@ -365,13 +365,43 @@ JEKYLL_ENV=production bundle exec jekyll build
 
 **AI Domain Data Plugin:**
 
-The `jekyll-ai-domain-data` plugin automatically generates `.well-known/domain-profile.json` with:
+The `jekyll-ai-domain-data` plugin is configured to generate `.well-known/domain-profile.json` following the AI Domain Data Standard v0.1.1. However, GitHub Pages has issues serving plugin-generated files in the `.well-known` directory.
+
+**Workaround:** Static file approach (currently in use)
+- File location: `.well-known/domain-profile.json` (committed to repository)
+- Live URL: https://jbwashington.github.io/.well-known/domain-profile.json
+- Must be updated manually when site information changes
+
+**Current Profile Data:**
 - Name: James Washington
-- Description: Personal website and blog
+- Description: Personal website and blog for James Washington.
 - Contact: jbwashington@gmail.com
 - Website: https://jbwashington.github.io
-- Logo: GitHub avatar
-- Entity Type: person
+- Logo: https://github.com/jbwashington.png
+- Entity Type: Person (capitalized - required by schema)
+- Version: 0.1.1
+
+**Updating the Domain Profile:**
+
+When site information changes, manually edit `.well-known/domain-profile.json`:
+
+```json
+{
+  "$schema": "https://aiddstandard.org/schema/v0.1.1/domain-profile.json",
+  "version": "0.1.1",
+  "name": "James Washington",
+  "description": "Personal website and blog for James Washington.",
+  "website": "https://jbwashington.github.io",
+  "contact": "jbwashington@gmail.com",
+  "entity_type": "Person",
+  "logo": "https://github.com/jbwashington.png"
+}
+```
+
+**Important Notes:**
+- `entity_type` must be capitalized: Person, Organization, Blog, NGO, Community, Project, CreativeWork, SoftwareApplication, or Thing
+- Keep plugin configuration in `_config.yml` for future compatibility
+- The `.well-known` directory is included in Jekyll's `include` config to ensure deployment
 
 ## Performance Targets
 
