@@ -103,44 +103,7 @@
         }
 
         button:hover {
-            border-color: #1e69d8;
-            color: #1e69d8;
-        }
-
-        .btn-primary {
-            background-color: #1e69d8;
-            color: white;
-            border-color: #1e69d8;
-        }
-
-        .btn-primary:hover {
-            background-color: #0d3a7a;
-            border-color: #0d3a7a;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #5c5c5c;
-            color: white;
-            border-color: #5c5c5c;
-        }
-
-        .btn-secondary:hover {
-            background-color: #111111;
-            border-color: #111111;
-            color: white;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            border-color: #dc3545;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #c82333;
-            color: white;
+            background-color: #f6f8fa;
         }
 
         .loading {
@@ -308,7 +271,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Contact Scraper</h1>
+            <h1>Contact Scraper</h1>
             <p>Extract contact information from any website</p>
         </div>
 
@@ -332,7 +295,7 @@
                     </select>
                 </div>
                 <div class="button-group">
-                    <button class="btn-primary" onclick="scrapeFromUrl()">🔍 Scrape Contacts</button>
+                    <button class="btn-primary" onclick="scrapeFromUrl()">Scrape Contacts</button>
                 </div>
             </div>
 
@@ -342,12 +305,12 @@
                     <textarea id="html-input" placeholder="Paste the HTML source code here..."></textarea>
                 </div>
                 <div class="button-group">
-                    <button class="btn-primary" onclick="scrapeFromHtml()">🔍 Extract Contacts</button>
+                    <button class="btn-primary" onclick="scrapeFromHtml()">Extract Contacts</button>
                 </div>
             </div>
 
             <div class="loading" id="loading">
-                <p>⏳ Scraping contacts...</p>
+                <p>Scraping contacts...</p>
             </div>
         </div>
 
@@ -355,9 +318,9 @@
             <div class="results-header">
                 <h2 class="results-count">Found <span id="contact-count">0</span> contacts</h2>
                 <div class="button-group">
-                    <button class="btn-secondary" onclick="exportJson()">📥 Export JSON</button>
-                    <button class="btn-secondary" onclick="exportCsv()">📄 Export CSV</button>
-                    <button class="btn-danger" onclick="clearResults()">🗑️ Clear</button>
+                    <button onclick="exportJson()">Export JSON</button>
+                    <button onclick="exportCsv()">Export CSV</button>
+                    <button onclick="clearResults()">Clear</button>
                 </div>
             </div>
             <div id="contacts-container"></div>
@@ -590,19 +553,19 @@
                     <div class="contact-details">
                         ${contact.email ? `
                             <div class="contact-detail">
-                                <span class="contact-detail-icon">📧</span>
+                                <span class="contact-detail-icon">Email:</span>
                                 <span class="contact-detail-value">${contact.email}</span>
                             </div>
                         ` : ''}
                         ${contact.phone ? `
                             <div class="contact-detail">
-                                <span class="contact-detail-icon">📱</span>
+                                <span class="contact-detail-icon">Phone:</span>
                                 <span class="contact-detail-value">${contact.phone}</span>
                             </div>
                         ` : ''}
                         ${contact.address ? `
                             <div class="contact-detail">
-                                <span class="contact-detail-icon">📍</span>
+                                <span class="contact-detail-icon">Address:</span>
                                 <span class="contact-detail-value">${contact.address}</span>
                             </div>
                         ` : ''}

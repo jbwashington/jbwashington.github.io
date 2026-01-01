@@ -96,44 +96,7 @@
         }
 
         button:hover {
-            border-color: #1e69d8;
-            color: #1e69d8;
-        }
-
-        .btn-primary {
-            background-color: #1e69d8;
-            color: white;
-            border-color: #1e69d8;
-        }
-
-        .btn-primary:hover {
-            background-color: #0d3a7a;
-            border-color: #0d3a7a;
-            color: white;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            color: white;
-            border-color: #28a745;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-            border-color: #218838;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #5c5c5c;
-            color: white;
-            border-color: #5c5c5c;
-        }
-
-        .btn-secondary:hover {
-            background-color: #111111;
-            border-color: #111111;
-            color: white;
+            background-color: #f6f8fa;
         }
 
         .editor-container {
@@ -405,7 +368,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📝 Markdown to PDF</h1>
+            <h1>Markdown to PDF</h1>
             <p>Live markdown editor with instant preview and PDF export</p>
         </div>
 
@@ -436,19 +399,19 @@
                 </div>
 
                 <div class="controls-group" style="margin-left: auto;">
-                    <button class="btn-success" onclick="downloadPDF()">📥 Download PDF</button>
-                    <button class="btn-primary" onclick="downloadHTML()">💾 Save HTML</button>
-                    <button class="btn-secondary" onclick="clearEditor()">🗑️ Clear</button>
+                    <button onclick="downloadPDF()">Download PDF</button>
+                    <button onclick="downloadHTML()">Save HTML</button>
+                    <button onclick="clearEditor()">Clear</button>
                 </div>
             </div>
 
             <div class="controls-row" style="margin-top: 15px;">
                 <div class="sample-templates">
                     <span style="font-weight: 600; color: #64748b; margin-right: 10px;">Quick Templates:</span>
-                    <button class="template-btn" onclick="loadTemplate('readme')">📄 README</button>
-                    <button class="template-btn" onclick="loadTemplate('blog')">📰 Blog Post</button>
-                    <button class="template-btn" onclick="loadTemplate('documentation')">📚 Documentation</button>
-                    <button class="template-btn" onclick="loadTemplate('resume')">👔 Resume</button>
+                    <button class="template-btn" onclick="loadTemplate('readme')">README</button>
+                    <button class="template-btn" onclick="loadTemplate('blog')">Blog Post</button>
+                    <button class="template-btn" onclick="loadTemplate('documentation')">Documentation</button>
+                    <button class="template-btn" onclick="loadTemplate('resume')">Resume</button>
                 </div>
             </div>
 

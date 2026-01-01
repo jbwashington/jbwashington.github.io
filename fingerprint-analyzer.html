@@ -179,32 +179,7 @@
         }
 
         button:hover {
-            border-color: #1e69d8;
-            color: #1e69d8;
-        }
-
-        .btn-primary {
-            background-color: #1e69d8;
-            color: white;
-            border-color: #1e69d8;
-        }
-
-        .btn-primary:hover {
-            background-color: #0d3a7a;
-            border-color: #0d3a7a;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #28a745;
-            color: white;
-            border-color: #28a745;
-        }
-
-        .btn-secondary:hover {
-            background-color: #218838;
-            border-color: #218838;
-            color: white;
+            background-color: #f6f8fa;
         }
 
         .canvas-result {
@@ -286,7 +261,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔐 Browser Fingerprint Analyzer</h1>
+            <h1>Browser Fingerprint Analyzer</h1>
             <p>Analyze your browser's uniqueness and privacy exposure</p>
         </div>
 
@@ -311,12 +286,12 @@
         </div>
 
         <div class="card">
-            <h2 class="section-title">💻 System & Browser</h2>
+            <h2 class="section-title">System & Browser</h2>
             <div class="info-grid" id="system-info"></div>
         </div>
 
         <div class="card">
-            <h2 class="section-title">🎨 Canvas Fingerprint</h2>
+            <h2 class="section-title">Canvas Fingerprint</h2>
             <div class="info-item">
                 <div class="info-label">Canvas Hash</div>
                 <div class="fingerprint-hash" id="canvas-hash">Generating...</div>
@@ -452,7 +427,7 @@
             const canvas = document.getElementById('canvas-fingerprint');
             const ctx = canvas.getContext('2d');
 
-            const text = 'Browser Fingerprint Test 🔐 123456789';
+            const text = 'Browser Fingerprint Test 123456789';
             ctx.textBaseline = 'top';
             ctx.font = '14px "Arial"';
             ctx.textBaseline = 'alphabetic';

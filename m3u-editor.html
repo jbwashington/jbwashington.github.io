@@ -113,56 +113,7 @@
         }
 
         button:hover {
-            border-color: #1e69d8;
-            color: #1e69d8;
-        }
-
-        .btn-primary {
-            background-color: #1e69d8;
-            color: white;
-            border-color: #1e69d8;
-        }
-
-        .btn-primary:hover {
-            background-color: #0d3a7a;
-            border-color: #0d3a7a;
-            color: white;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            color: white;
-            border-color: #28a745;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-            border-color: #218838;
-            color: white;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            border-color: #dc3545;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #c82333;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #5c5c5c;
-            color: white;
-            border-color: #5c5c5c;
-        }
-
-        .btn-secondary:hover {
-            background-color: #111111;
-            border-color: #111111;
-            color: white;
+            background-color: #f6f8fa;
         }
 
         .playlist-controls {
@@ -399,7 +350,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📺 M3U Editor</h1>
+            <h1>M3U Editor</h1>
             <p>Manage your IPTV playlists with Xtream Codes API</p>
         </div>
 
@@ -420,9 +371,9 @@
                 </div>
             </div>
             <div class="button-group">
-                <button class="btn-primary" onclick="loadFromXtream()">🔗 Connect & Load</button>
-                <button class="btn-secondary" onclick="loadFromFile()">📁 Load M3U File</button>
-                <button class="btn-secondary" onclick="toggleS3Config()">☁️ Configure S3</button>
+                <button onclick="loadFromXtream()">Connect & Load</button>
+                <button onclick="loadFromFile()">Load M3U File</button>
+                <button onclick="toggleS3Config()">Configure S3</button>
             </div>
 
             <div id="s3-config" class="collapsible" style="margin-top: 20px;">
@@ -452,8 +403,8 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <button class="btn-success" onclick="saveToS3()">☁️ Save to S3</button>
-                    <button class="btn-primary" onclick="loadFromS3()">☁️ Load from S3</button>
+                    <button onclick="saveToS3()">Save to S3</button>
+                    <button onclick="loadFromS3()">Load from S3</button>
                 </div>
             </div>
         </div>
@@ -489,8 +440,8 @@
                     </select>
                 </div>
                 <div class="button-group">
-                    <button class="btn-success" onclick="downloadM3U()">💾 Download M3U</button>
-                    <button class="btn-danger" onclick="deleteSelected()">🗑️ Delete Selected</button>
+                    <button onclick="downloadM3U()">Download M3U</button>
+                    <button onclick="deleteSelected()">Delete Selected</button>
                 </div>
             </div>
 
@@ -514,8 +465,8 @@
                 <input type="text" id="edit-logo">
             </div>
             <div class="button-group">
-                <button class="btn-primary" onclick="saveChannelEdit()">💾 Save</button>
-                <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+                <button onclick="saveChannelEdit()">Save</button>
+                <button onclick="closeEditModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -662,8 +613,8 @@
                             </div>
                         </div>
                         <div class="channel-actions">
-                            <button class="btn-primary" onclick="event.stopPropagation(); editChannel('${channel.id}')">✏️ Edit</button>
-                            <button class="btn-danger" onclick="event.stopPropagation(); deleteChannel('${channel.id}')">🗑️</button>
+                            <button onclick="event.stopPropagation(); editChannel('${channel.id}')">Edit</button>
+                            <button onclick="event.stopPropagation(); deleteChannel('${channel.id}')">Delete</button>
                         </div>
                     </div>
                 `).join('');
