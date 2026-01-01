@@ -1,0 +1,10 @@
+{
+  "$schema": "https://aiddstandard.org/schema/v0.1.1/domain-profile.json",
+  "version": "0.1.1",
+  "name": "James Washington",
+  "description": "Personal website and blog for James Washington.",
+  "website": "https://jbwashington.github.io",
+  "contact": "jbwashington@gmail.com",
+  "entity_type": "Person",
+  "logo": "https://github.com/jbwashington.png"
+}
