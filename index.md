@@ -6,6 +6,8 @@ layout: home
 
 I build **privacy-first browser utilities** and **high-performance SaaS platforms** with modern web technologies. Passionate about open source software, the GNU project, Tor, and the biohacking movement.
 
+**Note:** All development work is conducted ethically and legally. I'm committed to building tools that respect user privacy and digital freedom within legal boundaries.
+
 ## What I Build
 
 ### Privacy-First Browser Utilities
