@@ -29,7 +29,7 @@ group :jekyll_plugins do
   gem "jekyll-avatar"
   gem "jemoji"
   gem "jekyll-mentions"
-  # gem "jekyll-ai-domain-data"  # Temporarily disabled - requires Ruby >= 2.7.0
+  gem "jekyll-ai-domain-data"
   gem "html-proofer"
 end
 
