@@ -54,6 +54,24 @@ Comprehensive privacy and uniqueness analysis tool. See what the internet knows 
 
 ---
 
+## 📝 Markdown to PDF
+Live markdown editor with instant preview and one-click PDF export. Perfect for writing documentation, blog posts, resumes, and more.
+
+**Features:**
+- Real-time markdown preview as you type
+- Export to PDF with multiple page sizes (A4, Letter, Legal)
+- Export to standalone HTML file
+- Quick templates (README, Blog Post, Documentation, Resume)
+- Auto-save with localStorage persistence
+- Word count, character count, and line count
+- Adjustable font sizes
+- Keyboard shortcuts (Ctrl/Cmd+S for HTML, Ctrl/Cmd+P for PDF)
+- Tab key support for indentation
+
+[Open Markdown to PDF](markdown-to-pdf.html){: .btn}
+
+---
+
 ## Technology Stack
 
 All utilities are built with:
@@ -66,6 +84,7 @@ All utilities are built with:
 - **Contact Scraper**: AllOrigins/CORSProxy for cross-origin requests
 - **M3U Editor**: Xtream Codes API, AWS SDK for S3 sync
 - **Fingerprint Analyzer**: IPify (IP detection), ipapi.co (geolocation)
+- **Markdown to PDF**: Marked.js (markdown parsing), jsPDF (PDF generation), html2canvas (HTML rendering)
 
 ---
 

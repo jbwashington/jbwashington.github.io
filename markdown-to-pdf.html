@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to PDF Converter - Live Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .controls-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .controls-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .controls-group select, .controls-group input {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            min-height: 600px;
+        }
+
+        .editor-panel, .preview-panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        #markdown-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 20px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        #preview {
+            padding: 30px;
+            background: white;
+        }
+
+        /* Markdown Preview Styling */
+        #preview h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #1e293b;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        #preview h2 {
+            font-size: 2rem;
+            margin: 30px 0 15px;
+            color: #334155;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        #preview h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 12px;
+            color: #475569;
+        }
+
+        #preview h4 {
+            font-size: 1.25rem;
+            margin: 20px 0 10px;
+            color: #64748b;
+        }
+
+        #preview h5 {
+            font-size: 1.1rem;
+            margin: 15px 0 8px;
+            color: #64748b;
+        }
+
+        #preview h6 {
+            font-size: 1rem;
+            margin: 12px 0 6px;
+            color: #64748b;
+        }
+
+        #preview p {
+            margin-bottom: 16px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        #preview ul, #preview ol {
+            margin-bottom: 16px;
+            padding-left: 30px;
+        }
+
+        #preview li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        #preview code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+            color: #e11d48;
+        }
+
+        #preview pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        #preview pre code {
+            background: none;
+            padding: 0;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        #preview blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        #preview a {
+            color: #667eea;
+            text-decoration: none;
+            border-bottom: 1px solid #667eea;
+        }
+
+        #preview a:hover {
+            color: #5568d3;
+            border-bottom-color: #5568d3;
+        }
+
+        #preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        #preview table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        #preview table th {
+            background: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        #preview table td {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        #preview table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        #preview hr {
+            border: none;
+            border-top: 2px solid #e2e8f0;
+            margin: 30px 0;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 2000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); }
+            to { transform: translateX(0); }
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        @media (max-width: 1024px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .controls-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .sample-templates {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .template-btn {
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .template-btn:hover {
+            background: #e2e8f0;
+            border-color: #667eea;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Markdown to PDF</h1>
+            <p>Live markdown editor with instant preview and PDF export</p>
+        </div>
+
+        <div class="controls">
+            <div class="controls-row">
+                <div class="controls-group">
+                    <label>Font Size:</label>
+                    <select id="font-size" onchange="updateFontSize()">
+                        <option value="12">Small</option>
+                        <option value="14" selected>Medium</option>
+                        <option value="16">Large</option>
+                        <option value="18">Extra Large</option>
+                    </select>
+                </div>
+
+                <div class="controls-group">
+                    <label>Page Size:</label>
+                    <select id="page-size">
+                        <option value="a4" selected>A4</option>
+                        <option value="letter">Letter</option>
+                        <option value="legal">Legal</option>
+                    </select>
+                </div>
+
+                <div class="controls-group">
+                    <label>Filename:</label>
+                    <input type="text" id="filename" value="document" placeholder="document">
+                </div>
+
+                <div class="controls-group" style="margin-left: auto;">
+                    <button class="btn-success" onclick="downloadPDF()">📥 Download PDF</button>
+                    <button class="btn-primary" onclick="downloadHTML()">💾 Save HTML</button>
+                    <button class="btn-secondary" onclick="clearEditor()">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <div class="controls-row" style="margin-top: 15px;">
+                <div class="sample-templates">
+                    <span style="font-weight: 600; color: #64748b; margin-right: 10px;">Quick Templates:</span>
+                    <button class="template-btn" onclick="loadTemplate('readme')">📄 README</button>
+                    <button class="template-btn" onclick="loadTemplate('blog')">📰 Blog Post</button>
+                    <button class="template-btn" onclick="loadTemplate('documentation')">📚 Documentation</button>
+                    <button class="template-btn" onclick="loadTemplate('resume')">👔 Resume</button>
+                </div>
+            </div>
+
+            <div class="stats" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                <div class="stat-item">
+                    <span>Words:</span>
+                    <span class="stat-value" id="word-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Characters:</span>
+                    <span class="stat-value" id="char-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Lines:</span>
+                    <span class="stat-value" id="line-count">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-panel">
+                <div class="panel-header">✏️ Markdown Editor</div>
+                <div class="panel-content">
+                    <textarea id="markdown-input" placeholder="Start typing markdown here..."></textarea>
+                </div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="panel-header">👁️ Live Preview</div>
+                <div class="panel-content">
+                    <div id="preview"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        // Configure marked for better rendering
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            mangle: false
+        });
+
+        const markdownInput = document.getElementById('markdown-input');
+        const preview = document.getElementById('preview');
+
+        // Load from localStorage on start
+        const savedContent = localStorage.getItem('markdown-content');
+        if (savedContent) {
+            markdownInput.value = savedContent;
+        } else {
+            // Load default template
+            loadTemplate('readme');
+        }
+
+        // Initial render
+        updatePreview();
+
+        // Live preview
+        markdownInput.addEventListener('input', function() {
+            updatePreview();
+            saveToLocalStorage();
+        });
+
+        function updatePreview() {
+            const markdown = markdownInput.value;
+            const html = marked.parse(markdown);
+            preview.innerHTML = html;
+            updateStats();
+        }
+
+        function updateStats() {
+            const text = markdownInput.value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            const lines = text ? text.split('\n').length : 0;
+
+            document.getElementById('word-count').textContent = words;
+            document.getElementById('char-count').textContent = chars;
+            document.getElementById('line-count').textContent = lines;
+        }
+
+        function updateFontSize() {
+            const size = document.getElementById('font-size').value;
+            markdownInput.style.fontSize = size + 'px';
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('markdown-content', markdownInput.value);
+        }
+
+        async function downloadPDF() {
+            const filename = document.getElementById('filename').value || 'document';
+            const pageSize = document.getElementById('page-size').value;
+
+            showToast('Generating PDF...');
+
+            try {
+                // Create a temporary container with proper styling
+                const tempDiv = document.createElement('div');
+                tempDiv.style.cssText = `
+                    position: absolute;
+                    left: -9999px;
+                    width: 210mm;
+                    padding: 20mm;
+                    background: white;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                `;
+                tempDiv.innerHTML = preview.innerHTML;
+                document.body.appendChild(tempDiv);
+
+                // Use html2canvas to render the content
+                const canvas = await html2canvas(tempDiv, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+
+                document.body.removeChild(tempDiv);
+
+                // Create PDF
+                const imgWidth = pageSize === 'a4' ? 210 : pageSize === 'letter' ? 215.9 : 215.9;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                const pageHeight = pageSize === 'a4' ? 297 : pageSize === 'letter' ? 279.4 : 355.6;
+
+                const pdf = new jsPDF({
+                    orientation: imgHeight > imgWidth ? 'portrait' : 'landscape',
+                    unit: 'mm',
+                    format: pageSize
+                });
+
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                // Add first page
+                pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                // Add additional pages if needed
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                pdf.save(`${filename}.pdf`);
+                showToast('PDF downloaded successfully!');
+            } catch (error) {
+                showToast('Error generating PDF: ' + error.message, 'error');
+                console.error('PDF generation error:', error);
+            }
+        }
+
+        function downloadHTML() {
+            const filename = document.getElementById('filename').value || 'document';
+            const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${filename}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 { color: #1e293b; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+        h2 { color: #334155; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 30px; }
+        code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; overflow-x: auto; }
+        pre code { background: none; color: #e2e8f0; }
+        blockquote { border-left: 4px solid #667eea; padding-left: 20px; color: #64748b; font-style: italic; }
+        a { color: #667eea; text-decoration: none; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #f8fafc; padding: 12px; text-align: left; border: 1px solid #e2e8f0; }
+        td { padding: 12px; border: 1px solid #e2e8f0; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+${preview.innerHTML}
+</body>
+</html>`;
+
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showToast('HTML file downloaded!');
+        }
+
+        function clearEditor() {
+            if (confirm('Clear all content? This cannot be undone.')) {
+                markdownInput.value = '';
+                updatePreview();
+                saveToLocalStorage();
+                showToast('Editor cleared');
+            }
+        }
+
+        function loadTemplate(type) {
+            const templates = {
+                readme: `# Project Title
+
+A brief description of what this project does and who it's for.
+
+## Features
+
+- Feature 1: Description
+- Feature 2: Description
+- Feature 3: Description
+
+## Installation
+
+\`\`\`bash
+npm install project-name
+\`\`\`
+
+## Usage
+
+\`\`\`javascript
+const project = require('project-name');
+
+project.doSomething();
+\`\`\`
+
+## Configuration
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| option1 | string | "value" | What it does |
+| option2 | boolean | true | Another option |
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT © Your Name
+`,
+                blog: `# Blog Post Title
+
+*Published on ${new Date().toLocaleDateString()}*
+
+## Introduction
+
+Write your compelling introduction here. Hook your readers and give them a reason to keep reading.
+
+## Main Content
+
+### Section 1
+
+Your first main point goes here. Use **bold** for emphasis and *italics* for subtle highlights.
+
+> "Quotes can add credibility and break up the text nicely." - Famous Person
+
+### Section 2
+
+Continue with your next point. You can include:
+
+- Bullet points for lists
+- Code snippets for technical content
+- Images to illustrate points
+
+\`\`\`javascript
+// Example code
+function example() {
+    console.log("Hello, World!");
+}
+\`\`\`
+
+## Conclusion
+
+Wrap up your post with key takeaways and a call to action.
+
+---
+
+**Tags:** #markdown #blogging #writing
+`,
+                documentation: `# API Documentation
+
+Welcome to the API documentation. This guide will help you integrate our services.
+
+## Getting Started
+
+### Authentication
+
+All API requests require authentication using an API key:
+
+\`\`\`bash
+curl -H "Authorization: Bearer YOUR_API_KEY" https://api.example.com/endpoint
+\`\`\`
+
+### Base URL
+
+\`\`\`
+https://api.example.com/v1
+\`\`\`
+
+## Endpoints
+
+### GET /users
+
+Retrieve a list of users.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| limit | integer | No | Number of results (max 100) |
+| offset | integer | No | Pagination offset |
+
+**Example Request:**
+
+\`\`\`bash
+curl https://api.example.com/v1/users?limit=10
+\`\`\`
+
+**Example Response:**
+
+\`\`\`json
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com"
+    }
+  ],
+  "total": 100
+}
+\`\`\`
+
+### POST /users
+
+Create a new user.
+
+**Request Body:**
+
+\`\`\`json
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com"
+}
+\`\`\`
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | Success |
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 404 | Not Found |
+| 500 | Server Error |
+
+## Support
+
+For support, email support@example.com or visit our [help center](https://help.example.com).
+`,
+                resume: `# John Doe
+
+**Full Stack Developer** | john.doe@email.com | (555) 123-4567 | [LinkedIn](https://linkedin.com/in/johndoe) | [GitHub](https://github.com/johndoe)
+
+---
+
+## Professional Summary
+
+Experienced Full Stack Developer with 5+ years of expertise in building scalable web applications. Proficient in JavaScript, React, Node.js, and cloud technologies. Strong problem-solver with excellent communication skills.
+
+---
+
+## Skills
+
+**Frontend:** React, Vue.js, TypeScript, HTML5, CSS3, Tailwind CSS
+**Backend:** Node.js, Express, Python, Django, REST APIs, GraphQL
+**Database:** PostgreSQL, MongoDB, Redis
+**DevOps:** Docker, Kubernetes, AWS, CI/CD, GitHub Actions
+**Tools:** Git, VS Code, Postman, Jira
+
+---
+
+## Work Experience
+
+### Senior Full Stack Developer
+**Tech Company Inc.** | *Jan 2021 - Present*
+
+- Led development of microservices architecture serving 1M+ users
+- Improved application performance by 40% through optimization
+- Mentored junior developers and conducted code reviews
+- Technologies: React, Node.js, PostgreSQL, AWS
+
+### Full Stack Developer
+**Startup Co.** | *Jun 2019 - Dec 2020*
+
+- Built RESTful APIs and responsive web applications
+- Implemented automated testing reducing bugs by 30%
+- Collaborated with design team on UI/UX improvements
+- Technologies: Vue.js, Express, MongoDB, Docker
+
+---
+
+## Education
+
+**Bachelor of Science in Computer Science**
+University Name | *2015 - 2019*
+
+---
+
+## Projects
+
+### E-Commerce Platform
+Open-source e-commerce solution with 10k+ stars on GitHub. Built with React, Node.js, and Stripe integration.
+
+### Task Management App
+Real-time collaborative task manager using WebSockets and React. Featured on Product Hunt.
+
+---
+
+## Certifications
+
+- AWS Certified Solutions Architect
+- MongoDB Certified Developer
+
+---
+
+*References available upon request*
+`
+            };
+
+            markdownInput.value = templates[type] || templates.readme;
+            updatePreview();
+            saveToLocalStorage();
+            showToast(`Loaded ${type} template`);
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'error' ? '#ef4444' : '#10b981';
+            toast.classList.add('active');
+
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        // Auto-save every 30 seconds
+        setInterval(saveToLocalStorage, 30000);
+
+        // Keyboard shortcuts
+        markdownInput.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + S to save
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                downloadHTML();
+            }
+
+            // Ctrl/Cmd + P to PDF
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                downloadPDF();
+            }
+
+            // Tab key for indentation
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 4;
+            }
+        });
+    </script>
+</body>
+</html>
