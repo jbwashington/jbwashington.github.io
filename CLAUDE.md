@@ -123,13 +123,22 @@ When adding a new browser-based utility, follow this template:
 1. **File Structure:** Single HTML file with inline CSS and JavaScript
 2. **Naming:** Use kebab-case (e.g., `new-tool.html`)
 3. **No External Files:** All CSS and JS must be inline or CDN-loaded
-4. **Styling Pattern:**
+4. **Styling Pattern (Minima Theme):**
    ```css
-   - Gradient background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
-   - Card-based layout with border-radius: 12px
-   - System fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI'...
-   - Color palette: Blues/purples (#667eea, #764ba2)
+   - Background: Light gray (#fdfdfd) - no gradients
+   - Cards: White with 1px gray borders (#d4d4d4) - no rounded corners or shadows
+   - System fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI"...
+   - Color palette:
+     * Primary: Blue (#1e69d8) for links and accents
+     * Text: Gray (#5c5c5c) for body, dark (#111111) for headings
+     * Borders: Gray (#d4d4d4)
+     * Success: Green (#28a745)
+     * Danger: Red (#dc3545)
+     * Code bg: Dark (#222222) or light (#f6f8fa)
+   - Typography: Font weight 500 for headings (not 600-700)
+   - Buttons: 1px borders with subtle hover states (no shadows or transforms)
    - Responsive grid layouts
+   - Minimal animations: Only border-color transitions
    ```
 
 5. **JavaScript Pattern:**
@@ -153,11 +162,14 @@ When adding a new browser-based utility, follow this template:
 - Mobile-first viewport meta tag
 
 **CSS:**
+- Follow Minima theme design language (clean, minimal, no flashy effects)
 - Use CSS Grid for layouts
 - Flexbox for component alignment
-- CSS custom properties for theming (optional)
-- Mobile-responsive with media queries
-- Transitions for smooth interactions
+- Simple 1px borders instead of box shadows
+- No border-radius (keep rectangular for Minima consistency)
+- Minimal transitions (border-color only, no transforms)
+- Mobile-responsive with media queries (@media max-width: 600px)
+- Font weight 500 for headings, 400 for body text
 
 **JavaScript:**
 - ES6+ syntax (const/let, arrow functions, template literals)
@@ -294,21 +306,69 @@ Based on existing GitHub projects:
 
 ## Deployment
 
+**Deployment Method:** GitHub Actions (Jekyll 4.x)
+
+This site uses GitHub Actions for deployment instead of the default GitHub Pages build process. This allows us to use ANY Jekyll plugin without whitelist restrictions, including `jekyll-ai-domain-data`.
+
+**GitHub Actions Workflow:**
+- Location: `.github/workflows/jekyll.yml`
+- Trigger: Push to `master` branch or manual dispatch
+- Ruby Version: 3.1
+- Jekyll Version: 4.3.x
+- Deployment: Automatic to GitHub Pages
+
 **GitHub Pages Configuration:**
-- Branch: `master`
-- Folder: `/` (root)
+- Source: GitHub Actions (not branch-based)
 - Custom domain: Not configured
 - HTTPS: Enabled (enforced)
 
 **Build Process:**
-- Jekyll builds automatically on push
-- HTML files served as-is (no processing)
-- ~30-60 second deployment time
+1. GitHub Actions checks out repository
+2. Sets up Ruby 3.1 environment
+3. Installs dependencies with bundle
+4. Builds Jekyll site with production environment
+5. Uploads artifact to GitHub Pages
+6. Deploys to https://jbwashington.github.io/
+
+**Deployment Time:** ~2-3 minutes
 
 **URLs:**
 - Base: `https://jbwashington.github.io/`
 - Tools: `https://jbwashington.github.io/<tool-name>.html`
 - Landing: `https://jbwashington.github.io/tools.html`
+- AI Domain Data: `https://jbwashington.github.io/.well-known/domain-profile.json`
+
+**First-Time Setup:**
+
+After pushing the GitHub Actions workflow, you need to configure GitHub Pages to use Actions:
+
+1. Go to repository Settings → Pages
+2. Under "Build and deployment" → "Source"
+3. Select "GitHub Actions" (not "Deploy from a branch")
+4. Save changes
+
+**Local Development:**
+
+```bash
+# Install dependencies (first time only)
+bundle install
+
+# Serve locally
+bundle exec jekyll serve
+
+# Build for production
+JEKYLL_ENV=production bundle exec jekyll build
+```
+
+**AI Domain Data Plugin:**
+
+The `jekyll-ai-domain-data` plugin automatically generates `.well-known/domain-profile.json` with:
+- Name: James Washington
+- Description: Personal website and blog
+- Contact: jbwashington@gmail.com
+- Website: https://jbwashington.github.io
+- Logo: GitHub avatar
+- Entity Type: person
 
 ## Performance Targets
 
@@ -413,6 +473,6 @@ bundle exec jekyll serve
 
 ---
 
-**Last Updated:** 2025-12-29
+**Last Updated:** 2025-12-31
 **Project Lead:** James Washington (@jbwashington)
 **AI Assistant:** Claude Code (Sonnet 4.5)
