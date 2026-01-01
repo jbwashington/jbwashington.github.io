@@ -123,22 +123,23 @@ When adding a new browser-based utility, follow this template:
 1. **File Structure:** Single HTML file with inline CSS and JavaScript
 2. **Naming:** Use kebab-case (e.g., `new-tool.html`)
 3. **No External Files:** All CSS and JS must be inline or CDN-loaded
-4. **Styling Pattern (Minima Theme):**
+4. **Styling Pattern (Minimal System Design):**
    ```css
    - Background: Light gray (#fdfdfd) - no gradients
    - Cards: White with 1px gray borders (#d4d4d4) - no rounded corners or shadows
    - System fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI"...
-   - Color palette:
-     * Primary: Blue (#1e69d8) for links and accents
+   - Color palette (system colors only):
+     * Primary: Blue (#1e69d8) for links only
      * Text: Gray (#5c5c5c) for body, dark (#111111) for headings
      * Borders: Gray (#d4d4d4)
-     * Success: Green (#28a745)
-     * Danger: Red (#dc3545)
+     * Buttons: White background with gray borders (no colored buttons)
      * Code bg: Dark (#222222) or light (#f6f8fa)
    - Typography: Font weight 500 for headings (not 600-700)
-   - Buttons: 1px borders with subtle hover states (no shadows or transforms)
+   - Buttons: Neutral colors with subtle hover states (background: #f6f8fa)
+   - NO EMOJIS: Use text labels only
+   - NO COLORED BUTTONS: All buttons use system colors (white/gray)
    - Responsive grid layouts
-   - Minimal animations: Only border-color transitions
+   - Minimal animations: Only background-color transitions on hover
    ```
 
 5. **JavaScript Pattern:**
@@ -162,14 +163,16 @@ When adding a new browser-based utility, follow this template:
 - Mobile-first viewport meta tag
 
 **CSS:**
-- Follow Minima theme design language (clean, minimal, no flashy effects)
+- Follow minimal system design language (clean, professional, no decorative elements)
 - Use CSS Grid for layouts
 - Flexbox for component alignment
 - Simple 1px borders instead of box shadows
-- No border-radius (keep rectangular for Minima consistency)
-- Minimal transitions (border-color only, no transforms)
+- No border-radius (keep rectangular for consistency)
+- No colored buttons - all buttons use white/gray system colors
+- Minimal transitions (background-color only on hover, no transforms)
 - Mobile-responsive with media queries (@media max-width: 600px)
 - Font weight 500 for headings, 400 for body text
+- No emojis anywhere in the UI
 
 **JavaScript:**
 - ES6+ syntax (const/let, arrow functions, template literals)
