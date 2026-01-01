@@ -2,9 +2,9 @@
 layout: home
 ---
 
-# Full-Stack Developer & Privacy Advocate
+# Full-Stack Developer & Gray Hat Hacker
 
-I build **privacy-first browser utilities** and **high-performance SaaS platforms** with modern web technologies.
+I build **privacy-first browser utilities** and **high-performance SaaS platforms** with modern web technologies. Passionate about open source software, the GNU project, Tor, and the biohacking movement.
 
 ## What I Build
 

@@ -4,9 +4,11 @@ title: About
 permalink: /about/
 ---
 
-## Full-Stack Developer & Privacy Advocate
+## Full-Stack Developer & Gray Hat Hacker
 
 I build modern web applications and browser-based utilities with a focus on performance, privacy, and developer experience. My work spans SaaS platforms, headless CMS implementations, and self-contained browser tools that respect user privacy.
+
+Strong advocate for open source software, supporting the GNU Project, Tor Project, and the biohacking movement. Committed to digital freedom, privacy, and decentralized technologies.
 
 ### Technical Focus
 
