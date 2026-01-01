@@ -39,6 +39,7 @@ plugins:
     - jemoji
     - jekyll-mentions
     - jekyll-ai-domain-data
+    - jekyll-youtube
 #    - jekyll-include-cache
 
 # Exclude from processing.

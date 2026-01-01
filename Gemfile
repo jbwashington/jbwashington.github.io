@@ -30,6 +30,7 @@ group :jekyll_plugins do
   gem "jemoji"
   gem "jekyll-mentions"
   gem "jekyll-ai-domain-data"
+  gem "jekyll-youtube"
   gem "html-proofer"
 end
 
