@@ -96,6 +96,114 @@ This is a GitHub Pages site serving as a personal portfolio and collection of br
 
 ---
 
+### 4. Favicon Generator (`favicon-generator.html`)
+**Purpose:** Generate all favicon and app icon formats from SVG or PNG
+
+**Features:**
+- SVG and PNG input with drag-and-drop
+- Generate favicon.ico with multiple sizes (16/32/48)
+- Apple touch icons (180x180, 152x152, 120x120)
+- Android/PWA icons (192x192, 512x512, maskable variants)
+- Microsoft tiles (70x70, 150x150, 310x150, 310x310)
+- Safari pinned tab SVG preservation
+- Auto-generated HTML snippet
+- Auto-generated site.webmanifest
+- Auto-generated browserconfig.xml
+- Download all as ZIP or individual files
+
+**Technologies:**
+- Canvas API for image resizing
+- Custom ICO file format builder
+- JSZip (CDN) for ZIP generation
+- File API for downloads
+- Drag and Drop API
+
+**CDN Dependencies:**
+```html
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+```
+
+**External APIs:**
+- None - all processing happens locally
+
+---
+
+### 5. AI Workbench (`ai-workbench.html`)
+**Purpose:** Local-first LLM interface with tiered provider support
+
+**Features:**
+- Chrome Built-in AI (Gemini Nano) integration
+- Ollama local server support
+- BYOK (Bring Your Own Key) for OpenAI, Groq, OpenRouter
+- Transformers.js browser fallback (Phi-3, Qwen2, TinyLlama)
+- Document context for RAG-lite conversations
+- Writing assistant (improve, simplify, expand, summarize, proofread)
+- Streaming responses with real-time output
+- Settings persistence with localStorage
+- Export/import conversations and documents
+
+**Technologies:**
+- Chrome Built-in AI APIs (LanguageModel, Summarizer, Rewriter, Writer)
+- Transformers.js (CDN) for in-browser ML
+- Fetch API with streaming for Ollama/OpenAI-compatible APIs
+- ES6 Modules
+- LocalStorage/IndexedDB for persistence
+
+**CDN Dependencies:**
+```html
+<script type="module">
+  import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
+</script>
+```
+
+**External APIs:**
+- Chrome Built-in AI (local, zero config)
+- Ollama API at localhost:11434 (user runs locally)
+- OpenAI API (user-provided key)
+- Groq API (user-provided key)
+- OpenRouter API (user-provided key)
+
+**Provider Priority:**
+1. Chrome AI (Gemini Nano) - Best: fast, private, zero config
+2. Ollama (localhost) - Power users with local models
+3. API Keys (BYOK) - Cloud power when needed
+4. Transformers.js - Works anywhere, offline capable
+
+---
+
+### 6. OpenGraph Inspector (`opengraph-inspector.html`)
+**Purpose:** Preview how links appear across social media platforms and validate OpenGraph metadata
+
+**Features:**
+- Platform-specific previews (Facebook, Twitter, LinkedIn, WhatsApp, Slack, iMessage)
+- Parse OpenGraph, Twitter Card, and general meta tags
+- Validate metadata against best practices
+- Image dimension recommendations per platform
+- Export metadata as JSON
+- Copy meta tags to clipboard
+- CORS proxy support for fetching external URLs
+- Visual validation feedback (pass/warn/fail indicators)
+
+**Technologies:**
+- Vanilla JavaScript (ES6+)
+- DOMParser for HTML parsing
+- Fetch API
+- Clipboard API
+- File API for downloads
+
+**External APIs:**
+- AllOrigins/CORSProxy (optional, for CORS bypass)
+
+**Platform Specifications:**
+- Facebook: 1200 × 630 pixels (1.91:1 aspect ratio)
+- Twitter: 800 × 418 pixels (1.91:1 aspect ratio)
+- LinkedIn: 1200 × 627 pixels (1.91:1 aspect ratio)
+- WhatsApp: 300 × 157 pixels (1.91:1 aspect ratio)
+- Slack: 800 × 418 pixels (1.91:1 aspect ratio)
+- iMessage: 300 × 157 pixels (1.91:1 aspect ratio)
+
+---
+
 ## Site Structure
 
 ```
@@ -107,6 +215,9 @@ jbwashington.github.io/
 ├── contact-scraper.html  # Contact extraction utility
 ├── m3u-editor.html       # IPTV playlist manager
 ├── fingerprint-analyzer.html # Browser fingerprint analyzer
+├── ai-workbench.html     # AI Workbench - local-first LLM interface
+├── favicon-generator.html # Favicon Generator - SVG/PNG to all icon formats
+├── opengraph-inspector.html # OpenGraph Inspector - social media preview tool
 ├── _config.yml           # Jekyll configuration
 ├── _includes/            # Jekyll includes
 ├── _posts/               # Blog posts
