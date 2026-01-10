@@ -79,6 +79,31 @@ Professional IPTV playlist manager with Xtream Codes API integration and cloud s
 
 ---
 
+## EPG Mapper
+Map EPG (Electronic Program Guide) data to M3U playlist channels. Perfect for fixing tvg-id mismatches and ensuring your IPTV playlist has accurate TV guide information.
+
+**Features:**
+- Load XMLTV EPG files (local or URL)
+- Load M3U playlists (local or URL)
+- Auto-match channels using fuzzy name matching
+- Levenshtein distance algorithm for smart suggestions
+- Manual mapping interface with search
+- Filter by mapped/unmapped status
+- Filter by channel group
+- Export updated M3U with corrected tvg-id values
+- Save/load mapping profiles (JSON)
+- CORS proxy support for remote files
+
+**How It Works:**
+1. Load your M3U playlist and XMLTV EPG file
+2. Click "Auto-Match All" to automatically map channels using fuzzy matching
+3. Review and manually fix any remaining unmatched channels
+4. Export the updated M3U with correct EPG IDs
+
+[Open EPG Mapper](epg-mapper.html){: .btn}
+
+---
+
 ## Browser Fingerprint Analyzer
 Comprehensive privacy and uniqueness analysis tool. See what the internet knows about you and how unique your browser fingerprint is.
 
@@ -162,6 +187,34 @@ Preview how your links appear across social media platforms, messaging apps, and
 
 ---
 
+## Clipboard Inspector
+Deep analysis and inspection of all data formats in your system clipboard. View MIME types, preview images, inspect HTML, examine binary data with hex dumps, and track clipboard history.
+
+**Features:**
+- View all available clipboard data formats and MIME types
+- Display text formats (plain text, HTML, RTF, URI lists)
+- Image preview with metadata and download
+- File list with metadata (name, size, type)
+- Hex dump viewer for binary data with ASCII representation
+- HTML source view and rendered preview
+- Clipboard history with timestamps (stores last 50 items)
+- Export current clipboard data as JSON
+- Auto-monitor mode (reads clipboard every 2 seconds)
+- Privacy-focused - all data stays in your browser
+- LocalStorage persistence for history
+
+**Use Cases:**
+- Debug clipboard operations during development
+- Inspect what data applications put on clipboard
+- Verify image formats and quality before pasting
+- Analyze structured data being copied
+- Track clipboard usage over time
+- Export clipboard data for documentation
+
+[Open Clipboard Inspector](clipboard-inspector.html){: .btn}
+
+---
+
 ## Technology Stack
 
 All utilities are built with:
@@ -175,6 +228,7 @@ All utilities are built with:
 - **AI Workbench**: Chrome Built-in AI APIs, Ollama API, OpenAI/Groq/OpenRouter APIs, Transformers.js (CDN)
 - **Contact Scraper**: AllOrigins/CORSProxy for cross-origin requests
 - **M3U Editor**: Xtream Codes API, AWS SDK for S3 sync
+- **EPG Mapper**: AllOrigins/CORSProxy for cross-origin requests - all parsing done locally
 - **Fingerprint Analyzer**: IPify (IP detection), ipapi.co (geolocation)
 - **Markdown to PDF**: Marked.js (markdown parsing), jsPDF (PDF generation), html2canvas (HTML rendering)
 - **YouTube Transcriber**: Transformers.js (Whisper model via CDN), Invidious API (privacy-focused YouTube proxy)

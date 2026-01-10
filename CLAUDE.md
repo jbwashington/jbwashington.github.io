@@ -204,6 +204,43 @@ This is a GitHub Pages site serving as a personal portfolio and collection of br
 
 ---
 
+### 7. Clipboard Inspector (`clipboard-inspector.html`)
+**Purpose:** Deep analysis and inspection of all data formats in your system clipboard
+
+**Features:**
+- View all available clipboard data formats and MIME types
+- Display text formats (plain text, HTML, RTF, URI lists)
+- Image preview with metadata and download
+- File list with metadata (name, size, type)
+- Hex dump viewer for binary data with ASCII representation
+- HTML source view and rendered preview
+- Clipboard history with timestamps (stores last 50 items)
+- Export current clipboard data as JSON
+- Auto-monitor mode (reads clipboard every 2 seconds)
+- Privacy-focused - all data stays in browser
+- LocalStorage persistence for history
+
+**Technologies:**
+- Vanilla JavaScript (ES6+)
+- Clipboard API (navigator.clipboard.read)
+- FileReader for binary data
+- Canvas API for image rendering
+- DOMParser for HTML preview
+- LocalStorage for history persistence
+
+**External APIs:**
+- None - all processing happens locally
+
+**Use Cases:**
+- Debug clipboard operations during development
+- Inspect what data applications put on clipboard
+- Verify image formats and quality before pasting
+- Analyze structured data being copied
+- Track clipboard usage over time
+- Export clipboard data for documentation
+
+---
+
 ## Site Structure
 
 ```
@@ -218,6 +255,7 @@ jbwashington.github.io/
 ├── ai-workbench.html     # AI Workbench - local-first LLM interface
 ├── favicon-generator.html # Favicon Generator - SVG/PNG to all icon formats
 ├── opengraph-inspector.html # OpenGraph Inspector - social media preview tool
+├── clipboard-inspector.html # Clipboard Inspector - analyze clipboard data formats
 ├── _config.yml           # Jekyll configuration
 ├── _includes/            # Jekyll includes
 ├── _posts/               # Blog posts
