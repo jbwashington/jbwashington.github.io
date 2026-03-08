@@ -87,7 +87,7 @@ def generate_index():
             --gray-light: #666;
             --cyan: #0ff;
             --yellow: #ff0;
-            --white: #ccc;
+            --white: #e5e5e5;
             --font-mono: 'Fragment Mono', 'SF Mono', 'Fira Code', monospace;
         }}
 
@@ -98,7 +98,7 @@ def generate_index():
         body {{
             font-family: var(--font-mono);
             background: var(--black);
-            color: var(--green);
+            color: var(--white);
             line-height: 1.7;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
