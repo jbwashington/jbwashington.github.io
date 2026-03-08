@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | truncatewords: 30 }}{% else %}{{ site.description }}{% endif %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+  {% seo %}
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <a href="{{ '/' | relative_url }}" class="ascii-logo-link" style="text-decoration:none;border:none;">
+        <pre class="ascii-logo"> ╦╔═╗╔╦╗╔═╗╔═╗  ╦ ╦╔═╗╔═╗╦ ╦╦╔╗╔╔═╗╔╦╗╔═╗╔╗╔
+ ║╠═╣║║║║╣ ╚═╗  ║║║╠═╣╚═╗╠═╣║║║║║ ╦ ║ ║ ║║║║
+╚╝╩ ╩╩ ╩╚═╝╚═╝  ╚╩╝╩ ╩╚═╝╩ ╩╩╝╚╝╚═╝ ╩ ╚═╝╝╚╝</pre>
+      </a>
+      <div class="header-bar">
+        <span class="site-title-link" style="font-size:0.75rem;color:var(--gray-light);">~/jbwashington<span class="cursor"></span></span>
+        <nav class="site-nav">
+          <a href="{{ '/' | relative_url }}" class="nav-link{% if page.url == '/' %} active{% endif %}">[blog]</a>
+          {% for path in site.header_pages %}
+            {% assign page_obj = site.pages | where: "path", path | first %}
+            {% if page_obj %}
+              <a href="{{ page_obj.url | relative_url }}" class="nav-link{% if page.url == page_obj.url %} active{% endif %}">[{{ page_obj.title | downcase }}]</a>
+            {% endif %}
+          {% endfor %}
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-content">
+      {{ content }}
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <span>&copy; {{ 'now' | date: "%Y" }} {{ site.title }} // built with jekyll</span>
+        <div class="footer-links">
+          <a href="https://github.com/{{ site.github_username }}">github</a>
+          <a href="https://twitter.com/{{ site.twitter_username }}">twitter</a>
+          <a href="{{ '/feed.xml' | relative_url }}">rss</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+<div class="terminal-window">
+  <div class="terminal-header">
+    <div class="terminal-dots">
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+    </div>
+    <span>~/welcome</span>
+  </div>
+  <div class="terminal-body">
+    <p class="prompt">whoami</p>
+    <p>james washington &mdash; software engineer, builder of things on the web.</p>
+    <p class="prompt">cat motd.txt</p>
+    <p style="color:var(--white);">{{ site.description }}</p>
+    <p class="prompt">ls sections/</p>
+    <p><a href="{{ '/' | relative_url }}">blog/</a> &nbsp; <a href="{{ '/utils/' | relative_url }}">utils/</a> &nbsp; <a href="{{ '/free-game/' | relative_url }}">free-game/</a></p>
+  </div>
+</div>
+
+<div class="marquee-bar">
+  <span class="marquee-text">
+    &star; blog &mdash; utils &mdash; free game &mdash; code snippets &mdash; browser tools &mdash; single-file html &mdash; vanilla js &mdash; no frameworks &mdash; client-side only &star;
+  </span>
+</div>
+
+{{ content }}
+
+<h2 style="margin-top:2rem;">recent posts</h2>
+
+{% if site.posts.size > 0 %}
+<ul class="post-list">
+  {% for post in site.posts limit:10 %}
+  <li>
+    <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+    <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+    {% if post.excerpt %}
+      <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="terminal-window">
+  <div class="terminal-header">
+    <div class="terminal-dots">
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+    </div>
+    <span>~/posts</span>
+  </div>
+  <div class="terminal-body">
+    <p class="prompt">ls posts/</p>
+    <p style="color:var(--gray-light);">no posts yet. check back soon.</p>
+  </div>
+</div>
+{% endif %}
+
+<p class="feed-subscribe"><a href="{{ '/feed.xml' | relative_url }}">[subscribe via rss]</a></p>
