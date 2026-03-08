@@ -5,234 +5,272 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser Utilities - James Washington</title>
     <meta name="description" content="Collection of browser-based utilities for web scraping, IPTV management, and privacy analysis">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --green: #CEFF00;
+            --green-dim: #a5cc00;
+            --green-bright: #daff4d;
+            --green-glow: rgba(206, 255, 0, 0.15);
+            --black: #000;
+            --dark: #0a0a0a;
+            --gray: #333;
+            --gray-light: #666;
+            --cyan: #0ff;
+            --yellow: #ff0;
+            --white: #ccc;
+            --font-mono: 'Fragment Mono', 'SF Mono', 'Fira Code', monospace;
         }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { font-size: 15px; }
 
         body {
-            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #fdfdfd;
-            color: #5c5c5c;
-            line-height: 1.5;
-            font-size: 16px;
-            font-weight: 400;
+            font-family: var(--font-mono);
+            background: var(--black);
+            color: var(--green);
+            line-height: 1.7;
             min-height: 100vh;
-            padding: 30px 15px;
+            padding: 1.5rem;
+            -webkit-font-smoothing: antialiased;
         }
 
+        body::after {
+            content: "";
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 3px);
+            z-index: 9999;
+        }
+
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%);
+            z-index: 9998;
+        }
+
+        ::selection { background: var(--green); color: var(--black); }
+
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
+        a {
+            color: var(--cyan);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--cyan);
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--yellow);
+            border-bottom-color: var(--yellow);
+            text-shadow: 0 0 8px rgba(255, 255, 0, 0.3);
+        }
+
+        /* Header */
         .header {
-            margin-bottom: 50px;
-            padding: 20px 0;
-            border-bottom: 1px solid #d4d4d4;
+            border-bottom: 2px solid var(--green);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .header h1 {
-            font-size: 3rem;
-            font-weight: 500;
-            color: #111111;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green-bright);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
         }
+
+        .header h1::before { content: "# "; color: var(--gray-light); }
 
         .header p {
-            font-size: 1.2rem;
-            color: #5c5c5c;
-            max-width: 700px;
-            margin: 0 auto;
+            color: var(--white);
+            font-size: 0.85rem;
         }
 
+        /* Tool grid */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
         }
 
         .tool-card {
-            background-color: white;
-            border: 1px solid #d4d4d4;
-            padding: 35px;
-            transition: border-color 0.2s;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
+            border: 1px solid var(--gray);
+            padding: 1.25rem;
+            background: var(--dark);
             display: block;
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid var(--gray);
+            transition: all 0.15s ease;
         }
 
         .tool-card:hover {
-            border-color: #1e69d8;
+            border-color: var(--green);
+            box-shadow: 3px 3px 0 var(--green-dim);
+            color: inherit;
+            text-shadow: none;
         }
 
         .tool-title {
-            font-size: 1.8rem;
-            font-weight: 500;
-            margin-bottom: 15px;
-            color: #111111;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 0.5rem;
         }
 
         .tool-description {
-            color: #5c5c5c;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 1rem;
+            color: var(--white);
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
         }
 
         .tool-features {
             list-style: none;
-            margin-bottom: 20px;
+            margin-bottom: 0.75rem;
         }
 
         .tool-features li {
-            padding: 8px 0;
-            color: #5c5c5c;
-            font-size: 0.95rem;
-            padding-left: 25px;
+            padding: 0.15rem 0;
+            color: var(--gray-light);
+            font-size: 0.75rem;
+            padding-left: 1.2rem;
             position: relative;
         }
 
         .tool-features li:before {
-            content: "✓";
+            content: ">";
             position: absolute;
             left: 0;
-            color: #28a745;
+            color: var(--green-dim);
             font-weight: bold;
         }
 
+        .tool-badges {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         .tool-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-right: 8px;
-            margin-bottom: 8px;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.4rem;
             border: 1px solid;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
         }
 
-        .badge-new {
-            background-color: #e6f9f0;
-            color: #28a745;
-            border-color: #28a745;
-        }
-
-        .badge-popular {
-            background-color: #e3f2fd;
-            color: #1e69d8;
-            border-color: #1e69d8;
-        }
-
-        .badge-privacy {
-            background-color: #fff8e6;
-            color: #f59e0b;
-            border-color: #f59e0b;
-        }
+        .badge-new { color: var(--green); border-color: var(--green); }
+        .badge-popular { color: var(--cyan); border-color: var(--cyan); }
+        .badge-privacy { color: var(--yellow); border-color: var(--yellow); }
 
         .cta-button {
             display: inline-block;
-            background-color: white;
-            color: #5c5c5c;
-            padding: 12px 28px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.2s;
-            border: 1px solid #d4d4d4;
-            font-size: 1rem;
-            margin-top: 10px;
+            color: var(--green);
+            border: 1px solid var(--green);
+            padding: 0.3rem 0.75rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.15s ease;
         }
 
-        .cta-button:hover {
-            background-color: #f6f8fa;
+        .tool-card:hover .cta-button {
+            background: var(--green);
+            color: var(--black);
         }
 
-        .footer {
-            text-align: center;
-            color: #5c5c5c;
-            margin-top: 60px;
-            padding: 30px;
-            border-top: 1px solid #d4d4d4;
-        }
-
-        .footer a {
-            color: #1e69d8;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
+        /* Info boxes */
         .info-card {
-            background-color: white;
-            border: 1px solid #d4d4d4;
-            padding: 30px;
-            margin-bottom: 30px;
+            border: 2px solid var(--green);
+            margin-bottom: 1rem;
+            box-shadow: 4px 4px 0 var(--green-dim);
         }
 
-        .info-card h2 {
-            color: #111111;
-            margin-bottom: 15px;
-            font-size: 1.6rem;
-            font-weight: 500;
-            border-bottom: 1px solid #d4d4d4;
-            padding-bottom: 10px;
+        .info-card-header {
+            background: var(--green);
+            color: var(--black);
+            padding: 0.3rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
-        .info-card p {
-            color: #5c5c5c;
-            line-height: 1.7;
-            margin-bottom: 12px;
+        .info-card-body {
+            padding: 1rem;
+            background: var(--dark);
         }
+
+        .info-card-body p {
+            color: var(--white);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card-body p:last-child { margin-bottom: 0; }
+
+        .info-card-body strong { color: var(--green-bright); }
 
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
         }
 
         .tech-tag {
-            background-color: #f6f8fa;
-            padding: 8px 16px;
-            font-size: 0.9rem;
-            color: #5c5c5c;
-            font-weight: 500;
-            border: 1px solid #d4d4d4;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid var(--gray);
+            color: var(--gray-light);
         }
 
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: var(--gray-light);
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--green);
+            font-size: 0.8rem;
+        }
 
-            .header p {
-                font-size: 1.1rem;
-            }
+        .footer p { margin-bottom: 0.5rem; }
 
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 700px) {
+            html { font-size: 14px; }
+            .tools-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Browser Utilities</h1>
+            <h1>browser utilities</h1>
             <p>Standalone tools that run entirely in your browser. No backend, no tracking, no BS.</p>
         </div>
 
         <div class="tools-grid">
             <a href="favicon-generator.html" class="tool-card">
                 <div class="tool-title">Favicon Generator</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
-                    <span class="tool-badge badge-popular">POPULAR</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
+                    <span class="tool-badge badge-popular">popular</span>
                 </div>
                 <p class="tool-description">
                     Generate all favicon and app icon formats from a single SVG or PNG. Includes ICO, Apple, Android, and Microsoft formats.
@@ -243,14 +281,14 @@
                     <li>HTML snippet and manifest.json</li>
                     <li>Download all as ZIP</li>
                 </ul>
-                <span class="cta-button">Launch Tool</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="ai-workbench.html" class="tool-card">
                 <div class="tool-title">AI Workbench</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
-                    <span class="tool-badge badge-privacy">PRIVACY</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
+                    <span class="tool-badge badge-privacy">privacy</span>
                 </div>
                 <p class="tool-description">
                     Local-first LLM interface with multiple provider support. Chat with AI models that run entirely in your browser or connect to local/cloud providers.
@@ -261,14 +299,14 @@
                     <li>Bring your own API keys</li>
                     <li>Transformers.js browser fallback</li>
                 </ul>
-                <span class="cta-button">Launch Tool</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="contact-scraper.html" class="tool-card">
                 <div class="tool-title">Contact Scraper</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
-                    <span class="tool-badge badge-popular">POPULAR</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
+                    <span class="tool-badge badge-popular">popular</span>
                 </div>
                 <p class="tool-description">
                     Extract contact information from any website. Perfect for lead generation, research, or data collection.
@@ -279,13 +317,13 @@
                     <li>Export as JSON or CSV</li>
                     <li>CORS proxy included</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="m3u-editor.html" class="tool-card">
                 <div class="tool-title">M3U Editor</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
                 </div>
                 <p class="tool-description">
                     Professional IPTV playlist manager with Xtream Codes API integration and cloud sync capabilities.
@@ -296,13 +334,13 @@
                     <li>S3-compatible cloud sync</li>
                     <li>Drag-and-drop reordering</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="epg-mapper.html" class="tool-card">
                 <div class="tool-title">EPG Mapper</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
                 </div>
                 <p class="tool-description">
                     Map EPG (Electronic Program Guide) data to M3U playlist channels. Auto-match with fuzzy search or manually assign EPG sources.
@@ -313,14 +351,14 @@
                     <li>Manual mapping interface</li>
                     <li>Export updated M3U with EPG IDs</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="fingerprint-analyzer.html" class="tool-card">
                 <div class="tool-title">Fingerprint Analyzer</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
-                    <span class="tool-badge badge-privacy">PRIVACY</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
+                    <span class="tool-badge badge-privacy">privacy</span>
                 </div>
                 <p class="tool-description">
                     Comprehensive privacy analysis tool. See how unique your browser is and what data you're leaking.
@@ -331,14 +369,14 @@
                     <li>WebRTC leak detection</li>
                     <li>Privacy risk assessment</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="markdown-to-pdf.html" class="tool-card">
                 <div class="tool-title">Markdown to PDF</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
-                    <span class="tool-badge badge-popular">POPULAR</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
+                    <span class="tool-badge badge-popular">popular</span>
                 </div>
                 <p class="tool-description">
                     Live markdown editor with instant preview and PDF export. Perfect for documentation, blogs, and resumes.
@@ -349,14 +387,14 @@
                     <li>Quick templates (README, blog, resume)</li>
                     <li>Auto-save with localStorage</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="youtube-transcriber.html" class="tool-card">
                 <div class="tool-title">YouTube Transcriber</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
-                    <span class="tool-badge badge-privacy">PRIVACY</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
+                    <span class="tool-badge badge-privacy">privacy</span>
                 </div>
                 <p class="tool-description">
                     AI-powered video transcription with YouTube URL support via Invidious. Enter YouTube URLs directly or upload files for accurate transcripts.
@@ -367,13 +405,13 @@
                     <li>Multi-language support (99+ languages)</li>
                     <li>Export as TXT, SRT, or VTT</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="opengraph-inspector.html" class="tool-card">
                 <div class="tool-title">OpenGraph Inspector</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
                 </div>
                 <p class="tool-description">
                     Preview how your links appear across social media platforms, messaging apps, and SMS. Validate OpenGraph metadata and optimize social sharing.
@@ -384,14 +422,14 @@
                     <li>Export meta tags and JSON data</li>
                     <li>Image dimension analysis</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
 
             <a href="clipboard-inspector.html" class="tool-card">
                 <div class="tool-title">Clipboard Inspector</div>
-                <div>
-                    <span class="tool-badge badge-new">NEW</span>
-                    <span class="tool-badge badge-privacy">PRIVACY</span>
+                <div class="tool-badges">
+                    <span class="tool-badge badge-new">new</span>
+                    <span class="tool-badge badge-privacy">privacy</span>
                 </div>
                 <p class="tool-description">
                     Deep analysis of clipboard data formats. See all MIME types, preview images, inspect HTML, and view hex dumps of binary data.
@@ -402,53 +440,46 @@
                     <li>HTML rendering and source view</li>
                     <li>Hex dump viewer for binary data</li>
                 </ul>
-                <span class="cta-button">Launch Tool →</span>
+                <span class="cta-button">[launch]</span>
             </a>
         </div>
 
         <div class="info-card">
-            <h2>About These Tools</h2>
-            <p>
-                All utilities are built as standalone HTML files with inline CSS and JavaScript.
-                No build tools, no npm packages, no complex setup. Just open and use.
-            </p>
-            <p>
-                <strong>Privacy First:</strong> Your data never leaves your device unless you explicitly
-                fetch from external URLs or sync to your own cloud storage. No tracking, no analytics,
-                no data collection.
-            </p>
-            <div class="tech-stack">
-                <span class="tech-tag">Pure HTML/CSS/JS</span>
-                <span class="tech-tag">CDN Libraries</span>
-                <span class="tech-tag">No Build Tools</span>
-                <span class="tech-tag">Offline Capable</span>
-                <span class="tech-tag">Mobile Responsive</span>
+            <div class="info-card-header">~/about</div>
+            <div class="info-card-body">
+                <p>All utilities are built as standalone HTML files with inline CSS and JavaScript. No build tools, no npm packages, no complex setup. Just open and use.</p>
+                <p><strong>Privacy First:</strong> Your data never leaves your device unless you explicitly fetch from external URLs or sync to your own cloud storage. No tracking, no analytics, no data collection.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">pure html/css/js</span>
+                    <span class="tech-tag">cdn libraries</span>
+                    <span class="tech-tag">no build tools</span>
+                    <span class="tech-tag">offline capable</span>
+                    <span class="tech-tag">mobile responsive</span>
+                </div>
             </div>
         </div>
 
         <div class="info-card">
-            <h2>Technology Stack</h2>
-            <p>These tools leverage modern browser APIs and CDN-hosted libraries:</p>
-            <div class="tech-stack">
-                <span class="tech-tag">Fetch API</span>
-                <span class="tech-tag">Web Storage API</span>
-                <span class="tech-tag">Canvas API</span>
-                <span class="tech-tag">WebGL</span>
-                <span class="tech-tag">WebRTC</span>
-                <span class="tech-tag">AWS SDK (Browser)</span>
-                <span class="tech-tag">File API</span>
-                <span class="tech-tag">Chrome AI APIs</span>
-                <span class="tech-tag">Transformers.js</span>
+            <div class="info-card-header">~/tech-stack</div>
+            <div class="info-card-body">
+                <p>These tools leverage modern browser APIs and CDN-hosted libraries:</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">fetch api</span>
+                    <span class="tech-tag">web storage api</span>
+                    <span class="tech-tag">canvas api</span>
+                    <span class="tech-tag">webgl</span>
+                    <span class="tech-tag">webrtc</span>
+                    <span class="tech-tag">aws sdk (browser)</span>
+                    <span class="tech-tag">file api</span>
+                    <span class="tech-tag">chrome ai apis</span>
+                    <span class="tech-tag">transformers.js</span>
+                </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>
-                Built by <a href="https://github.com/jbwashington" target="_blank">James Washington</a>
-            </p>
-            <p style="margin-top: 15px; font-size: 0.9rem;">
-                Open source utilities for the modern web. No frameworks, no bloat.
-            </p>
+            <p>Built by <a href="https://github.com/jbwashington">James Washington</a></p>
+            <p>Open source utilities for the modern web. No frameworks, no bloat.</p>
         </div>
     </div>
 </body>

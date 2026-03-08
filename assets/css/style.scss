@@ -603,3 +603,26 @@ img {
   background: var(--green);
   color: var(--black);
 }
+
+/* ---- Button (for utilities.md links) ---- */
+
+.btn {
+  display: inline-block;
+  color: var(--green);
+  border: 1px solid var(--green);
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.15s ease;
+  border-bottom: 1px solid var(--green);
+  margin-top: 0.5rem;
+}
+
+.btn:hover {
+  background: var(--green);
+  color: var(--black);
+  text-shadow: none;
+  border-bottom: 1px solid var(--green);
+}

@@ -60,6 +60,12 @@ plugins:
     - jekyll-youtube
 #    - jekyll-include-cache
 
+# Custom navigation
+header_pages:
+    - about.md
+    - utils/index.html
+    - free-game/index.html
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
@@ -72,5 +78,7 @@ exclude:
     - vendor/gems/
     - vendor/ruby/
     - CLAUDE.md
+    - build_utils_index.py
+    - build_freegame_index.py
     - logs/
 
