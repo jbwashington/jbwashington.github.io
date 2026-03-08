@@ -70,7 +70,295 @@ Combined with IP address and timing information, TLS fingerprints help correlate
 
 ## The Complete Fingerprinting Picture
 
-TLS fingerprinting is one layer in a multi-dimensional identification system. Here's what else they're collecting:
+TLS fingerprinting is one layer in a multi-dimensional identification system. Here's what else they're collecting—and to prove the point, here's what **this page** can see about you right now, using only standard browser APIs. No cookies, no tracking pixels, no third-party scripts.
+
+<div id="fingerprint-demo" style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 24px; margin: 24px 0; font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 13px; color: #c9d1d9; overflow-x: auto;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #21262d;">
+    <span style="width: 12px; height: 12px; border-radius: 50%; background: #f85149; display: inline-block;"></span>
+    <span style="width: 12px; height: 12px; border-radius: 50%; background: #d29922; display: inline-block;"></span>
+    <span style="width: 12px; height: 12px; border-radius: 50%; background: #3fb950; display: inline-block;"></span>
+    <span style="color: #8b949e; margin-left: 8px; font-size: 12px;">visitor_fingerprint.json</span>
+  </div>
+  <div id="fp-output" style="line-height: 1.6;">
+    <span style="color: #8b949e;">Scanning...</span>
+  </div>
+</div>
+
+<script>
+(function() {
+  const fp = {};
+
+  // --- Browser & Device ---
+  fp.browser = {
+    userAgent: navigator.userAgent,
+    platform: navigator.platform,
+    language: navigator.language,
+    languages: navigator.languages ? Array.from(navigator.languages) : [navigator.language],
+    cookiesEnabled: navigator.cookieEnabled,
+    doNotTrack: navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack || 'unset',
+    vendor: navigator.vendor || 'unknown',
+  };
+
+  fp.hardware = {
+    cores: navigator.hardwareConcurrency || 'unknown',
+    deviceMemory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'hidden by browser',
+    maxTouchPoints: navigator.maxTouchPoints || 0,
+    touchSupport: 'ontouchstart' in window,
+  };
+
+  fp.screen = {
+    resolution: screen.width + ' × ' + screen.height,
+    availableArea: screen.availWidth + ' × ' + screen.availHeight,
+    colorDepth: screen.colorDepth + '-bit',
+    pixelRatio: window.devicePixelRatio,
+    orientation: screen.orientation ? screen.orientation.type : 'unknown',
+  };
+
+  fp.timezone = {
+    offset: 'UTC' + (new Date().getTimezoneOffset() > 0 ? '-' : '+') + Math.abs(new Date().getTimezoneOffset() / 60),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    locale: Intl.DateTimeFormat().resolvedOptions().locale,
+  };
+
+  // --- Network ---
+  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  fp.network = {
+    connectionType: conn ? (conn.effectiveType || 'unknown') : 'hidden by browser',
+    downlink: conn && conn.downlink ? conn.downlink + ' Mbps' : 'hidden by browser',
+    saveData: conn ? conn.saveData : 'hidden by browser',
+  };
+
+  // --- Canvas Fingerprint ---
+  try {
+    var canvas = document.createElement('canvas');
+    canvas.width = 200; canvas.height = 50;
+    var ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#f60';
+    ctx.fillRect(0, 0, 200, 50);
+    ctx.fillStyle = '#069';
+    ctx.fillText('fingerprint', 2, 15);
+    ctx.fillStyle = 'rgba(102,204,0,0.7)';
+    ctx.fillText('fingerprint', 4, 17);
+    var dataUrl = canvas.toDataURL();
+    // Simple hash
+    var hash = 0;
+    for (var i = 0; i < dataUrl.length; i++) {
+      hash = ((hash << 5) - hash) + dataUrl.charCodeAt(i);
+      hash |= 0;
+    }
+    fp.canvasFingerprint = (hash >>> 0).toString(16).padStart(8, '0');
+  } catch(e) {
+    fp.canvasFingerprint = 'blocked';
+  }
+
+  // --- WebGL ---
+  try {
+    var glCanvas = document.createElement('canvas');
+    var gl = glCanvas.getContext('webgl') || glCanvas.getContext('experimental-webgl');
+    if (gl) {
+      var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      fp.webgl = {
+        vendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR),
+        renderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+        version: gl.getParameter(gl.VERSION),
+      };
+    } else {
+      fp.webgl = 'unavailable';
+    }
+  } catch(e) {
+    fp.webgl = 'blocked';
+  }
+
+  // --- Audio Fingerprint ---
+  try {
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    fp.audioContext = {
+      sampleRate: audioCtx.sampleRate + ' Hz',
+      state: audioCtx.state,
+      maxChannels: audioCtx.destination.maxChannelCount,
+    };
+    audioCtx.close();
+  } catch(e) {
+    fp.audioContext = 'blocked';
+  }
+
+  // --- Storage ---
+  fp.storage = {
+    localStorage: (function() { try { return !!window.localStorage; } catch(e) { return false; } })(),
+    sessionStorage: (function() { try { return !!window.sessionStorage; } catch(e) { return false; } })(),
+    indexedDB: !!window.indexedDB,
+  };
+
+  // --- Permissions (approximate) ---
+  fp.features = {
+    webRTC: !!window.RTCPeerConnection,
+    serviceWorker: 'serviceWorker' in navigator,
+    webAssembly: typeof WebAssembly === 'object',
+    pdfViewer: navigator.pdfViewerEnabled !== undefined ? navigator.pdfViewerEnabled : 'unknown',
+  };
+
+  // --- Battery (async, fill in later) ---
+  if (navigator.getBattery) {
+    navigator.getBattery().then(function(battery) {
+      fp.battery = {
+        level: Math.round(battery.level * 100) + '%',
+        charging: battery.charging,
+      };
+      render();
+    });
+  }
+
+  // --- Build combined fingerprint hash ---
+  function simpleHash(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0;
+    }
+    return (hash >>> 0).toString(16).padStart(8, '0');
+  }
+
+  function render() {
+    var rawSignal = JSON.stringify([
+      fp.browser.userAgent, fp.screen.resolution, fp.screen.colorDepth,
+      fp.screen.pixelRatio, fp.timezone.timezone, fp.hardware.cores,
+      fp.canvasFingerprint, fp.webgl, fp.audioContext
+    ]);
+    var combinedHash = simpleHash(rawSignal);
+
+    var el = document.getElementById('fp-output');
+    var lines = [];
+    var k = '<span style="color:#79c0ff;">';
+    var v = '<span style="color:#a5d6ff;">';
+    var s = '<span style="color:#7ee787;">';  // string values
+    var n = '<span style="color:#d2a8ff;">';  // number values
+    var c = '</span>';
+    var dim = '<span style="color:#8b949e;">';
+    var warn = '<span style="color:#f0883e;">';
+
+    lines.push('{');
+
+    // Combined fingerprint hash
+    lines.push('  ' + dim + '// This single hash can track you across sites' + c);
+    lines.push('  ' + k + '"combinedFingerprint"' + c + ': ' + warn + '"' + combinedHash + '"' + c + ',');
+    lines.push('');
+
+    // Browser
+    lines.push('  ' + dim + '// Your browser announces all of this on every request' + c);
+    lines.push('  ' + k + '"browser"' + c + ': {');
+    lines.push('    ' + k + '"userAgent"' + c + ': ' + s + '"' + escHtml(fp.browser.userAgent) + '"' + c + ',');
+    lines.push('    ' + k + '"platform"' + c + ': ' + s + '"' + escHtml(fp.browser.platform) + '"' + c + ',');
+    lines.push('    ' + k + '"language"' + c + ': ' + s + '"' + fp.browser.language + '"' + c + ',');
+    lines.push('    ' + k + '"languages"' + c + ': ' + s + JSON.stringify(fp.browser.languages) + c + ',');
+    lines.push('    ' + k + '"vendor"' + c + ': ' + s + '"' + escHtml(fp.browser.vendor) + '"' + c + ',');
+    lines.push('    ' + k + '"cookiesEnabled"' + c + ': ' + n + fp.browser.cookiesEnabled + c + ',');
+    lines.push('    ' + k + '"doNotTrack"' + c + ': ' + s + '"' + fp.browser.doNotTrack + '"' + c + ' ' + dim + '// ' + (fp.browser.doNotTrack === '1' ? 'ironic—this makes you more unique' : 'most people leave this unset') + c);
+    lines.push('  },');
+    lines.push('');
+
+    // Hardware
+    lines.push('  ' + dim + '// Hardware details narrow you to a device class' + c);
+    lines.push('  ' + k + '"hardware"' + c + ': {');
+    lines.push('    ' + k + '"cpuCores"' + c + ': ' + n + fp.hardware.cores + c + ',');
+    lines.push('    ' + k + '"deviceMemory"' + c + ': ' + s + '"' + fp.hardware.deviceMemory + '"' + c + ',');
+    lines.push('    ' + k + '"touchPoints"' + c + ': ' + n + fp.hardware.maxTouchPoints + c + ',');
+    lines.push('    ' + k + '"touchSupport"' + c + ': ' + n + fp.hardware.touchSupport + c);
+    lines.push('  },');
+    lines.push('');
+
+    // Screen
+    lines.push('  ' + dim + '// Screen config is surprisingly unique' + c);
+    lines.push('  ' + k + '"screen"' + c + ': {');
+    lines.push('    ' + k + '"resolution"' + c + ': ' + s + '"' + fp.screen.resolution + '"' + c + ',');
+    lines.push('    ' + k + '"availableArea"' + c + ': ' + s + '"' + fp.screen.availableArea + '"' + c + ' ' + dim + '// reveals taskbar/dock size' + c + ',');
+    lines.push('    ' + k + '"colorDepth"' + c + ': ' + s + '"' + fp.screen.colorDepth + '"' + c + ',');
+    lines.push('    ' + k + '"pixelRatio"' + c + ': ' + n + fp.screen.pixelRatio + c + ',');
+    lines.push('    ' + k + '"orientation"' + c + ': ' + s + '"' + fp.screen.orientation + '"' + c);
+    lines.push('  },');
+    lines.push('');
+
+    // Timezone
+    lines.push('  ' + dim + '// Timezone + locale = approximate location without GPS' + c);
+    lines.push('  ' + k + '"timezone"' + c + ': {');
+    lines.push('    ' + k + '"zone"' + c + ': ' + s + '"' + fp.timezone.timezone + '"' + c + ',');
+    lines.push('    ' + k + '"offset"' + c + ': ' + s + '"' + fp.timezone.offset + '"' + c + ',');
+    lines.push('    ' + k + '"locale"' + c + ': ' + s + '"' + fp.timezone.locale + '"' + c);
+    lines.push('  },');
+    lines.push('');
+
+    // Canvas
+    lines.push('  ' + dim + '// Your GPU renders text slightly differently than everyone else\'s' + c);
+    lines.push('  ' + k + '"canvasFingerprint"' + c + ': ' + warn + '"' + fp.canvasFingerprint + '"' + c + ',');
+    lines.push('');
+
+    // WebGL
+    lines.push('  ' + dim + '// Your exact graphics hardware' + c);
+    lines.push('  ' + k + '"webgl"' + c + ': {');
+    if (typeof fp.webgl === 'object') {
+      lines.push('    ' + k + '"vendor"' + c + ': ' + s + '"' + escHtml(fp.webgl.vendor) + '"' + c + ',');
+      lines.push('    ' + k + '"renderer"' + c + ': ' + s + '"' + escHtml(fp.webgl.renderer) + '"' + c + ',');
+      lines.push('    ' + k + '"version"' + c + ': ' + s + '"' + escHtml(fp.webgl.version) + '"' + c);
+    } else {
+      lines.push('    ' + dim + '// ' + fp.webgl + c);
+    }
+    lines.push('  },');
+    lines.push('');
+
+    // Audio
+    lines.push('  ' + dim + '// Audio stack reveals hardware/driver differences' + c);
+    lines.push('  ' + k + '"audioContext"' + c + ': {');
+    if (typeof fp.audioContext === 'object') {
+      lines.push('    ' + k + '"sampleRate"' + c + ': ' + s + '"' + fp.audioContext.sampleRate + '"' + c + ',');
+      lines.push('    ' + k + '"maxChannels"' + c + ': ' + n + fp.audioContext.maxChannels + c);
+    } else {
+      lines.push('    ' + dim + '// ' + fp.audioContext + c);
+    }
+    lines.push('  },');
+    lines.push('');
+
+    // Network
+    lines.push('  ' + dim + '// Network type helps correlate mobile vs desktop sessions' + c);
+    lines.push('  ' + k + '"network"' + c + ': {');
+    lines.push('    ' + k + '"connectionType"' + c + ': ' + s + '"' + fp.network.connectionType + '"' + c + ',');
+    lines.push('    ' + k + '"downlink"' + c + ': ' + s + '"' + fp.network.downlink + '"' + c + ',');
+    lines.push('    ' + k + '"saveData"' + c + ': ' + n + fp.network.saveData + c);
+    lines.push('  },');
+    lines.push('');
+
+    // Battery
+    if (fp.battery) {
+      lines.push('  ' + dim + '// Yes, even your battery level is a tracking signal' + c);
+      lines.push('  ' + k + '"battery"' + c + ': {');
+      lines.push('    ' + k + '"level"' + c + ': ' + s + '"' + fp.battery.level + '"' + c + ',');
+      lines.push('    ' + k + '"charging"' + c + ': ' + n + fp.battery.charging + c);
+      lines.push('  },');
+      lines.push('');
+    }
+
+    // Storage & Features
+    lines.push('  ' + k + '"storage"' + c + ': ' + dim + JSON.stringify(fp.storage) + c + ',');
+    lines.push('  ' + k + '"features"' + c + ': ' + dim + JSON.stringify(fp.features) + c);
+    lines.push('}');
+
+    el.innerHTML = lines.join('<br>');
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Initial render
+  render();
+})();
+</script>
+
+<p style="text-align: center; color: #8b949e; font-size: 13px; margin-top: -12px;">
+  <em>This runs entirely in your browser. No data is sent anywhere. View source to verify.</em>
+</p>
+
+Every field above is available to any website you visit—no permission prompts, no consent dialogs. And this is just the JavaScript layer. The TLS fingerprint is collected even before this code runs.
 
 ### Browser Fingerprinting
 
