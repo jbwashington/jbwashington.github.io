@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Playground (WASM)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Python Playground</h1>
+            <p class="text-gray-600">Run Python code in your browser using WebAssembly (Pyodide). Includes NumPy, Pandas, and more.</p>
+            <a href="/utils/" class="text-blue-600 hover:underline text-sm">← Back to Utils</a>
+        </div>
+
+        <div id="loading" class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-4">
+            <div class="flex items-center gap-3">
+                <div class="animate-spin h-5 w-5 border-2 border-blue-600 rounded-full border-t-transparent"></div>
+                <div>
+                    <p class="font-semibold text-blue-900">Loading Pyodide...</p>
+                    <p class="text-sm text-blue-700">This may take a few seconds on first load (~8MB download)</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ready" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+            <p class="text-green-700 font-medium">✓ Python ready! Start coding below.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between mb-3">
+                    <label for="code" class="block text-sm font-medium text-gray-700">Python Code</label>
+                    <div class="flex gap-2">
+                        <button onclick="loadExample('hello')" class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                            Hello World
+                        </button>
+                        <button onclick="loadExample('numpy')" class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                            NumPy
+                        </button>
+                        <button onclick="loadExample('data')" class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                            Data Analysis
+                        </button>
+                    </div>
+                </div>
+                <textarea
+                    id="code"
+                    class="w-full h-96 p-3 border border-gray-300 rounded-md font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Write Python code here..."
+                >print("Hello from Python!")
+import sys
+print(f"Python version: {sys.version}")
+
+# Try importing NumPy
+try:
+    import numpy as np
+    print(f"NumPy version: {np.__version__}")
+except ImportError:
+    print("NumPy not loaded yet - click 'Load NumPy' to install")
+</textarea>
+
+                <div class="flex gap-2 mt-4">
+                    <button
+                        onclick="runCode()"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
+                        id="runBtn"
+                        disabled
+                    >
+                        Run Code
+                    </button>
+                    <button
+                        onclick="loadNumpy()"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 font-medium"
+                        id="loadNumpyBtn"
+                        disabled
+                    >
+                        Load NumPy
+                    </button>
+                    <button
+                        onclick="clearCode()"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 font-medium"
+                    >
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between mb-3">
+                    <label for="output" class="block text-sm font-medium text-gray-700">Output</label>
+                    <button onclick="copyOutput()" class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200">
+                        Copy
+                    </button>
+                </div>
+                <pre
+                    id="output"
+                    class="w-full h-96 p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 overflow-auto"
+                >Output will appear here...</pre>
+
+                <div class="mt-4 text-xs text-gray-600">
+                    <strong>Keyboard shortcuts:</strong>
+                    <ul class="list-disc list-inside mt-1 space-y-1">
+                        <li>Ctrl/Cmd + Enter: Run code</li>
+                        <li>Tab: Insert 4 spaces</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-3">About This Tool</h2>
+            <div class="text-sm text-gray-700 space-y-2">
+                <p>
+                    This Python playground runs entirely in your browser using <a href="https://pyodide.org" class="text-blue-600 hover:underline" target="_blank">Pyodide</a>,
+                    a Python distribution compiled to WebAssembly.
+                </p>
+                <p>
+                    <strong>Available packages:</strong> NumPy, Pandas, Matplotlib, scikit-learn, and many more from the scientific Python stack.
+                </p>
+                <p>
+                    <strong>Note:</strong> The first load downloads ~8MB of WASM files. Subsequent visits use the browser cache and load instantly.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pyodide;
+        const output = document.getElementById('output');
+        const code = document.getElementById('code');
+        const runBtn = document.getElementById('runBtn');
+        const loadNumpyBtn = document.getElementById('loadNumpyBtn');
+
+        const examples = {
+            hello: `print("Hello from Python!")
+print("This is running in your browser via WebAssembly!")
+
+# Basic Python features work
+numbers = [1, 2, 3, 4, 5]
+print(f"Sum: {sum(numbers)}")
+print(f"Average: {sum(numbers) / len(numbers)}")`,
+
+            numpy: `import numpy as np
+
+# Create arrays
+arr = np.array([1, 2, 3, 4, 5])
+print(f"Array: {arr}")
+print(f"Mean: {arr.mean()}")
+print(f"Std: {arr.std()}")
+
+# Matrix operations
+matrix = np.array([[1, 2], [3, 4]])
+print(f"\\nMatrix:\\n{matrix}")
+print(f"\\nDeterminant: {np.linalg.det(matrix)}")`,
+
+            data: `import pandas as pd
+import numpy as np
+
+# Create a DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+    'Age': [25, 30, 35, 28],
+    'Score': [85, 92, 78, 95]
+}
+df = pd.DataFrame(data)
+
+print("DataFrame:")
+print(df)
+print(f"\\nAverage score: {df['Score'].mean()}")
+print(f"Oldest person: {df.loc[df['Age'].idxmax(), 'Name']}")`
+        };
+
+        async function loadPyodide() {
+            try {
+                pyodide = await loadPyodide();
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('ready').classList.remove('hidden');
+                runBtn.disabled = false;
+                loadNumpyBtn.disabled = false;
+
+                // Setup stdout capture
+                pyodide.runPython(`
+                    import sys
+                    from io import StringIO
+                    sys.stdout = StringIO()
+                `);
+
+                output.textContent = 'Ready! Click "Run Code" to execute your Python code.';
+            } catch (error) {
+                output.textContent = `Error loading Pyodide: ${error.message}`;
+                document.getElementById('loading').classList.add('hidden');
+            }
+        }
+
+        async function runCode() {
+            if (!pyodide) {
+                output.textContent = 'Pyodide is still loading...';
+                return;
+            }
+
+            const userCode = code.value;
+            output.textContent = 'Running...';
+            runBtn.disabled = true;
+
+            try {
+                // Clear stdout
+                pyodide.runPython('sys.stdout = StringIO()');
+
+                // Run user code
+                await pyodide.runPythonAsync(userCode);
+
+                // Get output
+                const result = pyodide.runPython('sys.stdout.getvalue()');
+                output.textContent = result || '(No output)';
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+            } finally {
+                runBtn.disabled = false;
+            }
+        }
+
+        async function loadNumpy() {
+            output.textContent = 'Loading NumPy... (this may take a few seconds)';
+            loadNumpyBtn.disabled = true;
+
+            try {
+                await pyodide.loadPackage('numpy');
+                output.textContent = 'NumPy loaded! You can now use import numpy as np';
+            } catch (error) {
+                output.textContent = `Error loading NumPy: ${error.message}`;
+            } finally {
+                loadNumpyBtn.disabled = false;
+            }
+        }
+
+        function loadExample(name) {
+            code.value = examples[name];
+        }
+
+        function clearCode() {
+            code.value = '';
+            output.textContent = 'Output will appear here...';
+        }
+
+        async function copyOutput() {
+            try {
+                await navigator.clipboard.writeText(output.textContent);
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            } catch (error) {
+                console.error('Failed to copy:', error);
+            }
+        }
+
+        // Keyboard shortcuts
+        code.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + Enter to run
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                runCode();
+            }
+
+            // Tab key for indentation
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = code.selectionStart;
+                const end = code.selectionEnd;
+                code.value = code.value.substring(0, start) + '    ' + code.value.substring(end);
+                code.selectionStart = code.selectionEnd = start + 4;
+            }
+        });
+
+        // Load Pyodide on page load
+        loadPyodide();
+    </script>
+</body>
+</html>
