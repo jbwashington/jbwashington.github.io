@@ -41,8 +41,6 @@ Strong advocate for open source software, supporting the GNU Project, Tor Projec
 
 **Connective Sports** - GPS performance analytics platform eliminating 20+ hours of weekly manual data entry for professional sports teams. Features automated STATSports data ingestion, AI-powered training insights, and real-time performance dashboards.
 
-**NCRA** - National college recruitment platform serving student-athletes with role-based access control, multi-stakeholder communication, and comprehensive subscription management. 948 commits representing the most active development project.
-
 **FullStackTechNYC** - Technical content management platform built on Payload CMS with MDX integration, advanced rich text editing, and component-based content composition.
 
 **Browser Utilities Collection** - Privacy-respecting tools including contact scrapers, M3U playlist editors, browser fingerprint analyzers, and markdown-to-PDF converters. All self-contained with no external dependencies or tracking.

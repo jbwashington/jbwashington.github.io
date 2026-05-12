@@ -9,14 +9,6 @@
     - Supabase
     - Groq
 
-- title: NCRA
-  tag: saas
-  desc: National college recruitment platform serving student-athletes with role-based access control, multi-stakeholder messaging, and tiered subscription management.
-  meta:
-    - Stripe
-    - RLS
-    - 948 commits
-
 - title: FullStackTechNYC
   tag: cms
   desc: Headless CMS platform built on Payload CMS 3.0 with MDX integration, Lexical rich text editing, and component-based content composition.
