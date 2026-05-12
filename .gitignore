@@ -4,3 +4,4 @@ _site
 logs/
 jbwashington/
 profile-readme/
+Gemfile.lock

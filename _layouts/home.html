@@ -2,62 +2,55 @@
 layout: default
 ---
 
-<div class="terminal-window">
-  <div class="terminal-header">
-    <div class="terminal-dots">
-      <span class="terminal-dot"></span>
-      <span class="terminal-dot"></span>
-      <span class="terminal-dot"></span>
-    </div>
-    <span>~/welcome</span>
-  </div>
-  <div class="terminal-body">
-    <p class="prompt">whoami</p>
-    <p>james washington &mdash; software engineer, builder of things on the web.</p>
-    <p class="prompt">cat motd.txt</p>
-    <p style="color:var(--white);">{{ site.description }}</p>
-    <p class="prompt">ls sections/</p>
-    <p><a href="{{ '/' | relative_url }}">blog/</a> &nbsp; <a href="{{ '/utils/' | relative_url }}">utils/</a> &nbsp; <a href="{{ '/free-game/' | relative_url }}">free-game/</a></p>
-  </div>
+<section class="hero">
+  <h1 class="hero-title">James<br>Washington</h1>
+  <p class="hero-subtitle">{{ site.description }} Browse the <a href="{{ '/utils/' | relative_url }}">utils</a>, <a href="{{ '/free-game/' | relative_url }}">free game</a>, or read about <a href="{{ '/about/' | relative_url }}">what i build</a>.</p>
+</section>
+
+<div class="intro-content">
+  {{ content }}
 </div>
 
-<div class="marquee-bar">
-  <span class="marquee-text">
-    &star; blog &mdash; utils &mdash; free game &mdash; code snippets &mdash; browser tools &mdash; single-file html &mdash; vanilla js &mdash; no frameworks &mdash; client-side only &star;
-  </span>
-</div>
-
-{{ content }}
-
-<h2 style="margin-top:2rem;">recent posts</h2>
-
-{% if site.posts.size > 0 %}
-<ul class="post-list">
-  {% for post in site.posts limit:10 %}
-  <li>
-    <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
-    <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-    {% if post.excerpt %}
-      <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
-    {% endif %}
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<div class="terminal-window">
-  <div class="terminal-header">
-    <div class="terminal-dots">
-      <span class="terminal-dot"></span>
-      <span class="terminal-dot"></span>
-      <span class="terminal-dot"></span>
-    </div>
-    <span>~/posts</span>
+{% if site.data.featured %}
+<section class="featured-section">
+  <p class="section-label">featured projects</p>
+  <div class="featured-masonry">
+    {% for item in site.data.featured %}
+      {% if item.url %}<a class="featured-card" href="{{ item.url | relative_url }}">{% else %}<div class="featured-card">{% endif %}
+        {% if item.tag %}<div class="featured-card-tag">{{ item.tag }}</div>{% endif %}
+        <h3 class="featured-card-title">{{ item.title }}</h3>
+        <p class="featured-card-desc">{{ item.desc }}</p>
+        {% if item.meta %}
+        <div class="featured-card-meta">
+          {% for m in item.meta %}<span>{{ m }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      {% if item.url %}</a>{% else %}</div>{% endif %}
+    {% endfor %}
   </div>
-  <div class="terminal-body">
-    <p class="prompt">ls posts/</p>
-    <p style="color:var(--gray-light);">no posts yet. check back soon.</p>
-  </div>
-</div>
+</section>
 {% endif %}
 
-<p class="feed-subscribe"><a href="{{ '/feed.xml' | relative_url }}">[subscribe via rss]</a></p>
+<section>
+  <p class="section-label">recent writing</p>
+
+  {% if site.posts.size > 0 %}
+  <ul class="post-list">
+    {% for post in site.posts limit:12 %}
+    <li>
+      <a class="post-list-link" href="{{ post.url | relative_url }}">
+        <span class="post-title-text">{{ post.title | escape }}</span>
+        <span class="post-meta">{{ post.date | date: "%Y &middot; %b %d" }}</span>
+        {% if post.excerpt %}
+        <span class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</span>
+        {% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="post-excerpt">no posts yet.</p>
+  {% endif %}
+
+  <p class="feed-subscribe"><a href="{{ '/feed.xml' | relative_url }}">subscribe via rss &rarr;</a></p>
+</section>

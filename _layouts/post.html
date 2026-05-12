@@ -2,43 +2,36 @@
 layout: default
 ---
 
-<article>
-  <div class="terminal-window">
-    <div class="terminal-header">
-      <div class="terminal-dots">
-        <span class="terminal-dot"></span>
-        <span class="terminal-dot"></span>
-        <span class="terminal-dot"></span>
-      </div>
-      <span>{{ page.date | date: "%Y-%m-%d" }}</span>
-    </div>
-    <div class="terminal-body">
-      <h1 class="post-title" style="margin-top:0;">{{ page.title | escape }}</h1>
-      <div class="status-line">
-        {{ page.date | date: "%B %d, %Y" }}
-        {% if page.categories.size > 0 %}
-          // {% for cat in page.categories %}{{ cat }}{% unless forloop.last %}, {% endunless %}{% endfor %}
-        {% endif %}
-      </div>
-    </div>
-  </div>
+<div class="atmosphere atmosphere--left"></div>
+<div class="atmosphere atmosphere--right"></div>
+
+<article class="post-page">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title | escape }}</h1>
+    <p class="post-date">
+      {{ page.date | date: "%B %d, %Y" }}
+      {% if page.categories.size > 0 %}
+        &nbsp;&middot;&nbsp; {% for cat in page.categories %}{{ cat }}{% unless forloop.last %}, {% endunless %}{% endfor %}
+      {% endif %}
+    </p>
+  </header>
 
   <div class="post-content">
     {{ content }}
   </div>
 
   {% if page.previous or page.next %}
-  <div class="pagination">
+  <nav class="pagination">
     {% if page.previous %}
-      <a href="{{ page.previous.url | relative_url }}">&laquo; {{ page.previous.title | truncatewords: 5 }}</a>
+      <a href="{{ page.previous.url | relative_url }}">&larr; {{ page.previous.title | truncatewords: 5 }}</a>
     {% else %}
       <span></span>
     {% endif %}
     {% if page.next %}
-      <a href="{{ page.next.url | relative_url }}">{{ page.next.title | truncatewords: 5 }} &raquo;</a>
+      <a href="{{ page.next.url | relative_url }}">{{ page.next.title | truncatewords: 5 }} &rarr;</a>
     {% else %}
       <span></span>
     {% endif %}
-  </div>
+  </nav>
   {% endif %}
 </article>

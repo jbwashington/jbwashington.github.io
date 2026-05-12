@@ -4,7 +4,8 @@ layout: default
 
 <article>
   <h1 class="page-heading">{{ page.title | escape }}</h1>
-  <div class="status-line">last updated: {{ page.date | default: site.time | date: "%Y-%m-%d" }}</div>
 
-  {{ content }}
+  <div class="post-content">
+    {{ content }}
+  </div>
 </article>

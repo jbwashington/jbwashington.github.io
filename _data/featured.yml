@@ -1,0 +1,47 @@
+# Featured projects shown in the homepage masonry grid.
+# Edit, reorder, add, or remove freely — order here is the order shown.
+
+- title: Connective Sports
+  tag: saas
+  desc: GPS performance analytics platform for professional sports teams. Eliminates 20+ hours/week of manual data entry with automated STATSports ingestion and AI-powered training insights.
+  meta:
+    - Next.js 15
+    - Supabase
+    - Groq
+
+- title: NCRA
+  tag: saas
+  desc: National college recruitment platform serving student-athletes with role-based access control, multi-stakeholder messaging, and tiered subscription management.
+  meta:
+    - Stripe
+    - RLS
+    - 948 commits
+
+- title: FullStackTechNYC
+  tag: cms
+  desc: Headless CMS platform built on Payload CMS 3.0 with MDX integration, Lexical rich text editing, and component-based content composition.
+  meta:
+    - Payload
+    - MDX
+
+- title: Browser Utilities
+  tag: tools
+  desc: Privacy-respecting single-file HTML tools — contact scrapers, M3U editors, fingerprint analyzers, markdown converters. No build step, no tracking, fully client-side.
+  url: /utils/
+  meta:
+    - Vanilla JS
+    - No deps
+
+- title: MCP Servers
+  tag: ai
+  desc: Model Context Protocol servers for workflow automation across Claude Code — eBay photo organization, data processing pipelines, custom hooks for developer productivity.
+  meta:
+    - MCP
+    - Claude
+
+- title: Free Game
+  tag: snippets
+  desc: Self-contained code snippets organized by topic, optimized for copy-pasting into LLM prompts. JavaScript, Python, Web, WASM, CLI.
+  url: /free-game/
+  meta:
+    - Reference
