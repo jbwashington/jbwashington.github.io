@@ -11,26 +11,6 @@ layout: default
   {{ content }}
 </div>
 
-{% if site.data.featured %}
-<section class="featured-section">
-  <p class="section-label">featured projects</p>
-  <div class="featured-masonry">
-    {% for item in site.data.featured %}
-      {% if item.url %}<a class="featured-card" href="{{ item.url | relative_url }}">{% else %}<div class="featured-card">{% endif %}
-        {% if item.tag %}<div class="featured-card-tag">{{ item.tag }}</div>{% endif %}
-        <h3 class="featured-card-title">{{ item.title }}</h3>
-        <p class="featured-card-desc">{{ item.desc }}</p>
-        {% if item.meta %}
-        <div class="featured-card-meta">
-          {% for m in item.meta %}<span>{{ m }}</span>{% endfor %}
-        </div>
-        {% endif %}
-      {% if item.url %}</a>{% else %}</div>{% endif %}
-    {% endfor %}
-  </div>
-</section>
-{% endif %}
-
 <section>
   <p class="section-label">recent writing</p>
 
@@ -54,3 +34,23 @@ layout: default
 
   <p class="feed-subscribe"><a href="{{ '/feed.xml' | relative_url }}">subscribe via rss &rarr;</a></p>
 </section>
+
+{% if site.data.featured %}
+<section class="featured-section">
+  <p class="section-label">featured projects</p>
+  <div class="featured-masonry">
+    {% for item in site.data.featured %}
+      {% if item.url %}<a class="featured-card" href="{{ item.url | relative_url }}">{% else %}<div class="featured-card">{% endif %}
+        {% if item.tag %}<div class="featured-card-tag">{{ item.tag }}</div>{% endif %}
+        <h3 class="featured-card-title">{{ item.title }}</h3>
+        <p class="featured-card-desc">{{ item.desc }}</p>
+        {% if item.meta %}
+        <div class="featured-card-meta">
+          {% for m in item.meta %}<span>{{ m }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      {% if item.url %}</a>{% else %}</div>{% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
