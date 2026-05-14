@@ -4,7 +4,7 @@ layout: default
 
 <section class="hero">
   <h1 class="hero-title">James<br>Washington</h1>
-  <p class="hero-subtitle">{{ site.description }} Browse the <a href="{{ '/utils/' | relative_url }}">utils</a>, <a href="{{ '/free-game/' | relative_url }}">free game</a>, or read about <a href="{{ '/about/' | relative_url }}">what i build</a>.</p>
+  <p class="hero-subtitle">{{ site.description }} Browse the <a href="{{ '/utils/' | relative_url }}">utils</a>, <a href="{{ '/free-game/' | relative_url }}">free game</a>, <a href="{{ '/replays/' | relative_url }}">replays</a>, or read about <a href="{{ '/about/' | relative_url }}">what i build</a>.</p>
 </section>
 
 <div class="intro-content">
@@ -16,7 +16,11 @@ layout: default
 
   {% if site.posts.size > 0 %}
   <ul class="post-list">
-    {% for post in site.posts limit:12 %}
+    {% assign shown = 0 %}
+    {% for post in site.posts %}
+      {% if shown >= 12 %}{% break %}{% endif %}
+      {% unless post.categories contains 'replay' %}
+        {% assign shown = shown | plus: 1 %}
     <li>
       <a class="post-list-link" href="{{ post.url | relative_url }}">
         <span class="post-title-text">{{ post.title | escape }}</span>
@@ -26,6 +30,7 @@ layout: default
         {% endif %}
       </a>
     </li>
+      {% endunless %}
     {% endfor %}
   </ul>
   {% else %}

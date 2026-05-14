@@ -65,6 +65,7 @@ header_pages:
     - about.md
     - utils/index.html
     - free-game/index.html
+    - replays/index.html
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

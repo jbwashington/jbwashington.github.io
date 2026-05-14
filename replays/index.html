@@ -1,0 +1,33 @@
+---
+layout: default
+title: Replays
+permalink: /replays/
+---
+
+<header class="hero" style="margin-bottom:48px;">
+  <h1 class="hero-title" style="font-size:clamp(3rem,8vw,6rem);">Replays.</h1>
+  <p class="hero-subtitle">Interactive replays of Claude Code sessions. Watch how problems get solved, step by step.</p>
+</header>
+
+<section>
+  <p class="section-label">sessions</p>
+
+  {% assign replay_posts = site.categories.replay %}
+  {% if replay_posts and replay_posts.size > 0 %}
+  <ul class="post-list">
+    {% for post in replay_posts %}
+    <li>
+      <a class="post-list-link" href="{{ post.url | relative_url }}">
+        <span class="post-title-text">{{ post.title | escape }}</span>
+        <span class="post-meta">{{ post.date | date: "%Y &middot; %b %d" }}</span>
+        {% if post.excerpt %}
+        <span class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</span>
+        {% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="post-excerpt">no replays yet.</p>
+  {% endif %}
+</section>
