@@ -46,6 +46,20 @@ ai_domain_data:
 # Build settings
 markdown: kramdown
 theme: minima
+
+# Collections
+collections:
+    ideas:
+        output: true
+        permalink: /ideas/:name/
+
+# Collection defaults
+defaults:
+    - scope:
+          path: ""
+          type: ideas
+      values:
+          layout: idea
 include:
     - .well-known
 plugins:
@@ -65,6 +79,7 @@ header_pages:
     - about.md
     - utils/index.html
     - free-game/index.html
+    - ideas/index.html
     - replays/index.html
 
 # Exclude from processing.

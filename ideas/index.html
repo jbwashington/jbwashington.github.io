@@ -1,0 +1,47 @@
+---
+layout: default
+title: Ideas
+permalink: /ideas/
+---
+
+<header class="hero" style="margin-bottom:48px;">
+  <h1 class="hero-title" style="font-size:clamp(3rem,8vw,6rem);">Ideas.</h1>
+  <p class="hero-subtitle">Apps I want to build but don't have time for yet. Each one starts as a pitch. When I finally get to it, it grows into a build log &mdash; including how the goals drifted and what I learned along the way.</p>
+</header>
+
+{% assign published = site.ideas | where_exp: "i", "i.published != false" %}
+
+{% assign groups = "building,idea,built,shelved" | split: "," %}
+{% assign labels = "In the workshop,Parking lot,Shipped,Shelved" | split: "," %}
+
+{% for group in groups %}
+  {% assign label = labels[forloop.index0] %}
+  {% assign items = published | where: "status", group %}
+  {% if group == "idea" %}
+    {% assign no_status = published | where_exp: "i", "i.status == nil" %}
+    {% assign items = items | concat: no_status %}
+  {% endif %}
+  {% if items.size > 0 %}
+  <section style="margin-bottom:48px;">
+    <p class="section-label">{{ label }}</p>
+    <ul class="post-list">
+      {% assign sorted = items | sort: "date" | reverse %}
+      {% for idea in sorted %}
+      <li>
+        <a class="post-list-link" href="{{ idea.url | relative_url }}">
+          <span class="post-title-text">{{ idea.title | escape }}</span>
+          <span class="post-meta">{% if idea.built %}{{ idea.built | date: "%Y" }}{% elsif idea.date %}{{ idea.date | date: "%Y" }}{% endif %}</span>
+          {% if idea.one_liner %}
+          <span class="post-excerpt">{{ idea.one_liner | strip_html }}</span>
+          {% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+{% endfor %}
+
+{% if published.size == 0 %}
+<p class="post-excerpt">no ideas parked yet.</p>
+{% endif %}

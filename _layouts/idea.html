@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+{% assign s = page.status | default: "idea" %}
+<article class="idea">
+  <header class="idea-header">
+    <span class="badge badge--{{ s }}">{{ s }}</span>
+    <h1 class="page-heading">{{ page.title | escape }}</h1>
+    {% if page.one_liner %}
+    <p class="idea-oneliner">{{ page.one_liner }}</p>
+    {% endif %}
+
+    <div class="idea-facts">
+      {% if page.date %}<span>captured {{ page.date | date: "%b %Y" }}</span>{% endif %}
+      {% if page.built %}<span>shipped {{ page.built | date: "%b %Y" }}</span>{% endif %}
+      {% if page.link %}<span><a href="{{ page.link }}">live &rarr;</a></span>{% endif %}
+      {% if page.repo %}<span><a href="{{ page.repo }}">repo &rarr;</a></span>{% endif %}
+    </div>
+
+    {% if page.tags and page.tags.size > 0 %}
+    <div class="idea-tags">
+      {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  <footer class="idea-footer">
+    <a href="{{ '/ideas/' | relative_url }}">&larr; all ideas</a>
+  </footer>
+</article>
