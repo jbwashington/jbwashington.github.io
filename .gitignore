@@ -12,3 +12,5 @@ Gemfile.lock
 # Internal weekly-content-routine tooling — keep local, never publish
 .claude-routine-exclude
 scripts/
+.inventory/
+__pycache__/
