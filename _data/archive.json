@@ -1,23 +1,24 @@
 {
  "generated": "2026-10-19",
- "count": 197,
- "since": "2024-05-16",
+ "count": 248,
+ "since": "2024-04-19",
  "themes": [
   {
    "slug": "agent-fleet",
    "name": "Running a team of AI agents",
    "blurb": "Many AI coding sessions working at once, coordinated through one hub: they claim tasks, report progress, and can only merge their own work after passing checks.",
-   "count": 12,
+   "count": 13,
    "ids": [
     "git-fleet-agent-merge",
     "agent-composed-tv-canvas",
-    "mcp-mission-control",
+    "skill-director",
+    "skill-git-discipline",
+    "git-fleet-worktree-sweeper-ship",
+    "hook-mission-control-telemetry",
     "skill-mission-control",
-    "mod-fleet-band",
-    "claude-bridge",
     "speko-bridge",
-    "mc-telegram-bridge",
     "convex-mcp",
+    "tech-narrow-rails-autonomy",
     "llama-brain",
     "mc-harness-absorption",
     "mcp-speko-bridge"
@@ -27,14 +28,19 @@
    "slug": "harness",
    "name": "Upgrading the AI's workbench",
    "blurb": "Hooks, status lines, terminal tricks and plugins that change how coding agents behave: when they stop, what they're allowed to run, how they hand off.",
-   "count": 20,
+   "count": 28,
    "ids": [
+    "mc-file-claim-hook",
+    "mod-auto-handoff",
     "hook-continuity-autopilot",
     "hook-commit-gate",
     "statusline-telemetry",
     "cli-sessions-explorer",
     "pane-status",
-    "yeehaw",
+    "hook-mini-build-guard",
+    "claude-bridge",
+    "claude-config-versioning",
+    "cli-claude-usage",
     "gh-authgate",
     "cmd-claude-replay",
     "cli-cc-session",
@@ -47,7 +53,10 @@
     "cmd-sessions",
     "hook-tmux-flash-pane",
     "cmd-asciinema",
+    "tech-mcp-local-scope-diet",
     "tech-transcript-redaction-before-publish",
+    "cli-claude-prune-stale-projects",
+    "chrome-debug-relaunch",
     "tech-interactive-in-tmux-split"
    ]
   },
@@ -55,40 +64,53 @@
    "slug": "unattended",
    "name": "Agents that work while I sleep",
    "blurb": "Scheduled agents that run on their own every day, plus the grader that checks their work afterwards.",
-   "count": 20,
+   "count": 23,
    "ids": [
     "fleet-evals-grader",
-    "mc-file-claim-hook",
-    "skill-director",
-    "mod-auto-handoff",
-    "skill-git-discipline",
-    "git-fleet-worktree-sweeper-ship",
-    "hook-mission-control-telemetry",
+    "work-patent-watch",
     "mc-fleet-runner",
-    "hook-mini-build-guard",
-    "claude-config-versioning",
-    "cli-claude-usage",
+    "jobhunt-jobmail-feed",
+    "work-court-docket-watcher",
+    "jobhunt-interview-guard",
+    "jobhunt-linkedin-sweep",
+    "work-absence-audit",
     "weekly-content-routine",
+    "ebay-mcp",
+    "jobhunt-sourcer-and-hygiene",
+    "job-hunt-workspace",
     "call4me-followup-oneshot",
     "vuln-scan",
     "mta-transit-ha",
+    "jobhunt-jev-shadow-scorer",
+    "housing-lottery",
+    "jobhunt-vendor-clock",
     "cli-hc-run",
-    "tech-mcp-local-scope-diet",
-    "tech-narrow-rails-autonomy",
     "github-profile-readme-builder",
-    "cli-claude-prune-stale-projects"
+    "jobhunt-scan-and-reply",
+    "jobhunt-profile-revamp-sweep",
+    "homelab-ebay-listing"
    ]
   },
   {
    "slug": "judgment",
    "name": "Letting AI make calls, safely",
    "blurb": "Using AI as a judge (sorting email, scoring leads, flagging spam) with guardrails: rules first, shadow mode before it's trusted, and humans sign off.",
-   "count": 5,
+   "count": 15,
    "ids": [
-    "skill-imagegen",
+    "work-outreach-pipeline",
+    "work-mail-router",
+    "work-support-spam-watch",
+    "work-agent-policies",
+    "work-attorney-gated-doc-pipeline",
+    "jev-client-and-whitepaper",
+    "work-regulatory-shelf-index",
+    "work-school-effect-analysis",
+    "client-gov-contract-radar",
+    "work-taxonomy-single-source",
+    "work-mission-statement",
     "tech-shadow-mode-before-gating",
-    "output-style-action-items",
-    "cmd-mailgun",
+    "work-support-report",
+    "work-support-report-cmd",
     "tech-template-only-replies-injection-defense"
    ]
   },
@@ -96,12 +118,10 @@
    "slug": "phone",
    "name": "Reaching me on my phone",
    "blurb": "Getting results, alerts and long documents from a terminal on a server to an iPhone, and getting replies back.",
-   "count": 18,
+   "count": 16,
    "ids": [
     "hook-afk-beacon",
     "post-rayhunter-doe-hotspot",
-    "openbeken-bulbs",
-    "htc-ir-and-esphome-ir",
     "openwebui-ios-client",
     "cli-gog-reauth",
     "post-tls-fingerprinting",
@@ -122,17 +142,19 @@
    "slug": "second-brain",
    "name": "A second brain the AI can read",
    "blurb": "A personal wiki in Obsidian that both people and AI agents read and write, with rules that keep it tidy.",
-   "count": 22,
+   "count": 24,
    "ids": [
     "agent-scratchpad-idea",
     "gh-wdot",
     "daily-digests",
     "agent-digest-and-digest",
     "tech-obsidian-message-bus",
+    "mod-fleet-band",
     "dream-synthesis",
     "vault-llm-wiki",
     "skill-notify",
     "cmd-relay",
+    "vault-project-llm-red-team",
     "site-tool-ai-workbench",
     "skill-email",
     "vault-schema-doc",
@@ -152,18 +174,25 @@
    "slug": "voice",
    "name": "Voice in, voice out",
    "blurb": "Speech-to-text and text-to-speech running on my own hardware: the AI reads replies aloud, and I can talk to it.",
-   "count": 12,
+   "count": 19,
    "ids": [
     "screenpipe-stack",
+    "kind-voices",
+    "interview-copilot",
     "redact-video",
     "hook-air-tts-stop-speech",
     "gh-dsh-voice",
     "site-tool-youtube-transcriber",
+    "school-morning",
     "homepod-airplay",
     "video-studio-postiz",
     "mod-tts-replay",
+    "family-podcast-publisher",
+    "audio-studio",
+    "record-both-sides-interview-audio",
     "cli-tmux-to-cast",
     "tech-air-local-inference",
+    "output-style-action-items",
     "output-style-tts",
     "skill-speko"
    ]
@@ -172,10 +201,11 @@
    "slug": "artifacts",
    "name": "Documents that explain themselves",
    "blurb": "Single-file HTML documents that carry their own instructions, so any person or AI can open and update them years later.",
-   "count": 14,
+   "count": 17,
    "ids": [
     "skill-artifact",
     "sixseven-os",
+    "work-school-rag-labs",
     "artifact-q2-roadmap",
     "artifacts-repo-auto-expire",
     "session-summary-html",
@@ -187,14 +217,16 @@
     "skill-html",
     "driving-eyes-closed-explainer",
     "home-garden-grow-log",
-    "artifact-tech-dad-channel-brief"
+    "artifact-tech-dad-channel-brief",
+    "post-dev-environment-2025",
+    "cmd-mailgun"
    ]
   },
   {
    "slug": "browser-tools",
    "name": "Free tools that run in your browser",
    "blurb": "Small, single-file web tools. Nothing to install, no accounts, and your data never leaves your device.",
-   "count": 15,
+   "count": 16,
    "ids": [
     "homelab-map",
     "site-tool-fingerprint-analyzer",
@@ -206,6 +238,7 @@
     "site-tool-favicon-generator",
     "site-tool-opengraph-inspector",
     "site-tool-contact-scraper",
+    "site-tool-m3u-editor",
     "site-tool-markdown-to-pdf",
     "site-util-base64-converter",
     "site-util-json-formatter",
@@ -217,22 +250,27 @@
    "slug": "homelab",
    "name": "The server in the closet",
    "blurb": "Running services on a Mac Mini at home: offloading heavy work to the laptop, and keeping secrets out of config files.",
-   "count": 16,
+   "count": 21,
    "ids": [
     "tech-keychain-base64-env",
+    "homelab-overview",
+    "skill-homelab",
     "cli-devenv-helpers",
     "work-mention-monitor-reconstructed",
     "homelab-disaster-recovery-runbook",
+    "mcp-rea-air",
     "tech-rea-offload-to-laptop",
     "tech-tmux-aqua-keychain",
     "tech-launchd-tcc-responsible-process",
     "tech-orbstack-gotchas",
+    "homelab-ops-plumbing",
     "cli-rea-sync",
     "cli-air-run",
     "mcp-screenpipe",
     "tech-headless-ssh-token-files",
     "homelab-scripts-and-docs",
-    "chrome-debug-relaunch",
+    "cli-seed-headless-tokens",
+    "work-gam-runbook",
     "cli-splogs",
     "cli-dev-tunnel"
    ]
@@ -241,10 +279,19 @@
    "slug": "cloud",
    "name": "Cloudflare and the edge",
    "blurb": "Deploying to Cloudflare without footguns: one master token with per-project pins, throwaway test accounts, and serverless gateways.",
-   "count": 4,
+   "count": 13,
    "ids": [
+    "openbeken-bulbs",
+    "work-booking-concierge",
+    "work-llm-gateway-billing",
+    "yeehaw",
     "tech-omni-token-pinned-account",
     "tech-flat-rate-vs-metered-claude-routes",
+    "mc-omnifeed",
+    "work-job-engine",
+    "work-multibrand-site",
+    "skill-imagegen",
+    "gh-will-pre-launch",
     "tech-shared-checkout-verify-deploy",
     "tech-workerd-vi-mock"
    ]
@@ -253,8 +300,10 @@
    "slug": "home-life",
    "name": "AI around the house",
    "blurb": "Skills that connect the AI to everyday life: email, calendar, reminders, recipes, the webcam, and small gadgets built as gifts.",
-   "count": 10,
+   "count": 14,
    "ids": [
+    "family-desk-dial",
+    "htc-ir-and-esphome-ir",
     "skill-webcam",
     "skill-handoff",
     "skill-pickup",
@@ -264,7 +313,9 @@
     "gh-landscaping-estimator",
     "tech-reminders-automation-vs-data-tcc",
     "cmd-todo",
-    "skill-applescript-automation"
+    "skill-mealie",
+    "skill-applescript-automation",
+    "homelab-ha-braindump"
    ]
   },
   {
@@ -274,11 +325,11 @@
    "count": 8,
    "ids": [
     "quantified-self",
+    "dj-neighbor",
     "godj-beat-machine",
     "hister",
+    "jooki-ui",
     "bushwick-groceries",
-    "post-dev-environment-2025",
-    "site-tool-m3u-editor",
     "grocery-price-trackers-homelab",
     "gh-ligma-stack"
    ]
@@ -411,32 +462,49 @@
   "fleet-evals-grader",
   "hook-air-tts-stop-speech",
   "daily-digests",
+  "homelab-overview",
   "agent-digest-and-digest",
   "taildrop-oneshot-html-explainers",
   "session-summary-html",
+  "school-morning",
   "speko-bridge",
+  "homelab-ops-plumbing",
   "llama-brain",
   "homelab-scripts-and-docs",
   "git-fleet-agent-merge",
   "skill-git-discipline",
+  "skill-homelab",
   "hook-commit-gate",
   "git-fleet-worktree-sweeper-ship",
   "tech-obsidian-message-bus",
+  "work-patent-watch",
+  "work-school-rag-labs",
   "homepod-airplay",
   "agent-composed-tv-canvas",
   "mc-file-claim-hook",
   "hook-mission-control-telemetry",
   "statusline-telemetry",
   "cli-sessions-explorer",
+  "work-mail-router",
+  "work-support-spam-watch",
   "mc-fleet-runner",
   "cli-cc-session",
+  "work-taxonomy-single-source",
+  "mc-omnifeed",
   "mc-harness-absorption",
+  "jobhunt-jobmail-feed",
   "cli-devenv-helpers",
   "openbeken-bulbs",
+  "work-court-docket-watcher",
+  "jobhunt-sourcer-and-hygiene",
+  "job-hunt-workspace",
   "clippings-reading-list",
+  "work-support-report",
   "hook-afk-beacon",
   "screenpipe-stack",
   "skill-mission-control",
+  "jobhunt-interview-guard",
+  "jobhunt-linkedin-sweep",
   "homelab-map",
   "call4me-followup-oneshot",
   "hister",
@@ -444,7 +512,12 @@
   "tailscale-acl-and-webhook",
   "skill-director",
   "work-mention-monitor-reconstructed",
+  "kind-voices",
+  "work-outreach-pipeline",
   "htc-ir-and-esphome-ir",
+  "work-agent-policies",
+  "work-absence-audit",
+  "work-booking-concierge",
   "video-studio-postiz",
   "pane-status",
   "mod-tts-replay",
@@ -454,19 +527,30 @@
   "mta-transit-ha",
   "zigbee-zwave-bridge",
   "hook-mini-build-guard",
+  "work-llm-gateway-billing",
+  "work-attorney-gated-doc-pipeline",
+  "work-job-engine",
+  "work-multibrand-site",
   "mod-auto-handoff",
   "mod-fleet-band",
   "claude-bridge",
   "skill-imagegen",
   "mod-phone-ping",
+  "interview-copilot",
   "github-profile-readme-builder",
+  "family-desk-dial",
   "skill-webcam",
   "dream-synthesis",
+  "jev-client-and-whitepaper",
+  "work-regulatory-shelf-index",
+  "jobhunt-jev-shadow-scorer",
   "dsh-trajectory",
+  "housing-lottery",
   "bushwick-groceries",
   "skill-email",
   "skill-reminders",
-  "mc-telegram-bridge",
+  "jobhunt-vendor-clock",
+  "work-support-report-cmd",
   "vault-llm-wiki",
   "hook-continuity-autopilot",
   "redact-video",
@@ -483,26 +567,36 @@
   "vault-schema-doc",
   "convex-mcp",
   "ideas-scratch-list",
+  "cli-seed-headless-tokens",
+  "family-podcast-publisher",
   "skill-pim",
   "skill-notify",
   "skill-open-relay",
+  "work-mission-statement",
   "output-style-tts",
   "cmd-todo",
+  "jobhunt-scan-and-reply",
+  "jobhunt-profile-revamp-sweep",
   "gh-dsh-voice",
   "skill-speko",
   "openwebui-ios-client",
   "cli-claude-prune-stale-projects",
   "quantified-self",
+  "audio-studio",
   "home-garden-grow-log",
+  "record-both-sides-interview-audio",
   "ideas-parking-lot",
   "idea-self-hosted-sensor-assistant",
+  "work-school-effect-analysis",
   "gh-authgate",
   "gh-homebrew-tap",
+  "work-gam-runbook",
   "cmd-artifact",
   "cmd-session-summary",
   "loop-engineering-clipping",
   "artifact-tech-dad-channel-brief",
   "cli-gog-reauth",
+  "dj-neighbor",
   "homelab-disaster-recovery-runbook",
   "weekly-content-routine",
   "cmd-relay",
@@ -518,9 +612,12 @@
   "site-utils-index-generator",
   "skill-html",
   "driving-eyes-closed-explainer",
+  "ebay-mcp",
   "obsidian-cli-workflow",
   "cmd-sessions",
   "hook-tmux-flash-pane",
+  "skill-mealie",
+  "vault-project-llm-red-team",
   "vault-project-openclaw",
   "vault-preferences-ai-collab",
   "vault-skills-ai-ml",
@@ -539,6 +636,7 @@
   "cli-tmux-to-cast",
   "sixseven-os",
   "godj-beat-machine",
+  "jooki-ui",
   "site-tool-clipboard-inspector",
   "site-tool-ai-workbench",
   "site-tool-youtube-transcriber",
@@ -549,10 +647,14 @@
   "site-tool-contact-scraper",
   "site-tool-m3u-editor",
   "site-tool-markdown-to-pdf",
+  "client-gov-contract-radar",
   "cmd-mailgun",
   "cli-dev-tunnel",
   "windows95-brutalist-site",
   "grocery-price-trackers-homelab",
+  "homelab-ebay-listing",
+  "homelab-ha-braindump",
+  "gh-will-pre-launch",
   "jellyfin-server",
   "gh-ligma-stack",
   "gh-landscaping-estimator",
@@ -570,8 +672,8 @@
   "gh-web-dev-from-scratch",
   "gh-ua-pantry",
   "gh-processing",
-  "mcp-mission-control",
   "tech-keychain-base64-env",
+  "mcp-rea-air",
   "tech-omni-token-pinned-account",
   "tech-min-release-age",
   "tech-rea-offload-to-laptop",
@@ -683,7 +785,7 @@
    ],
    "id": "skill-director",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "agent-fleet",
    "llm_era": true,
    "links": {},
    "related": [
@@ -716,11 +818,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "work-outreach-pipeline",
+    "jobhunt-jobmail-feed",
     "skill-pickup",
     "daily-digests",
-    "hook-air-tts-stop-speech",
-    "skill-notify",
-    "skill-handoff"
+    "hook-air-tts-stop-speech"
    ],
    "url": null
   },
@@ -741,7 +843,7 @@
    ],
    "id": "skill-git-discipline",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "agent-fleet",
    "llm_era": true,
    "links": {},
    "related": [
@@ -776,8 +878,8 @@
     "skill-pickup",
     "mod-auto-handoff",
     "skill-reminders",
-    "skill-mission-control",
-    "hook-continuity-autopilot"
+    "work-mission-statement",
+    "skill-mission-control"
    ],
    "url": null
   },
@@ -810,6 +912,35 @@
    ],
    "url": null
   },
+  "skill-homelab": {
+   "title": "Homelab operations skill",
+   "kind": "skill",
+   "summary_plain": "The operating manual an AI uses to run and fix ~30 home-server services.",
+   "how_it_works": "Inventory + golden rules in SKILL.md, per-domain reference/*.md (networking, reverse proxy, LLM stack, backup, monitoring) read before acting.",
+   "first_built": "2026-06-08",
+   "last_touched": "2026-10-18",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "homelab",
+    "ops",
+    "runbook",
+    "skill"
+   ],
+   "id": "skill-homelab",
+   "path": "writeup",
+   "theme": "homelab",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "homelab-scripts-and-docs",
+    "homelab-overview",
+    "homelab-ebay-listing",
+    "homelab-ops-plumbing",
+    "homelab-map"
+   ],
+   "url": null
+  },
   "skill-imagegen": {
    "title": "imagegen skill (gateway + fallback + text overlay)",
    "kind": "skill",
@@ -826,12 +957,41 @@
    ],
    "id": "skill-imagegen",
    "path": "writeup",
-   "theme": "judgment",
+   "theme": "cloud",
    "llm_era": true,
    "links": {},
    "related": [
+    "work-job-engine",
     "site-utils-index-generator",
-    "skill-artifact"
+    "skill-artifact",
+    "work-llm-gateway-billing"
+   ],
+   "url": null
+  },
+  "skill-mealie": {
+   "title": "Mealie recipes skill",
+   "kind": "skill",
+   "summary_plain": "Lets the AI plan meals, look up recipes and manage grocery lists.",
+   "how_it_works": "Mealie REST API with meal-plan.sh / shopping-list.sh helpers.",
+   "first_built": "2026-04-05",
+   "last_touched": "2026-04-05",
+   "cool_factor": 2,
+   "self_contained": "no",
+   "tags": [
+    "homelab",
+    "recipes",
+    "skill"
+   ],
+   "id": "skill-mealie",
+   "path": "writeup",
+   "theme": "home-life",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "skill-homelab",
+    "homelab-ha-braindump",
+    "skill-applescript-automation",
+    "homelab-scripts-and-docs"
    ],
    "url": null
   },
@@ -856,10 +1016,10 @@
    "links": {},
    "related": [
     "skill-director",
-    "mcp-mission-control",
     "skill-git-discipline",
     "skill-pickup",
-    "tech-shared-checkout-verify-deploy"
+    "tech-shared-checkout-verify-deploy",
+    "hook-mission-control-telemetry"
    ],
    "url": null
   },
@@ -886,8 +1046,8 @@
     "skill-reminders",
     "hook-afk-beacon",
     "openwebui-ios-client",
-    "mod-phone-ping",
-    "idea-self-hosted-sensor-assistant"
+    "jobhunt-jobmail-feed",
+    "mod-phone-ping"
    ],
    "url": null
   },
@@ -1049,8 +1209,8 @@
     "skill-reminders",
     "skill-speko",
     "tech-reminders-automation-vs-data-tcc",
-    "vault-skills-ai-ml",
-    "free-game-web"
+    "skill-homelab",
+    "vault-skills-ai-ml"
    ],
    "url": null
   },
@@ -1130,15 +1290,15 @@
    ],
    "id": "hook-mini-build-guard",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
     "mc-file-claim-hook",
     "claude-config-versioning",
     "mcp-screenpipe",
-    "call4me-followup-oneshot",
-    "git-fleet-agent-merge"
+    "homelab-overview",
+    "call4me-followup-oneshot"
    ],
    "url": null
   },
@@ -1167,8 +1327,8 @@
     "tech-air-local-inference",
     "mod-tts-replay",
     "gh-dsh-voice",
-    "hook-continuity-autopilot",
-    "hook-afk-beacon"
+    "family-podcast-publisher",
+    "hook-continuity-autopilot"
    ],
    "url": null
   },
@@ -1244,7 +1404,7 @@
    ],
    "id": "hook-mission-control-telemetry",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "agent-fleet",
    "llm_era": true,
    "links": {},
    "related": [
@@ -1334,7 +1494,7 @@
    ],
    "id": "mod-auto-handoff",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
@@ -1362,15 +1522,15 @@
    ],
    "id": "mod-fleet-band",
    "path": "writeup",
-   "theme": "agent-fleet",
+   "theme": "second-brain",
    "llm_era": true,
    "links": {},
    "related": [
     "skill-director",
     "pane-status",
     "agent-digest-and-digest",
-    "mcp-mission-control",
-    "skill-mission-control"
+    "skill-mission-control",
+    "loop-engineering-clipping"
    ],
    "url": null
   },
@@ -1443,15 +1603,15 @@
    ],
    "id": "output-style-action-items",
    "path": "vendor",
-   "theme": "judgment",
+   "theme": "voice",
    "llm_era": true,
    "links": {},
    "related": [
     "free-game-web",
     "output-style-tts",
+    "jobhunt-scan-and-reply",
     "skill-handoff",
-    "tech-template-only-replies-injection-defense",
-    "site-utils-index-generator"
+    "tech-template-only-replies-injection-defense"
    ],
    "url": null
   },
@@ -1478,7 +1638,7 @@
     "skill-speko",
     "output-style-action-items",
     "daily-digests",
-    "mod-tts-replay"
+    "family-podcast-publisher"
    ],
    "url": null
   },
@@ -1652,13 +1812,15 @@
    ],
    "id": "cmd-mailgun",
    "path": "writeup",
-   "theme": "judgment",
+   "theme": "artifacts",
    "llm_era": true,
    "links": {},
    "related": [
     "cmd-todo",
+    "work-support-report-cmd",
     "cmd-artifact-publish",
-    "cmd-session-summary"
+    "cmd-session-summary",
+    "jobhunt-jobmail-feed"
    ],
    "url": null
   },
@@ -1813,7 +1975,7 @@
    ],
    "id": "git-fleet-worktree-sweeper-ship",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "agent-fleet",
    "llm_era": true,
    "links": {},
    "related": [
@@ -1842,7 +2004,7 @@
    ],
    "id": "claude-config-versioning",
    "path": "vendor",
-   "theme": "unattended",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
@@ -1875,11 +2037,234 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "jobhunt-jobmail-feed",
     "call4me-followup-oneshot",
+    "work-outreach-pipeline",
     "weekly-content-routine",
-    "git-fleet-worktree-sweeper-ship",
+    "git-fleet-worktree-sweeper-ship"
+   ],
+   "url": null
+  },
+  "jobhunt-jobmail-feed": {
+   "title": "Job-mail feed agent",
+   "kind": "automation",
+   "summary_plain": "Every 5 minutes, sorts recruiter emails, pings the phone about the real ones, and files them on the board.",
+   "how_it_works": "Gmail poll -> Jev classifier questions/thresholds (job_jev.py, ported byte-identical from the business drain) -> push + Mission Control role:jobhunt tasks; fail-closed retry.",
+   "first_built": "2026-10-15",
+   "last_touched": "2026-10-16",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "classifier",
+    "email",
+    "job-hunt",
+    "launchd"
+   ],
+   "id": "jobhunt-jobmail-feed",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "jobhunt-sourcer-and-hygiene",
+    "jobhunt-jev-shadow-scorer",
+    "jobhunt-scan-and-reply",
+    "jobhunt-interview-guard",
+    "fleet-evals-grader"
+   ],
+   "url": null
+  },
+  "jobhunt-interview-guard": {
+   "title": "Interview guard agent",
+   "kind": "automation",
+   "summary_plain": "Makes sure no interview is ever missed: invites go on the family calendar and the phone reminds you 30 and 10 minutes before.",
+   "how_it_works": "launchd every 5 min: finds .ics invites in Gmail, adds job VEVENTs to the shared calendar with timezone conversion and conflict callouts, T-30/T-10 pushes, post-interview debrief cards; never deletes events.",
+   "first_built": "2026-08-19",
+   "last_touched": "2026-10-15",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "calendar",
+    "job-hunt",
+    "launchd"
+   ],
+   "id": "jobhunt-interview-guard",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "jobhunt-jobmail-feed",
+    "jobhunt-profile-revamp-sweep",
+    "jobhunt-scan-and-reply",
+    "jobhunt-vendor-clock",
+    "jobhunt-sourcer-and-hygiene"
+   ],
+   "url": null
+  },
+  "jobhunt-linkedin-sweep": {
+   "title": "LinkedIn read-only sweep agent",
+   "kind": "automation",
+   "summary_plain": "Checks LinkedIn messages and connection requests every 30 minutes so nothing sits unseen.",
+   "how_it_works": "Claude in Chrome with a tool allowlist that can only navigate/read (no click/type/script), reading the inbox via the compose page to avoid auto-opening threads.",
+   "first_built": "2026-10-15",
+   "last_touched": "2026-10-15",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "browser-agent",
+    "job-hunt",
+    "read-only"
+   ],
+   "id": "jobhunt-linkedin-sweep",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "jobhunt-profile-revamp-sweep",
+    "gh-wdot",
+    "weekly-content-routine",
+    "jobhunt-jobmail-feed",
+    "git-fleet-worktree-sweeper-ship"
+   ],
+   "url": null
+  },
+  "jobhunt-sourcer-and-hygiene": {
+   "title": "Job-hunt sourcer + hygiene agents",
+   "kind": "automation",
+   "summary_plain": "Small robots that file new recruiter leads, flag duplicate submissions, nudge stale threads and merge duplicate cards.",
+   "how_it_works": "sourcer.py (new recruiter -> task + CRM contact), dedup_checker.py (same end client via two vendors), nudge.py, task_dedup.py, waiting_on_you.py (they asked, you haven't answered in 24h); read/flag only, never reply.",
+   "first_built": "2026-04-03",
+   "last_touched": "2026-10-16",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "crm",
+    "job-hunt",
+    "launchd"
+   ],
+   "id": "jobhunt-sourcer-and-hygiene",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "jobhunt-jobmail-feed",
+    "jobhunt-scan-and-reply",
+    "job-hunt-workspace",
+    "agent-scratchpad-idea",
+    "jobhunt-jev-shadow-scorer"
+   ],
+   "url": null
+  },
+  "jobhunt-vendor-clock": {
+   "title": "Vendor 48h artifact clock",
+   "kind": "automation",
+   "summary_plain": "Grades staffing vendors on whether they produce something concrete within 48 hours, proposing grades for a human to confirm.",
+   "how_it_works": "Gmail thread forensics against a vendor ledger; proposes, never rewrites, because off-channel events (phone calls) are invisible to it.",
+   "first_built": "2026-09-17",
+   "last_touched": "2026-09-17",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "job-hunt",
+    "vetting"
+   ],
+   "id": "jobhunt-vendor-clock",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "fleet-evals-grader",
+    "jobhunt-jobmail-feed",
+    "daily-digests",
+    "jobhunt-interview-guard",
+    "artifacts-repo-auto-expire"
+   ],
+   "url": null
+  },
+  "jobhunt-jev-shadow-scorer": {
+   "title": "Jev shadow scorer for recruiter mail",
+   "kind": "automation",
+   "summary_plain": "Tests an AI scoring of recruiter emails quietly, logging results without letting it decide anything yet.",
+   "how_it_works": "Shadow mode: scores and logs only; backtest showed the hand rubric at AUC 0.514 and a refit at 0.87 on 5 positives, so no thresholds until labels justify them.",
+   "first_built": "2026-09-19",
+   "last_touched": "2026-09-19",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "classifier",
+    "job-hunt",
+    "shadow-mode"
+   ],
+   "id": "jobhunt-jev-shadow-scorer",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "jobhunt-jobmail-feed",
     "tech-shadow-mode-before-gating",
-    "mc-file-claim-hook"
+    "jobhunt-scan-and-reply",
+    "jobhunt-profile-revamp-sweep",
+    "jobhunt-sourcer-and-hygiene"
+   ],
+   "url": null
+  },
+  "jobhunt-scan-and-reply": {
+   "title": "Recruiter scan-and-reply (template-only)",
+   "kind": "automation",
+   "summary_plain": "Replies to new recruiter emails with a resume using fixed templates.",
+   "how_it_works": "Fixed template replies only; no AI reads email bodies, as a prompt-injection defense; token read from a 0600 file.",
+   "first_built": "2026-04-03",
+   "last_touched": "2026-08-19",
+   "cool_factor": 2,
+   "self_contained": "no",
+   "tags": [
+    "email",
+    "job-hunt",
+    "prompt-injection"
+   ],
+   "id": "jobhunt-scan-and-reply",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "tech-template-only-replies-injection-defense",
+    "jobhunt-jobmail-feed",
+    "jobhunt-jev-shadow-scorer",
+    "jobhunt-sourcer-and-hygiene",
+    "work-outreach-pipeline"
+   ],
+   "url": null
+  },
+  "jobhunt-profile-revamp-sweep": {
+   "title": "Profile A/B weekly inbound sweep",
+   "kind": "automation",
+   "summary_plain": "Measures weekly whether a profile rewrite changed the kind of recruiter mail coming in.",
+   "how_it_works": "Keyword categorization of 7 days of inbound appended to an Obsidian experiment note; read-only.",
+   "first_built": "2026-04-03",
+   "last_touched": "2026-08-19",
+   "cool_factor": 2,
+   "self_contained": "no",
+   "tags": [
+    "experiment",
+    "job-hunt"
+   ],
+   "id": "jobhunt-profile-revamp-sweep",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "daily-digests",
+    "jobhunt-jobmail-feed",
+    "jobhunt-jev-shadow-scorer",
+    "jobhunt-linkedin-sweep",
+    "weekly-content-routine"
    ],
    "url": null
   },
@@ -1927,7 +2312,7 @@
    ],
    "id": "chrome-debug-relaunch",
    "path": "vendor",
-   "theme": "homelab",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
@@ -1981,7 +2366,7 @@
    ],
    "id": "cli-claude-usage",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
@@ -2040,6 +2425,7 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "mcp-rea-air",
     "tech-rea-offload-to-laptop",
     "cli-air-run",
     "homelab-disaster-recovery-runbook"
@@ -2069,6 +2455,7 @@
    "related": [
     "tech-keychain-base64-env",
     "tech-headless-ssh-token-files",
+    "cli-seed-headless-tokens",
     "cli-dev-tunnel",
     "tech-obsidian-message-bus"
    ],
@@ -2103,6 +2490,34 @@
    ],
    "url": null
   },
+  "cli-seed-headless-tokens": {
+   "title": "seed-headless-tokens",
+   "kind": "cli",
+   "summary_plain": "Sets up the login tokens that remote terminal sessions need, entered hidden at the console.",
+   "how_it_works": "Writes 0600 token files under ~/.config because ssh sessions cannot read the login Keychain; hidden prompt, never touches history.",
+   "first_built": "2026-08-28",
+   "last_touched": "2026-08-28",
+   "cool_factor": 2,
+   "self_contained": "yes",
+   "tags": [
+    "cli",
+    "secrets",
+    "ssh"
+   ],
+   "id": "cli-seed-headless-tokens",
+   "path": "writeup",
+   "theme": "homelab",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "tech-headless-ssh-token-files",
+    "cli-devenv-helpers",
+    "tech-tmux-aqua-keychain",
+    "tech-keychain-base64-env",
+    "gh-authgate"
+   ],
+   "url": null
+  },
   "cli-claude-prune-stale-projects": {
    "title": "claude-prune-stale-projects",
    "kind": "cli",
@@ -2119,7 +2534,7 @@
    ],
    "id": "cli-claude-prune-stale-projects",
    "path": "vendor",
-   "theme": "unattended",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
@@ -2153,9 +2568,9 @@
    "related": [
     "cli-dev-tunnel",
     "cli-hc-run",
+    "mcp-rea-air",
     "cli-rea-sync",
-    "cli-splogs",
-    "dsh-trajectory"
+    "cli-splogs"
    ],
    "url": null
   },
@@ -2236,9 +2651,9 @@
    "related": [
     "cli-air-run",
     "cli-devenv-helpers",
+    "cli-seed-headless-tokens",
     "tech-tmux-aqua-keychain",
-    "homelab-scripts-and-docs",
-    "tech-rea-offload-to-laptop"
+    "homelab-ops-plumbing"
    ],
    "url": null
   },
@@ -2270,34 +2685,6 @@
    ],
    "url": null
   },
-  "mcp-mission-control": {
-   "title": "Mission Control MCP (James-built)",
-   "kind": "mcp-server",
-   "summary_plain": "The shared operations board that all of James's AI sessions read and write.",
-   "how_it_works": "Convex app's agent API exposed as MCP tools (claim/report/finish/schedule/intake). Registration: http, user scope.",
-   "first_built": null,
-   "last_touched": null,
-   "cool_factor": 5,
-   "self_contained": "no",
-   "tags": [
-    "convex",
-    "mcp",
-    "multi-agent"
-   ],
-   "id": "mcp-mission-control",
-   "path": "writeup",
-   "theme": "agent-fleet",
-   "llm_era": true,
-   "links": {},
-   "related": [
-    "convex-mcp",
-    "skill-mission-control",
-    "mcp-screenpipe",
-    "mcp-speko-bridge",
-    "mod-fleet-band"
-   ],
-   "url": null
-  },
   "mcp-screenpipe": {
    "title": "screenpipe / screenpipe-air MCP launcher (James wrapper)",
    "kind": "mcp-server",
@@ -2319,10 +2706,39 @@
    "links": {},
    "related": [
     "screenpipe-stack",
-    "mcp-mission-control",
+    "mcp-rea-air",
     "tech-mcp-local-scope-diet",
     "cli-splogs",
     "mcp-speko-bridge"
+   ],
+   "url": null
+  },
+  "mcp-rea-air": {
+   "title": "rea / rea-air (remote REA over ssh stdio)",
+   "kind": "mcp-server",
+   "summary_plain": "Runs the reverse-engineering toolkit on the laptop so risky binaries never run on the server.",
+   "how_it_works": "REA is third-party; James's part is the ssh-stdio remote registration, local scope, and rea-sync staging. Registration: stdio: npx rea-agents@6.3.0 mcp locally; ssh -T BatchMode to the laptop for rea-air.",
+   "first_built": null,
+   "last_touched": null,
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "james-wrapper",
+    "mcp",
+    "reverse-engineering",
+    "ssh"
+   ],
+   "id": "mcp-rea-air",
+   "path": "writeup",
+   "theme": "homelab",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "cli-rea-sync",
+    "tech-rea-offload-to-laptop",
+    "mcp-screenpipe",
+    "cli-air-run",
+    "tech-mcp-local-scope-diet"
    ],
    "url": null
   },
@@ -2347,9 +2763,9 @@
    "related": [
     "speko-bridge",
     "skill-speko",
-    "mcp-mission-control",
-    "mc-telegram-bridge",
-    "mcp-screenpipe"
+    "mcp-screenpipe",
+    "homelab-scripts-and-docs",
+    "homelab-overview"
    ],
    "url": null
   },
@@ -2379,7 +2795,7 @@
     "cli-devenv-helpers",
     "tech-orbstack-gotchas",
     "site-util-base64-converter",
-    "tech-rea-offload-to-laptop"
+    "cli-seed-headless-tokens"
    ],
    "url": null
   },
@@ -2406,9 +2822,9 @@
    "related": [
     "vault-project-openclaw",
     "tech-shared-checkout-verify-deploy",
+    "work-llm-gateway-billing",
     "tech-flat-rate-vs-metered-claude-routes",
-    "gh-wdot",
-    "claude-config-versioning"
+    "gh-wdot"
    ],
    "url": null
   },
@@ -2493,11 +2909,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "mcp-rea-air",
     "cli-rea-sync",
     "tech-mcp-local-scope-diet",
     "homelab-disaster-recovery-runbook",
-    "tech-keychain-base64-env",
-    "cli-air-run"
+    "tech-keychain-base64-env"
    ],
    "url": null
   },
@@ -2518,13 +2934,13 @@
    ],
    "id": "tech-mcp-local-scope-diet",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
     "mcp-screenpipe",
     "cli-claude-usage",
-    "mcp-mission-control",
+    "mcp-rea-air",
     "call4me-followup-oneshot",
     "tech-rea-offload-to-laptop"
    ],
@@ -2640,9 +3056,9 @@
    "related": [
     "tech-interactive-in-tmux-split",
     "tech-headless-ssh-token-files",
+    "cli-seed-headless-tokens",
     "cli-tmux-to-cast",
-    "tech-launchd-tcc-responsible-process",
-    "cli-dev-tunnel"
+    "tech-launchd-tcc-responsible-process"
    ],
    "url": null
   },
@@ -2669,9 +3085,9 @@
    "related": [
     "tech-tmux-aqua-keychain",
     "tech-headless-ssh-token-files",
+    "cli-seed-headless-tokens",
     "mcp-screenpipe",
-    "tech-reminders-automation-vs-data-tcc",
-    "tech-keychain-base64-env"
+    "tech-reminders-automation-vs-data-tcc"
    ],
    "url": null
   },
@@ -2747,11 +3163,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "work-llm-gateway-billing",
     "git-fleet-agent-merge",
     "claude-bridge",
-    "vault-project-openclaw",
-    "tech-omni-token-pinned-account",
-    "site-tool-ai-workbench"
+    "work-outreach-pipeline",
+    "vault-project-openclaw"
    ],
    "url": null
   },
@@ -2778,9 +3194,10 @@
    "links": {},
    "related": [
     "tech-keychain-base64-env",
-    "tech-headless-ssh-token-files",
-    "tech-taildrop-pitfalls",
-    "mc-file-claim-hook"
+    "work-court-docket-watcher",
+    "homelab-overview",
+    "work-job-engine",
+    "tech-headless-ssh-token-files"
    ],
    "url": null
   },
@@ -2915,7 +3332,9 @@
    "links": {},
    "related": [
     "tech-dev-tools-before-browser-automation",
-    "git-fleet-agent-merge"
+    "work-mission-statement",
+    "git-fleet-agent-merge",
+    "jobhunt-linkedin-sweep"
    ],
    "url": null
   },
@@ -2961,7 +3380,9 @@
    "theme": "cloud",
    "llm_era": true,
    "links": {},
-   "related": [],
+   "related": [
+    "work-job-engine"
+   ],
    "url": null
   },
   "tech-rdap-not-availability": {
@@ -3030,7 +3451,7 @@
    ],
    "id": "tech-narrow-rails-autonomy",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "agent-fleet",
    "llm_era": true,
    "links": {},
    "related": [
@@ -3062,11 +3483,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "jobhunt-jev-shadow-scorer",
     "git-fleet-agent-merge",
     "fleet-evals-grader",
-    "skill-git-discipline",
-    "agent-scratchpad-idea",
-    "skill-pickup"
+    "work-mail-router",
+    "work-outreach-pipeline"
    ],
    "url": null
   },
@@ -3120,11 +3541,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "cli-seed-headless-tokens",
     "tech-keychain-base64-env",
     "cli-devenv-helpers",
     "tech-tmux-aqua-keychain",
-    "tech-launchd-tcc-responsible-process",
-    "tech-orbstack-gotchas"
+    "tech-launchd-tcc-responsible-process"
    ],
    "url": null
   },
@@ -3151,10 +3572,10 @@
    "links": {},
    "related": [
     "hook-air-tts-stop-speech",
+    "homelab-overview",
     "llama-brain",
     "hook-continuity-autopilot",
-    "vault-project-openclaw",
-    "tech-mcp-local-scope-diet"
+    "vault-project-openclaw"
    ],
    "url": null
   },
@@ -3179,11 +3600,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "jobhunt-scan-and-reply",
+    "work-mail-router",
+    "work-outreach-pipeline",
     "agent-scratchpad-idea",
-    "mc-telegram-bridge",
-    "git-fleet-agent-merge",
-    "free-game-web",
-    "skill-artifact"
+    "git-fleet-agent-merge"
    ],
    "url": null
   },
@@ -3214,7 +3635,7 @@
     "vault-preferences-ai-collab",
     "vault-skills-ai-ml",
     "dream-synthesis",
-    "site-tool-ai-workbench"
+    "vault-project-llm-red-team"
    ],
    "url": null
   },
@@ -3238,11 +3659,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "work-taxonomy-single-source",
     "vault-llm-wiki",
+    "work-agent-policies",
     "vault-preferences-ai-collab",
-    "skill-git-discipline",
-    "agent-scratchpad-idea",
-    "git-fleet-agent-merge"
+    "work-mission-statement"
    ],
    "url": null
   },
@@ -3327,8 +3748,8 @@
     "agent-scratchpad-idea",
     "ideas-parking-lot",
     "clippings-reading-list",
-    "dream-synthesis",
-    "loop-engineering-clipping"
+    "homelab-ha-braindump",
+    "dream-synthesis"
    ],
    "url": null
   },
@@ -3384,11 +3805,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "homelab-overview",
     "homelab-scripts-and-docs",
     "tech-rea-offload-to-laptop",
-    "homelab-map",
-    "cli-rea-sync",
-    "work-mention-monitor-reconstructed"
+    "skill-homelab",
+    "homelab-map"
    ],
    "url": null
   },
@@ -3417,6 +3838,35 @@
     "site-tool-ai-workbench",
     "git-fleet-agent-merge",
     "agent-scratchpad-idea"
+   ],
+   "url": null
+  },
+  "vault-project-llm-red-team": {
+   "title": "LLM Red Team Arena (vault project page)",
+   "kind": "note",
+   "summary_plain": "Notes on tests that measure how easily AI chat models leak secrets or break their safety rules.",
+   "how_it_works": "arena/personas/refusals test suites against Gemma 4 censored vs abliterated, with defense-rate table; subconscious background daemon.",
+   "first_built": "2026-04-04",
+   "last_touched": "2026-04-04",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "gemma",
+    "llm-security",
+    "obsidian",
+    "red-team"
+   ],
+   "id": "vault-project-llm-red-team",
+   "path": "writeup",
+   "theme": "second-brain",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "agent-scratchpad-idea",
+    "vault-llm-wiki",
+    "clippings-reading-list",
+    "loop-engineering-clipping",
+    "vault-project-openclaw"
    ],
    "url": null
   },
@@ -3476,6 +3926,29 @@
    ],
    "url": null
   },
+  "record-both-sides-interview-audio": {
+   "title": "Recording both sides of a remote call on macOS (AirPods)",
+   "kind": "technique",
+   "summary_plain": "How to record both your voice and the other person's voice during a video call on a Mac.",
+   "how_it_works": "Explains why QuickTime only captures one input device (AirPods split into separate input/output devices) and how to build an aggregate/multi-output device so both sides land in one recording.",
+   "first_built": "2026-07-23",
+   "last_touched": "2026-07-23",
+   "cool_factor": 3,
+   "self_contained": "yes",
+   "tags": [
+    "audio",
+    "how-to",
+    "macos",
+    "obsidian"
+   ],
+   "id": "record-both-sides-interview-audio",
+   "path": "writeup",
+   "theme": "voice",
+   "llm_era": true,
+   "links": {},
+   "related": [],
+   "url": null
+  },
   "daily-digests": {
    "title": "Twice-daily automated life/work digest archive",
    "kind": "technique",
@@ -3501,8 +3974,8 @@
     "agent-digest-and-digest",
     "clippings-reading-list",
     "loop-engineering-clipping",
-    "work-mention-monitor-reconstructed",
-    "git-fleet-worktree-sweeper-ship"
+    "jobhunt-profile-revamp-sweep",
+    "work-mention-monitor-reconstructed"
    ],
    "url": null
   },
@@ -3654,7 +4127,7 @@
     "cmd-artifact-publish",
     "artifact-time-capsule",
     "artifact-q2-roadmap",
-    "skill-artifact"
+    "jobhunt-vendor-clock"
    ],
    "url": null
   },
@@ -3731,7 +4204,7 @@
    ],
    "id": "post-dev-environment-2025",
    "path": "link",
-   "theme": "side-projects",
+   "theme": "artifacts",
    "llm_era": true,
    "links": {},
    "related": [
@@ -3862,8 +4335,8 @@
     "llama-brain",
     "agent-scratchpad-idea",
     "skill-artifact",
-    "vault-project-openclaw",
-    "gh-wdot"
+    "work-outreach-pipeline",
+    "vault-project-openclaw"
    ],
    "url": "/ai-workbench.html"
   },
@@ -3990,7 +4463,7 @@
    ],
    "id": "site-tool-m3u-editor",
    "path": "link",
-   "theme": "side-projects",
+   "theme": "browser-tools",
    "llm_era": true,
    "links": {},
    "related": [
@@ -4316,7 +4789,7 @@
     "gh-resume",
     "homelab-scripts-and-docs",
     "daily-digests",
-    "gh-authgate"
+    "jobhunt-profile-revamp-sweep"
    ],
    "url": null
   },
@@ -4341,10 +4814,10 @@
    "links": {},
    "related": [
     "call4me-followup-oneshot",
+    "job-hunt-workspace",
     "mc-fleet-runner",
     "mc-file-claim-hook",
-    "fleet-evals-grader",
-    "git-fleet-worktree-sweeper-ship"
+    "fleet-evals-grader"
    ],
    "url": null
   },
@@ -4408,7 +4881,7 @@
     "cli-gog-reauth",
     "github-profile-readme-builder",
     "dsh-trajectory",
-    "cli-cc-session"
+    "cli-seed-headless-tokens"
    ],
    "url": null
   },
@@ -4438,7 +4911,7 @@
     "gh-web-dev-from-scratch",
     "vault-llm-wiki",
     "github-profile-readme-builder",
-    "hook-continuity-autopilot"
+    "work-school-rag-labs"
    ],
    "url": null
   },
@@ -4468,10 +4941,10 @@
    },
    "related": [
     "skill-speko",
+    "family-podcast-publisher",
     "pi-dsh",
     "mod-tts-replay",
-    "output-style-tts",
-    "hook-air-tts-stop-speech"
+    "output-style-tts"
    ],
    "url": null
   },
@@ -4498,10 +4971,10 @@
    },
    "related": [
     "gh-full-stack-tech",
+    "gh-will-pre-launch",
     "gh-playlist-finesser",
     "gh-cert",
-    "site-tool-favicon-generator",
-    "site-tool-ai-workbench"
+    "site-tool-favicon-generator"
    ],
    "url": null
   },
@@ -4528,7 +5001,39 @@
     "repo": "https://github.com/jbwashington/landscaping-estimator"
    },
    "related": [
+    "housing-lottery",
     "site-tool-ai-workbench"
+   ],
+   "url": null
+  },
+  "gh-will-pre-launch": {
+   "title": "Viral waitlist platform for an exotic-snack startup",
+   "kind": "app",
+   "summary_plain": "A pre-launch sign-up site with referral rewards and AI-written posts for a small snack business.",
+   "how_it_works": "Next.js 15 + Cloudflare D1 + Bun, referral-based viral mechanics, Claude-generated marketing content.",
+   "first_built": "2025-10-10",
+   "last_touched": "2025-10-11",
+   "cool_factor": 3,
+   "self_contained": "partial",
+   "tags": [
+    "client",
+    "github",
+    "nextjs",
+    "waitlist"
+   ],
+   "id": "gh-will-pre-launch",
+   "path": "link",
+   "theme": "cloud",
+   "llm_era": true,
+   "links": {
+    "repo": "https://github.com/jbwashington/will-pre-launch"
+   },
+   "related": [
+    "gh-ligma-stack",
+    "gh-ua-pantry",
+    "gh-full-stack-tech",
+    "work-llm-gateway-billing",
+    "jooki-ui"
    ],
    "url": null
   },
@@ -4556,6 +5061,7 @@
    "related": [
     "gh-ligma-stack",
     "gh-web-dev-from-scratch",
+    "gh-will-pre-launch",
     "skill-artifact",
     "sixseven-os"
    ],
@@ -4586,6 +5092,8 @@
    "related": [
     "gh-ligma-stack",
     "site-tool-m3u-editor",
+    "dj-neighbor",
+    "jooki-ui",
     "godj-beat-machine"
    ],
    "url": null
@@ -4693,6 +5201,7 @@
     "gh-service-uark-edu",
     "gh-ua-pantry",
     "gh-ligma-stack",
+    "client-gov-contract-radar",
     "homelab-map"
    ],
    "url": null
@@ -4721,6 +5230,7 @@
    },
    "related": [
     "gh-service-uark-edu",
+    "gh-will-pre-launch",
     "gh-bushog",
     "gh-cert",
     "gh-ligma-stack"
@@ -4932,6 +5442,93 @@
    ],
    "url": null
   },
+  "dj-neighbor": {
+   "title": "dj-neighbor",
+   "kind": "app",
+   "summary_plain": "A 'now playing' web page for the DJ next door: a microphone by the window works out what song is playing and shows links to play it on Spotify, Apple Music or YouTube Music.",
+   "how_it_works": "Browser MediaRecorder clips POSTed to a Next.js route that calls a local shazamio service (AudD as paid fallback).",
+   "first_built": "2026-06-06",
+   "last_touched": "2026-06-08",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "audio",
+    "music-recognition",
+    "nextjs"
+   ],
+   "id": "dj-neighbor",
+   "path": "link",
+   "theme": "side-projects",
+   "llm_era": true,
+   "links": {
+    "repo": "https://github.com/jbwashington/dj-neighbor"
+   },
+   "related": [
+    "homepod-airplay",
+    "jooki-ui",
+    "gh-playlist-finesser"
+   ],
+   "url": null
+  },
+  "ebay-mcp": {
+   "title": "eBay Listing Automation plugin",
+   "kind": "plugin",
+   "summary_plain": "Helps list clothes and sneakers on eBay: identifies the item from photos, researches prices, writes the listing and watches for fraud.",
+   "how_it_works": "A Claude Code plugin bundling an MCP server (Bun/TypeScript, eBay Inventory/Browse/Fulfillment APIs), agents, commands and hooks; OAuth via Tailscale Funnel.",
+   "first_built": "2025-10-11",
+   "last_touched": "2026-04-17",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "claude-plugin",
+    "commerce",
+    "ebay",
+    "mcp",
+    "plugin"
+   ],
+   "id": "ebay-mcp",
+   "path": "link",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {
+    "repo": "https://github.com/jbwashington/ebay-mcp"
+   },
+   "related": [
+    "homelab-ebay-listing",
+    "tech-mcp-local-scope-diet",
+    "job-hunt-workspace",
+    "pane-status"
+   ],
+   "url": null
+  },
+  "job-hunt-workspace": {
+   "title": "Job Hunt workspace",
+   "kind": "automation",
+   "summary_plain": "A folder where job links get dropped in and an AI assistant scores each posting, tailors the resume and tracks applications.",
+   "how_it_works": "CLAUDE.md-driven workflow: JOB_LINKS.md queue -> structured evaluations/ markdown -> applications/ pipeline, with templates and interview prep.",
+   "first_built": "2026-05-25",
+   "last_touched": "2026-10-16",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "claude-code",
+    "job-search",
+    "workflow"
+   ],
+   "id": "job-hunt-workspace",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "homelab-ebay-listing",
+    "weekly-content-routine",
+    "jobhunt-sourcer-and-hygiene",
+    "jobhunt-jobmail-feed",
+    "call4me-followup-oneshot"
+   ],
+   "url": null
+  },
   "openwebui-ios-client": {
    "title": "Open Relay iOS client (working name)",
    "kind": "app",
@@ -5123,6 +5720,33 @@
    ],
    "url": null
   },
+  "housing-lottery": {
+   "title": "NYC housing lottery monitor",
+   "kind": "automation",
+   "summary_plain": "Watches affordable-housing lotteries and can fill in applications automatically.",
+   "how_it_works": "Playwright scraper plus discovered API calls, monitor/notify/apply scripts.",
+   "first_built": "2025-08-11",
+   "last_touched": "2026-09-19",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "automation",
+    "playwright"
+   ],
+   "id": "housing-lottery",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-court-docket-watcher",
+    "homelab-ebay-listing",
+    "homepod-airplay",
+    "clippings-reading-list",
+    "gh-landscaping-estimator"
+   ],
+   "url": null
+  },
   "yeehaw": {
    "title": "Yee Haw (dsh-plugin-yeehaw)",
    "kind": "mcp-server",
@@ -5140,7 +5764,7 @@
    ],
    "id": "yeehaw",
    "path": "writeup",
-   "theme": "harness",
+   "theme": "cloud",
    "llm_era": true,
    "links": {},
    "related": [
@@ -5180,6 +5804,35 @@
    ],
    "url": null
   },
+  "interview-copilot": {
+   "title": "Interview Copilot",
+   "kind": "app",
+   "summary_plain": "During a video interview it listens to the interviewer, spots questions and shows suggested talking points based on my resume.",
+   "how_it_works": "BlackHole loopback audio -> local whisper (or Deepgram/AssemblyAI) -> question detection -> claude with the resume -> streamed bullets in an always-on-top overlay; plus a prep mode that writes a company brief.",
+   "first_built": "2026-06-06",
+   "last_touched": "2026-10-01",
+   "cool_factor": 5,
+   "self_contained": "no",
+   "tags": [
+    "llm",
+    "overlay",
+    "realtime",
+    "whisper"
+   ],
+   "id": "interview-copilot",
+   "path": "writeup",
+   "theme": "voice",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "daily-digests",
+    "taildrop-oneshot-html-explainers",
+    "video-studio-postiz",
+    "fleet-evals-grader",
+    "site-tool-youtube-transcriber"
+   ],
+   "url": null
+  },
   "jellyfin-server": {
    "title": "Jellyfin server compose",
    "kind": "other",
@@ -5199,7 +5852,37 @@
    "llm_era": false,
    "links": {},
    "related": [
+    "homelab-overview",
     "homelab-scripts-and-docs"
+   ],
+   "url": null
+  },
+  "homelab-overview": {
+   "title": "Mac Mini homelab",
+   "kind": "doc",
+   "summary_plain": "A home server that runs the household's smart-home, AI chat, monitoring and backup services.",
+   "how_it_works": "OrbStack Docker for most services, launchd for hardware/GPU ones, Caddy per-service hostnames, Tailscale mesh, Uptime Kuma/Healthchecks, R2 backups; documented via CLAUDE.md index + a homelab skill + agent decision notes.",
+   "first_built": "2025-11-18",
+   "last_touched": "2026-10-19",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "architecture",
+    "docker",
+    "homelab",
+    "launchd"
+   ],
+   "id": "homelab-overview",
+   "path": "writeup",
+   "theme": "homelab",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "homelab-scripts-and-docs",
+    "skill-homelab",
+    "homelab-map",
+    "homelab-ebay-listing",
+    "tech-orbstack-gotchas"
    ],
    "url": null
   },
@@ -5223,38 +5906,11 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "homelab-overview",
     "webcam-paper",
     "homelab-scripts-and-docs",
-    "site-tool-ai-workbench",
-    "site-tools-index",
-    "home-garden-grow-log"
-   ],
-   "url": null
-  },
-  "mc-telegram-bridge": {
-   "title": "mc-telegram-bridge",
-   "kind": "automation",
-   "summary_plain": "AI agents can text me a question and my reply goes back to them.",
-   "how_it_works": "launchd daemon bridging Mission Control questions to Telegram and replies back.",
-   "first_built": "2026-09-16",
-   "last_touched": "2026-09-17",
-   "cool_factor": 3,
-   "self_contained": "no",
-   "tags": [
-    "agents",
-    "telegram"
-   ],
-   "id": "mc-telegram-bridge",
-   "path": "writeup",
-   "theme": "agent-fleet",
-   "llm_era": true,
-   "links": {},
-   "related": [
-    "convex-mcp",
-    "speko-bridge",
-    "agent-scratchpad-idea",
-    "mcp-speko-bridge",
-    "agent-digest-and-digest"
+    "skill-homelab",
+    "site-tool-ai-workbench"
    ],
    "url": null
   },
@@ -5329,7 +5985,7 @@
    ],
    "id": "claude-bridge",
    "path": "writeup",
-   "theme": "agent-fleet",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
@@ -5360,10 +6016,10 @@
    "llm_era": true,
    "links": {},
    "related": [
-    "mcp-mission-control",
-    "mc-telegram-bridge",
+    "homelab-overview",
     "mcp-screenpipe",
     "speko-bridge",
+    "work-multibrand-site",
     "agent-scratchpad-idea"
    ],
    "url": null
@@ -5425,6 +6081,34 @@
    ],
    "url": null
   },
+  "kind-voices": {
+   "title": "kind-voices",
+   "kind": "automation",
+   "summary_plain": "When the kids get loud, the TV pauses and a kindness song plays until they calm down, then the show resumes.",
+   "how_it_works": "Always-on mic classifier (model in repo) triggers TV pause and audio via Home Assistant; old phone as mic via droidcam.",
+   "first_built": "2026-10-13",
+   "last_touched": "2026-10-13",
+   "cool_factor": 5,
+   "self_contained": "no",
+   "tags": [
+    "audio",
+    "family",
+    "home-automation"
+   ],
+   "id": "kind-voices",
+   "path": "writeup",
+   "theme": "voice",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "school-morning",
+    "homepod-airplay",
+    "skill-notify",
+    "hook-air-tts-stop-speech",
+    "gh-dsh-voice"
+   ],
+   "url": null
+  },
   "htc-ir-and-esphome-ir": {
    "title": "htc-ir / esphome-ir (IR blasters)",
    "kind": "automation",
@@ -5441,10 +6125,39 @@
    ],
    "id": "htc-ir-and-esphome-ir",
    "path": "writeup",
-   "theme": "phone",
+   "theme": "home-life",
    "llm_era": true,
    "links": {},
-   "related": [],
+   "related": [
+    "family-desk-dial"
+   ],
+   "url": null
+  },
+  "school-morning": {
+   "title": "school-morning briefing",
+   "kind": "automation",
+   "summary_plain": "A spoken morning briefing and leave-by countdown played through the in-wall speakers.",
+   "how_it_works": "aiohttp service with TTS routed to a Bluetooth receiver.",
+   "first_built": "2026-10-14",
+   "last_touched": "2026-10-19",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "family",
+    "tts"
+   ],
+   "id": "school-morning",
+   "path": "writeup",
+   "theme": "voice",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "kind-voices",
+    "gh-dsh-voice",
+    "homepod-airplay",
+    "output-style-tts",
+    "hook-air-tts-stop-speech"
+   ],
    "url": null
   },
   "homepod-airplay": {
@@ -5466,10 +6179,11 @@
    "llm_era": true,
    "links": {},
    "related": [
-    "skill-notify",
-    "hook-air-tts-stop-speech",
-    "agent-digest-and-digest",
-    "daily-digests"
+    "kind-voices",
+    "homelab-overview",
+    "dj-neighbor",
+    "housing-lottery",
+    "work-court-docket-watcher"
    ],
    "url": null
   },
@@ -5489,7 +6203,7 @@
    ],
    "id": "openbeken-bulbs",
    "path": "writeup",
-   "theme": "phone",
+   "theme": "cloud",
    "llm_era": true,
    "links": {},
    "related": [
@@ -5515,7 +6229,9 @@
    "theme": "phone",
    "llm_era": true,
    "links": {},
-   "related": [],
+   "related": [
+    "homelab-overview"
+   ],
    "url": null
   },
   "screenpipe-stack": {
@@ -5589,8 +6305,35 @@
     "mcp-speko-bridge",
     "skill-speko",
     "claude-bridge",
-    "mc-telegram-bridge",
-    "vault-project-openclaw"
+    "vault-project-openclaw",
+    "gh-dsh-voice"
+   ],
+   "url": null
+  },
+  "jev-client-and-whitepaper": {
+   "title": "jev client and whitepaper",
+   "kind": "doc",
+   "summary_plain": "A small shared helper for a decision-making AI model, plus a report evaluating how well it works.",
+   "how_it_works": "Stdlib-only Python client with canary monitor; whitepaper evaluates Jev against a human review ledger.",
+   "first_built": "2026-09-19",
+   "last_touched": "2026-09-19",
+   "cool_factor": 4,
+   "self_contained": "no",
+   "tags": [
+    "evals",
+    "typesafe"
+   ],
+   "id": "jev-client-and-whitepaper",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "git-fleet-agent-merge",
+    "work-outreach-pipeline",
+    "work-agent-policies",
+    "vault-schema-doc",
+    "jobhunt-jev-shadow-scorer"
    ],
    "url": null
   },
@@ -5641,7 +6384,34 @@
     "tech-tailnet-hostname-not-localhost",
     "cli-gog-reauth",
     "tech-remote-friendly-auth",
-    "statusline-telemetry"
+    "work-court-docket-watcher"
+   ],
+   "url": null
+  },
+  "homelab-ops-plumbing": {
+   "title": "Ops plumbing (caddy, dozzle, healthchecks, disk-monitor, sysstats, wan-speed, log-rotate, forgejo, rustdesk, langfuse, postiz, litellm, searxng, go2rtc, syslog)",
+   "kind": "other",
+   "summary_plain": "The housekeeping services that keep the home server healthy: reverse proxy, log viewer, uptime checks, disk and speed monitors, private git, remote desktop and AI gateway.",
+   "how_it_works": "Mostly Docker compose entries and launchd jobs with READMEs; caddy-dashboard builds a landing page from the live Caddy config.",
+   "first_built": "2026-05-09",
+   "last_touched": "2026-10-19",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "devops",
+    "monitoring"
+   ],
+   "id": "homelab-ops-plumbing",
+   "path": "writeup",
+   "theme": "homelab",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "skill-homelab",
+    "homelab-overview",
+    "homelab-scripts-and-docs",
+    "cli-dev-tunnel",
+    "work-mention-monitor-reconstructed"
    ],
    "url": null
   },
@@ -5694,8 +6464,63 @@
     "site-tool-ai-workbench",
     "tech-air-local-inference",
     "vault-project-openclaw",
-    "agent-scratchpad-idea",
-    "hook-air-tts-stop-speech"
+    "homelab-overview",
+    "agent-scratchpad-idea"
+   ],
+   "url": null
+  },
+  "audio-studio": {
+   "title": "audio-studio design",
+   "kind": "doc",
+   "summary_plain": "A plan for an engine that builds kid-friendly audio shows and delivers them to a music player.",
+   "how_it_works": "Manifest-driven render and deliver pipeline; design only.",
+   "first_built": "2026-08-14",
+   "last_touched": "2026-08-14",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "design",
+    "tts"
+   ],
+   "id": "audio-studio",
+   "path": "writeup",
+   "theme": "voice",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "skill-artifact",
+    "family-podcast-publisher",
+    "gh-dsh-voice",
+    "dream-synthesis",
+    "output-style-tts"
+   ],
+   "url": null
+  },
+  "jooki-ui": {
+   "title": "Jooki custom web UI",
+   "kind": "app",
+   "summary_plain": "A custom web remote for a kids' music player, with playback, volume and playlist-per-tile settings.",
+   "how_it_works": "Next.js/shadcn UI over MQTT/HTTP control of a factory-reset Jooki.",
+   "first_built": "2025-10-13",
+   "last_touched": "2026-02-06",
+   "cool_factor": 3,
+   "self_contained": "no",
+   "tags": [
+    "kids",
+    "mqtt",
+    "nextjs"
+   ],
+   "id": "jooki-ui",
+   "path": "writeup",
+   "theme": "side-projects",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "dj-neighbor",
+    "gh-playlist-finesser",
+    "llama-brain",
+    "kind-voices",
+    "gh-will-pre-launch"
    ],
    "url": null
   },
@@ -5766,7 +6591,9 @@
    "theme": "unattended",
    "llm_era": true,
    "links": {},
-   "related": [],
+   "related": [
+    "homelab-ebay-listing"
+   ],
    "url": null
   },
   "grocery-price-trackers-homelab": {
@@ -5789,9 +6616,10 @@
    "links": {},
    "related": [
     "bushwick-groceries",
+    "homelab-ebay-listing",
     "quantified-self",
-    "work-mention-monitor-reconstructed",
-    "homelab-map"
+    "homelab-overview",
+    "work-mention-monitor-reconstructed"
    ],
    "url": null
   },
@@ -5839,11 +6667,265 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "homelab-overview",
+    "skill-homelab",
     "homelab-map",
     "homelab-disaster-recovery-runbook",
-    "github-profile-readme-builder",
-    "mcp-speko-bridge",
-    "dsh-trajectory"
+    "homelab-ha-braindump"
+   ],
+   "url": null
+  },
+  "homelab-ebay-listing": {
+   "title": "eBay listing workflow (homelab)",
+   "kind": "automation",
+   "summary_plain": "A manual-then-automated flow for listing clothing on eBay.",
+   "how_it_works": "CLAUDE.md workflow plus per-item folders.",
+   "first_built": "2025-11-18",
+   "last_touched": "2025-11-18",
+   "cool_factor": 2,
+   "self_contained": "no",
+   "tags": [
+    "ebay"
+   ],
+   "id": "homelab-ebay-listing",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "ebay-mcp",
+    "job-hunt-workspace",
+    "skill-homelab",
+    "homelab-overview",
+    "git-fleet-worktree-sweeper-ship"
+   ],
+   "url": null
+  },
+  "homelab-ha-braindump": {
+   "title": "Home Assistant braindump",
+   "kind": "note",
+   "summary_plain": "A to-do list of smart-home ideas.",
+   "how_it_works": "Markdown.",
+   "first_built": "2025-11-18",
+   "last_touched": "2025-11-18",
+   "cool_factor": 1,
+   "self_contained": "no",
+   "tags": [
+    "home-assistant"
+   ],
+   "id": "homelab-ha-braindump",
+   "path": "writeup",
+   "theme": "home-life",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "homelab-scripts-and-docs",
+    "skill-mealie",
+    "ideas-scratch-list",
+    "homelab-ebay-listing",
+    "home-garden-grow-log"
+   ],
+   "url": null
+  },
+  "work-mail-router": {
+   "title": "Two-layer inbox classifier (rules first, LLM judge second)",
+   "kind": "automation",
+   "summary_plain": "Automatically labels every incoming email as belonging to one of several businesses or a personal area, so every downstream tool sees the same answer.",
+   "how_it_works": "Deterministic recipient-domain rules from a single taxonomy JSON decide first; an LLM classifier only handles the remainder, low confidence goes to a Triage/Unsure label, and every verdict is written to an evidence ledger.",
+   "first_built": "2026-09-17",
+   "last_touched": "2026-10-17",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "classification",
+    "email",
+    "launchd",
+    "llm-judge",
+    "rules-first"
+   ],
+   "id": "work-mail-router",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-outreach-pipeline",
+    "work-taxonomy-single-source",
+    "tech-template-only-replies-injection-defense",
+    "git-fleet-agent-merge",
+    "tech-shadow-mode-before-gating"
+   ],
+   "url": null
+  },
+  "work-taxonomy-single-source": {
+   "title": "Single-source org/sphere taxonomy read by every agent",
+   "kind": "doc",
+   "summary_plain": "One file that defines which business or life area something belongs to, used by the email sorter, the task board and the agents alike.",
+   "how_it_works": "Versioned JSON with explicit human corrections (sender_rules) ranked above domain rules and 'ambiguous domains' that only hint; descriptions double as the classifier's prompt so fixing a misroute is a text edit, not a code change.",
+   "first_built": "2026-10-16",
+   "last_touched": "2026-10-17",
+   "cool_factor": 3,
+   "self_contained": "yes",
+   "tags": [
+    "classification",
+    "prompt-as-config",
+    "taxonomy"
+   ],
+   "id": "work-taxonomy-single-source",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "vault-schema-doc",
+    "work-mail-router",
+    "work-agent-policies",
+    "git-fleet-agent-merge",
+    "mc-omnifeed"
+   ],
+   "url": null
+  },
+  "work-support-spam-watch": {
+   "title": "Report-only shadow-mode spam judge for helpdesk tickets",
+   "kind": "automation",
+   "summary_plain": "Watches support tickets and notes which ones look like sales spam, but only writes down what it would have done so a person can check it for a week before it is allowed to act.",
+   "how_it_works": "Shadow-mode trial: asks two separate property questions (is it outreach? is it a customer asking for help?) and requires high/low respectively before a would-close verdict; reads via the D1 REST query API, writes only a local ledger.",
+   "first_built": "2026-10-16",
+   "last_touched": "2026-10-17",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "helpdesk",
+    "llm-judge",
+    "safety",
+    "shadow-mode"
+   ],
+   "id": "work-support-spam-watch",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-support-report",
+    "jobhunt-jev-shadow-scorer",
+    "work-outreach-pipeline",
+    "work-mail-router",
+    "work-tv-bug-report-relay"
+   ],
+   "url": null
+  },
+  "work-support-report": {
+   "title": "Read-only multi-tenant support KPI report",
+   "kind": "cli",
+   "summary_plain": "Produces a weekly scorecard of support tickets across several brands' helpdesks.",
+   "how_it_works": "Bash that issues only SELECTs through the D1 REST query API (deliberately not wrangler, so a stale config can't misdirect it); numbers come from SQL, interpretation is left to a paired slash command.",
+   "first_built": "2026-09-17",
+   "last_touched": "2026-10-16",
+   "cool_factor": 2,
+   "self_contained": "partial",
+   "tags": [
+    "d1",
+    "kpi",
+    "read-only-by-construction",
+    "slash-command"
+   ],
+   "id": "work-support-report",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-support-spam-watch",
+    "work-support-report-cmd",
+    "dsh-trajectory",
+    "gh-wdot",
+    "cli-cc-session"
+   ],
+   "url": null
+  },
+  "work-agent-policies": {
+   "title": "Company policies for an agent-run business (autonomy, delegation, spending)",
+   "kind": "doc",
+   "summary_plain": "A written rulebook that lets AI agents run a small business's day-to-day without asking the owner, covering honesty, what they may decide alone, and how much they may spend.",
+   "how_it_works": "Delegation-of-authority and spending matrices written as agent-readable policy, framed around the goal 'business keeps running if the owner disappears for six months'.",
+   "first_built": "2026-10-13",
+   "last_touched": "2026-10-13",
+   "cool_factor": 4,
+   "self_contained": "yes",
+   "tags": [
+    "agents",
+    "delegation-of-authority",
+    "governance",
+    "policy-as-docs"
+   ],
+   "id": "work-agent-policies",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "vault-schema-doc",
+    "work-taxonomy-single-source",
+    "work-mission-statement",
+    "skill-homelab",
+    "work-absence-audit"
+   ],
+   "url": null
+  },
+  "work-absence-audit": {
+   "title": "Six-month owner-absence audit method",
+   "kind": "doc",
+   "summary_plain": "An audit answering 'if I vanished for six months, what breaks?' with a ranked fix list.",
+   "how_it_works": "Read-only evidence sweep across launchd, uptime monitor DB, task board, cloud and bank APIs (GET only), each finding tagged severity and a fix class (automate / policy / pre-arrange / human-ongoing).",
+   "first_built": "2026-10-13",
+   "last_touched": "2026-10-13",
+   "cool_factor": 4,
+   "self_contained": "yes",
+   "tags": [
+    "audit",
+    "bus-factor",
+    "ops",
+    "solo-founder"
+   ],
+   "id": "work-absence-audit",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-agent-policies",
+    "jobhunt-profile-revamp-sweep",
+    "tech-shared-checkout-verify-deploy",
+    "work-mission-statement",
+    "jobhunt-vendor-clock"
+   ],
+   "url": null
+  },
+  "work-mission-statement": {
+   "title": "Mission doc: 'abolish the session' personal-context thesis",
+   "kind": "doc",
+   "summary_plain": "A one-page mission: everyone should own a private, portable memory assistant that never makes you 'start' something.",
+   "how_it_works": "Product-strategy doc built as a rejection filter: every rule must be able to cause a 'no'; tests features by whether they require the user to start a session.",
+   "first_built": "2026-08-14",
+   "last_touched": "2026-08-19",
+   "cool_factor": 3,
+   "self_contained": "yes",
+   "tags": [
+    "ambient-ai",
+    "personal-knowledge-graph",
+    "strategy"
+   ],
+   "id": "work-mission-statement",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-agent-policies",
+    "skill-handoff",
+    "vault-schema-doc",
+    "homelab-overview",
+    "agent-scratchpad-idea"
    ],
    "url": null
   },
@@ -5877,6 +6959,280 @@
    ],
    "url": null
   },
+  "work-support-report-cmd": {
+   "title": "Support-report slash command",
+   "kind": "slash-command",
+   "summary_plain": "A one-word command that turns the raw support numbers into a short written summary.",
+   "how_it_works": "Slash command that runs the read-only SQL script and asks the model only to interpret already-computed facts.",
+   "first_built": "2026-09-17",
+   "last_touched": "2026-09-17",
+   "cool_factor": 2,
+   "self_contained": "partial",
+   "tags": [
+    "facts-from-sql",
+    "slash-command"
+   ],
+   "id": "work-support-report-cmd",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "cmd-session-summary",
+    "work-support-report",
+    "cmd-mailgun",
+    "cmd-asciinema",
+    "cmd-todo"
+   ],
+   "url": null
+  },
+  "work-outreach-pipeline": {
+   "title": "Code-owns-workflow, models-supply-judgment outreach pipeline",
+   "kind": "automation",
+   "summary_plain": "A program that researches leads and writes draft sales emails for a person to approve, never sending anything itself.",
+   "how_it_works": "Stdlib Python where code does fetching/rule checks (word count, one ask, no hype), an LLM classifier gates the hook, a cheap model drafts, a model picks a contact by INDEX into a code-built list so it cannot invent an address, and a second model reviews; output is a Gmail draft plus a single approval task. Includes threshold calibration against hand-labelled leads and a model bench.",
+   "first_built": "2026-10-02",
+   "last_touched": "2026-10-13",
+   "cool_factor": 5,
+   "self_contained": "partial",
+   "tags": [
+    "anti-hallucination",
+    "calibration",
+    "human-in-the-loop",
+    "index-not-value",
+    "llm-pipeline"
+   ],
+   "id": "work-outreach-pipeline",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-mail-router",
+    "work-attorney-gated-doc-pipeline",
+    "work-llm-gateway-billing",
+    "site-tool-ai-workbench",
+    "fleet-evals-grader"
+   ],
+   "url": null
+  },
+  "work-llm-gateway-billing": {
+   "title": "Marked-up LLM gateway with per-client virtual keys and Stripe invoicing",
+   "kind": "api",
+   "summary_plain": "A private AI service that lets a consultancy give each client their own AI key and bill them monthly for exactly what they used.",
+   "how_it_works": "LiteLLM running as a Cloudflare Container behind a Worker issues per-client virtual keys and logs spend to Postgres; a separate stateless cron Worker turns monthly spend into one Stripe invoice per client with idempotent dedup.",
+   "first_built": "2024-04-19",
+   "last_touched": "2026-10-06",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "cloudflare-containers",
+    "litellm",
+    "metering",
+    "resale",
+    "stripe"
+   ],
+   "id": "work-llm-gateway-billing",
+   "path": "writeup",
+   "theme": "cloud",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-job-engine",
+    "tech-flat-rate-vs-metered-claude-routes",
+    "work-outreach-pipeline",
+    "site-tool-ai-workbench",
+    "tech-omni-token-pinned-account"
+   ],
+   "url": null
+  },
+  "work-job-engine": {
+   "title": "LiteLLM-as-container job engine behind a DO binding",
+   "kind": "api",
+   "summary_plain": "The backend that runs paid AI document jobs for a small SaaS.",
+   "how_it_works": "Config-only LiteLLM in a Cloudflare Container reached over an internal Durable Object binding: no public hostname, no tunnel, no Access policy needed.",
+   "first_built": "2024-04-19",
+   "last_touched": "2026-10-06",
+   "cool_factor": 3,
+   "self_contained": "partial",
+   "tags": [
+    "cloudflare-containers",
+    "litellm",
+    "private-networking"
+   ],
+   "id": "work-job-engine",
+   "path": "writeup",
+   "theme": "cloud",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-llm-gateway-billing",
+    "tech-orbstack-gotchas",
+    "skill-imagegen",
+    "homelab-overview",
+    "tech-omni-token-pinned-account"
+   ],
+   "url": null
+  },
+  "work-attorney-gated-doc-pipeline": {
+   "title": "Attorney-gated legal document pipeline",
+   "kind": "app",
+   "summary_plain": "Drafts legal paperwork with AI but routes every document through a licensed attorney before anyone receives it.",
+   "how_it_works": "Deterministic, code-orchestrated pipeline priced per job; human professional sign-off is a hard gate in the state machine, not a prompt instruction.",
+   "first_built": "2024-04-19",
+   "last_touched": "2026-10-06",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "human-in-the-loop",
+    "legal-tech",
+    "state-machine"
+   ],
+   "id": "work-attorney-gated-doc-pipeline",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-outreach-pipeline",
+    "work-patent-watch",
+    "job-hunt-workspace",
+    "work-llm-gateway-billing",
+    "skill-handoff"
+   ],
+   "url": null
+  },
+  "work-multibrand-site": {
+   "title": "One codebase serving three brands by request host",
+   "kind": "app",
+   "summary_plain": "A single website codebase that shows up as three different branded businesses depending on which web address you visit.",
+   "how_it_works": "Astro on Workers with host-based brand config, per-brand design-system docs, D1, credits ledger, RAG, chat, MCP surface, and separately deployed Workers (gateway, billing, tail, docket digest).",
+   "first_built": "2024-04-19",
+   "last_touched": "2026-10-06",
+   "cool_factor": 3,
+   "self_contained": "partial",
+   "tags": [
+    "astro",
+    "cloudflare-workers",
+    "design-system",
+    "multi-tenant"
+   ],
+   "id": "work-multibrand-site",
+   "path": "writeup",
+   "theme": "cloud",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "tech-shared-checkout-verify-deploy",
+    "work-gam-runbook",
+    "homelab-overview",
+    "work-job-engine",
+    "convex-mcp"
+   ],
+   "url": null
+  },
+  "work-booking-concierge": {
+   "title": "Booking concierge with live holds and payment toggle",
+   "kind": "app",
+   "summary_plain": "A small business's site with a playful 3D shop scene and a booking flow where customers pick a style, a time and pay or reserve.",
+   "how_it_works": "Availability = hours minus confirmed bookings minus short-lived holds; house-call mode adds fee and travel padding; a single env flag switches reserve-only vs paid checkout; 3D landing scene.",
+   "first_built": "2024-11-13",
+   "last_touched": "2026-10-13",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "3d",
+    "booking",
+    "holds",
+    "small-business"
+   ],
+   "id": "work-booking-concierge",
+   "path": "make-public",
+   "theme": "cloud",
+   "llm_era": true,
+   "links": {},
+   "related": [],
+   "url": null
+  },
+  "work-regulatory-shelf-index": {
+   "title": "Cross-jurisdiction product-legality index",
+   "kind": "app",
+   "summary_plain": "Answers 'is this product legal to ship to this state?' by combining a federal list and many incompatible state lists.",
+   "how_it_works": "Three separated data layers (federal authoritative, state directories with no common schema, hand-collected shelf data) normalized so the gap between layers is the product; change detection on the state directories.",
+   "first_built": "2026-09-15",
+   "last_touched": "2026-09-19",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "change-detection",
+    "data-normalization",
+    "regulatory"
+   ],
+   "id": "work-regulatory-shelf-index",
+   "path": "writeup",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [],
+   "url": null
+  },
+  "work-patent-watch": {
+   "title": "Patent filing triage watch (log-drain loop applied to patents)",
+   "kind": "automation",
+   "summary_plain": "Watches new patent filings and sorts them into 'tell the lawyer', 'keep an eye on' or 'ignore'.",
+   "how_it_works": "Reuses an ingest-score-judge-once-file-into-lanes loop: new filings scored against claims, one model judgment per item, lanes counsel/watch/dismissed; explicitly never concludes infringement.",
+   "first_built": "2026-10-18",
+   "last_touched": "2026-10-18",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "legal",
+    "llm-judge",
+    "triage-lanes"
+   ],
+   "id": "work-patent-watch",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "work-attorney-gated-doc-pipeline",
+    "work-court-docket-watcher",
+    "fleet-evals-grader",
+    "work-outreach-pipeline"
+   ],
+   "url": null
+  },
+  "work-court-docket-watcher": {
+   "title": "Split court-docket watcher (homelab fetch + Worker parse/watermark)",
+   "kind": "automation",
+   "summary_plain": "Checks a public court docket every few minutes and pings your phone when something new is filed.",
+   "how_it_works": "Two halves on purpose: a launchd job fetches the court API and pushes via a tailnet-only notifier; a Worker parses/classifies and keeps snapshot+watermark in KV, polling itself only as a fallback; ingest/pending/ack protocol prevents duplicate pushes.",
+   "first_built": "2026-08-18",
+   "last_touched": "2026-10-16",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "ack-protocol",
+    "courts",
+    "notifications",
+    "polling",
+    "watermark"
+   ],
+   "id": "work-court-docket-watcher",
+   "path": "writeup",
+   "theme": "unattended",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "tech-orbstack-gotchas",
+    "jobhunt-jobmail-feed",
+    "mc-file-claim-hook",
+    "tailscale-acl-and-webhook",
+    "homelab-overview"
+   ],
+   "url": null
+  },
   "work-tv-bug-report-relay": {
    "title": "APK-safe bug-report relay Worker",
    "kind": "api",
@@ -5898,9 +7254,66 @@
    "llm_era": true,
    "links": {},
    "related": [
+    "work-support-spam-watch",
     "hook-afk-beacon",
     "openwebui-ios-client",
+    "work-school-rag-labs",
     "skill-notify"
+   ],
+   "url": null
+  },
+  "work-gam-runbook": {
+   "title": "Multi-domain Google Workspace administration runbook",
+   "kind": "doc",
+   "summary_plain": "A how-to for managing a company's whole Google email/accounts setup from the command line.",
+   "how_it_works": "GAM7 runbook with the multi-domain gotcha (primary domain differs from the brand you think) and domain-scoped queries, recovery and security notes.",
+   "first_built": "2026-06-12",
+   "last_touched": "2026-06-12",
+   "cool_factor": 2,
+   "self_contained": "yes",
+   "tags": [
+    "admin",
+    "gam",
+    "google-workspace"
+   ],
+   "id": "work-gam-runbook",
+   "path": "writeup",
+   "theme": "homelab",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "skill-homelab",
+    "work-multibrand-site",
+    "work-job-engine"
+   ],
+   "url": null
+  },
+  "work-school-rag-labs": {
+   "title": "Magic-link-gated RAG 'ask the organization' tool",
+   "kind": "app",
+   "summary_plain": "An internal website where volunteers can ask questions and get answers drawn from years of meeting notes and bylaws.",
+   "how_it_works": "Astro on Workers with allowlisted magic-link auth, Vectorize + Workers AI embeddings, custom chunker, entity extraction, a wiki editor and a competency-graph view; same index reused with different prompts for onboarding bots.",
+   "first_built": "2026-05-06",
+   "last_touched": "2026-10-18",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "institutional-memory",
+    "magic-link",
+    "rag",
+    "vectorize"
+   ],
+   "id": "work-school-rag-labs",
+   "path": "make-public",
+   "theme": "artifacts",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "agent-scratchpad-idea",
+    "skill-artifact",
+    "site-tool-ai-workbench",
+    "openwebui-ios-client",
+    "gh-wdot"
    ],
    "url": null
   },
@@ -5928,8 +7341,58 @@
     "daily-digests",
     "github-profile-readme-builder",
     "mc-file-claim-hook",
-    "clippings-reading-list",
-    "git-fleet-worktree-sweeper-ship"
+    "work-court-docket-watcher",
+    "jobhunt-sourcer-and-hygiene"
+   ],
+   "url": null
+  },
+  "work-school-effect-analysis": {
+   "title": "School effectiveness causal analysis (value-added, diff-in-diff, synthetic control)",
+   "kind": "model",
+   "summary_plain": "A statistics study of whether a school and a new reading curriculum are helping students, using only public data.",
+   "how_it_works": "Citywide panel from public suppressed aggregates; value-added residuals, staggered-rollout difference-in-differences for curriculum, synthetic control for a leadership transition; documented null hypotheses and ethics framing.",
+   "first_built": "2026-06-10",
+   "last_touched": "2026-06-28",
+   "cool_factor": 4,
+   "self_contained": "yes",
+   "tags": [
+    "causal-inference",
+    "diff-in-diff",
+    "education",
+    "python",
+    "synthetic-control"
+   ],
+   "id": "work-school-effect-analysis",
+   "path": "make-public",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [],
+   "url": null
+  },
+  "client-gov-contract-radar": {
+   "title": "Government contract opportunity radar with 3D embedding map",
+   "kind": "app",
+   "summary_plain": "Finds government contracting opportunities that match a business and shows them on an interactive 3D map of similar opportunities.",
+   "how_it_works": "SAM.gov ingest, Voyage embeddings in pgvector for semantic search and recommendations, UMAP projection rendered with React Three Fiber, Stripe subscriptions.",
+   "first_built": "2025-02-21",
+   "last_touched": "2025-12-12",
+   "cool_factor": 4,
+   "self_contained": "partial",
+   "tags": [
+    "3d-visualization",
+    "embeddings",
+    "govtech",
+    "pgvector",
+    "umap"
+   ],
+   "id": "client-gov-contract-radar",
+   "path": "make-public",
+   "theme": "judgment",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "gh-cert"
    ],
    "url": null
   },
@@ -5951,7 +7414,7 @@
    ],
    "id": "mc-file-claim-hook",
    "path": "writeup",
-   "theme": "unattended",
+   "theme": "harness",
    "llm_era": true,
    "links": {},
    "related": [
@@ -5991,6 +7454,34 @@
    ],
    "url": null
   },
+  "mc-omnifeed": {
+   "title": "Omnifeed: one inbound log across channels with recipient-domain gate",
+   "kind": "technique",
+   "summary_plain": "Collects every customer/vendor message from all channels into one feed an agent can triage.",
+   "how_it_works": "Polls a shared forwarding inbox and keeps a message only if the original To/Delivered-To matches an allowlisted org domain, dropping everything else before storage; org is a required field so adding orgs is config, not migration.",
+   "first_built": "2026-10-02",
+   "last_touched": "2026-10-17",
+   "cool_factor": 3,
+   "self_contained": "partial",
+   "tags": [
+    "email",
+    "ingest",
+    "privacy-by-filter"
+   ],
+   "id": "mc-omnifeed",
+   "path": "writeup",
+   "theme": "cloud",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "tech-omni-token-pinned-account",
+    "work-mail-router",
+    "tech-template-only-replies-injection-defense",
+    "work-taxonomy-single-source",
+    "agent-scratchpad-idea"
+   ],
+   "url": null
+  },
   "mc-harness-absorption": {
    "title": "Mission Control to agent-harness plugin migration",
    "kind": "plugin",
@@ -6016,6 +7507,60 @@
     "hook-mission-control-telemetry",
     "git-fleet-worktree-sweeper-ship",
     "loop-engineering-clipping"
+   ],
+   "url": null
+  },
+  "family-desk-dial": {
+   "title": "Round desk display: 'leave now' school-run instrument",
+   "kind": "app",
+   "summary_plain": "A small round counter display, given as a birthday gift, that tells you when to walk out the door for school drop-off.",
+   "how_it_works": "ESPHome firmware on an M5Stack Dial showing six live readings on a 240px circle with one rotary control, plus a simulator config.",
+   "first_built": "2026-09-12",
+   "last_touched": "2026-09-20",
+   "cool_factor": 5,
+   "self_contained": "partial",
+   "tags": [
+    "esphome",
+    "family",
+    "gift",
+    "glanceable-ui",
+    "hardware"
+   ],
+   "id": "family-desk-dial",
+   "path": "writeup",
+   "theme": "home-life",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "htc-ir-and-esphome-ir"
+   ],
+   "url": null
+  },
+  "family-podcast-publisher": {
+   "title": "Hand-written script to TTS podcast episode injector",
+   "kind": "cli",
+   "summary_plain": "Turns a written script into a spoken podcast episode on a private feed.",
+   "how_it_works": "Splits text on paragraph boundaries under the 4096-char speech cap, synthesizes via an OpenAI-compatible gateway, writes audio plus an atomic newest-first metadata row matching the feed's own store.",
+   "first_built": "2026-08-27",
+   "last_touched": "2026-08-27",
+   "cool_factor": 3,
+   "self_contained": "partial",
+   "tags": [
+    "chunking",
+    "podcast",
+    "tts"
+   ],
+   "id": "family-podcast-publisher",
+   "path": "writeup",
+   "theme": "voice",
+   "llm_era": true,
+   "links": {},
+   "related": [
+    "gh-dsh-voice",
+    "free-game-web",
+    "hook-air-tts-stop-speech",
+    "cli-sessions-explorer",
+    "output-style-tts"
    ],
    "url": null
   }
