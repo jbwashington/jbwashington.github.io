@@ -873,3 +873,53 @@ img {
     margin-bottom: 48px;
   }
 }
+
+/* ---- Archive ---- */
+
+.archive-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+#archive-q {
+  font: inherit;
+  font-size: 1rem;
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  max-width: 420px;
+}
+#archive-q:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
+.archive-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.archive-chip { background: transparent; cursor: pointer; }
+.archive-chip:hover { color: var(--ink); border-color: var(--muted); }
+.archive-chip.is-on { color: var(--orange); border-color: var(--orange); background: rgba(217, 119, 87, 0.08); }
+.archive-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+}
+.archive-toc a { color: var(--muted); text-decoration: none; }
+.archive-toc a:hover { color: var(--orange); }
+.archive-toc span { color: var(--muted-soft); }
+.archive-theme { margin: 56px 0 24px; scroll-margin-top: 24px; }
+.archive-theme .featured-masonry { margin-top: 16px; }
+.archive-blurb { color: var(--muted); max-width: 640px; line-height: 1.5; margin: 0; }
+.archive-live { color: #2f7d4f; }
+.archive-how { margin-top: 32px; }
+.archive-how p { line-height: 1.6; }
+.archive-kind-note { color: var(--muted); font-size: 0.9rem; }
+.archive-related { margin-top: 40px; }
+.archive-item .idea-tags { margin-top: 28px; }
+.archive-footnote { margin-top: 56px; }
+.archive-empty { color: var(--muted); }
+[hidden] { display: none !important; }

@@ -1,0 +1,68 @@
+---
+layout: default
+---
+
+{% assign a = site.data.archive %}
+{% assign item = a.items[page.item_id] %}
+{% assign kind = a.kinds[item.kind] %}
+{% assign theme = a.themes | where: "slug", item.theme | first %}
+{% if item.post_path %}{% assign post = site.posts | where: "path", item.post_path | first %}{% endif %}
+
+<article class="idea archive-item">
+  <header class="idea-header">
+    <span class="badge badge--built" title="{{ kind.explain | escape }}">{{ kind.label | default: item.kind }}</span>
+    <h1 class="page-heading">{{ item.title | escape }}</h1>
+    <p class="idea-oneliner">{{ item.summary_plain }}</p>
+
+    <div class="idea-facts">
+      {% if item.first_built %}<span>built {{ item.first_built | date: "%b %Y" }}</span>{% endif %}
+      {% if item.last_touched and item.last_touched != item.first_built %}<span>updated {{ item.last_touched | date: "%b %Y" }}</span>{% endif %}
+      {% if theme %}<span><a href="{{ '/archive/' | relative_url }}#{{ theme.slug }}">{{ theme.name }}</a></span>{% endif %}
+      {% if item.url %}<span><a href="{{ item.url | relative_url }}">try it &rarr;</a></span>{% endif %}
+      {% if post %}<span><a href="{{ post.url | relative_url }}">read the post &rarr;</a></span>{% endif %}
+      {% for l in item.links %}<span><a href="{{ l[1] }}">{{ l[0] }} &rarr;</a></span>{% endfor %}
+    </div>
+  </header>
+
+  <section class="archive-how">
+    <p class="section-label">how it works</p>
+    <p>{{ item.how_it_works }}</p>
+    {% if kind %}<p class="archive-kind-note"><strong>{{ kind.label }}:</strong> {{ kind.explain }}</p>{% endif %}
+    {% if item.path == "writeup" and item.links.size == 0 and item.url == nil and post == nil %}
+    <p class="archive-kind-note">The code for this one lives in a private repo. This page explains the idea so you can build your own.</p>
+    {% endif %}
+  </section>
+
+  {% if content != "" %}
+  <div class="post-content">
+    {{ content }}
+  </div>
+  {% endif %}
+
+  {% if item.tags.size > 0 %}
+  <div class="idea-tags">
+    {% for tag in item.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+  </div>
+  {% endif %}
+
+  {% if item.related.size > 0 %}
+  <section class="archive-related">
+    <p class="section-label">related</p>
+    <ul class="post-list">
+      {% for rid in item.related %}{% assign r = a.items[rid] %}
+      <li>
+        <a class="post-list-link" href="{{ '/archive/' | append: rid | append: '/' | relative_url }}">
+          <span class="post-title-text">{{ r.title | escape }}</span>
+          <span class="post-meta">{{ a.kinds[r.kind].label | default: r.kind }}</span>
+          <span class="post-excerpt">{{ r.summary_plain }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <footer class="idea-footer">
+    <a href="{{ '/archive/' | relative_url }}">&larr; everything I've built</a>
+  </footer>
+</article>

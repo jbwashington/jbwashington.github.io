@@ -1,0 +1,111 @@
+---
+layout: default
+title: Archive
+permalink: /archive/
+description: Everything I've built with AI since 2024 — agent tooling, browser tools, techniques, and the lessons behind them.
+---
+
+{% assign a = site.data.archive %}
+
+<header class="hero" style="margin-bottom:40px;">
+  <h1 class="hero-title" style="font-size:clamp(3rem,8vw,6rem);">The<br>Archive.</h1>
+  <p class="hero-subtitle">
+    Everything I've built since I started working with AI in {{ a.since | date: "%B %Y" }}: {{ a.count }} things across
+    {{ a.themes.size }} themes. Most of it makes AI agents more useful, safer, or easier to reach from a phone. A lot of it
+    looks like typing into a terminal, and this page shows what all that typing turned into.
+  </p>
+</header>
+
+<div class="archive-controls">
+  <input id="archive-q" type="search" placeholder="search {{ a.count }} things…" autocomplete="off" aria-label="Search the archive">
+  <div class="archive-chips" id="archive-chips" role="group" aria-label="Filter by kind">
+    <button type="button" class="tag archive-chip is-on" data-kind="">all</button>
+    {% assign kinds_used = "" | split: "" %}
+    {% for id in a.order %}{% assign kinds_used = kinds_used | push: a.items[id].kind %}{% endfor %}
+    {% assign kinds_used = kinds_used | uniq | sort %}
+    {% for k in kinds_used %}
+    <button type="button" class="tag archive-chip" data-kind="{{ k }}" title="{{ a.kinds[k].explain | escape }}">{{ a.kinds[k].label | default: k | downcase }}</button>
+    {% endfor %}
+  </div>
+</div>
+
+<nav class="archive-toc" aria-label="Themes">
+  {% for t in a.themes %}<a href="#{{ t.slug }}">{{ t.name }} <span>{{ t.count }}</span></a>{% endfor %}
+</nav>
+
+{% for t in a.themes %}
+<section class="featured-section archive-theme" id="{{ t.slug }}">
+  <p class="section-label">{{ t.name }} · {{ t.count }}</p>
+  <p class="archive-blurb">{{ t.blurb }}</p>
+  {% if t.slug == "before" %}
+  <ul class="post-list">
+    {% for id in t.ids %}{% assign i = a.items[id] %}{% assign tagstr = i.tags | join: ' ' %}
+    <li class="archive-card" data-kind="{{ i.kind }}" data-text="{{ i.title | append: ' ' | append: i.summary_plain | append: ' ' | append: tagstr | downcase | escape }}">
+      <a class="post-list-link" href="{{ '/archive/' | append: id | append: '/' | relative_url }}">
+        <span class="post-title-text">{{ i.title | escape }}</span>
+        <span class="post-meta">{{ i.first_built | date: "%Y" }}</span>
+        <span class="post-excerpt">{{ i.summary_plain }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div class="featured-masonry">
+    {% for id in t.ids %}{% assign i = a.items[id] %}{% assign tagstr = i.tags | join: ' ' %}
+    <a class="featured-card archive-card" href="{{ '/archive/' | append: id | append: '/' | relative_url }}"
+       data-kind="{{ i.kind }}" data-text="{{ i.title | append: ' ' | append: i.summary_plain | append: ' ' | append: i.how_it_works | append: ' ' | append: tagstr | downcase | escape }}">
+      <div class="featured-card-tag">{{ a.kinds[i.kind].label | default: i.kind }}</div>
+      <h3 class="featured-card-title">{{ i.title | escape }}</h3>
+      <p class="featured-card-desc">{{ i.summary_plain }}</p>
+      <div class="featured-card-meta">
+        {% if i.first_built %}<span>{{ i.first_built | date: "%b %Y" }}</span>{% endif %}
+        {% if i.url or i.links.size > 0 or i.post_path %}<span class="archive-live">live</span>{% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+{% endfor %}
+
+<p class="archive-empty" id="archive-empty" hidden>Nothing matches. Try a different word.</p>
+<p class="post-excerpt archive-footnote">Regenerated {{ a.generated | date: "%b %d, %Y" }}. Items are grouped by meaning: each one is embedded with a small local model and placed in the theme it sits closest to.</p>
+
+<script>
+(() => {
+  const q = document.getElementById('archive-q');
+  const chips = document.getElementById('archive-chips');
+  const cards = [...document.querySelectorAll('.archive-card')];
+  const sections = [...document.querySelectorAll('.archive-theme')];
+  const empty = document.getElementById('archive-empty');
+  const KEY = 'archive-filter';
+  let kind = '';
+
+  function apply() {
+    const terms = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    for (const c of cards) {
+      const ok = (!kind || c.dataset.kind === kind) && terms.every(t => c.dataset.text.includes(t));
+      c.hidden = !ok;
+      shown += ok;
+    }
+    for (const s of sections) s.hidden = !s.querySelector('.archive-card:not([hidden])');
+    empty.hidden = shown > 0;
+    for (const b of chips.children) b.classList.toggle('is-on', b.dataset.kind === kind);
+    localStorage.setItem(KEY, JSON.stringify({ q: q.value, kind }));
+  }
+
+  chips.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b) { kind = b.dataset.kind; apply(); }
+  });
+  q.addEventListener('input', apply);
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+    q.value = saved.q || '';
+    kind = saved.kind || '';
+  } catch {}
+  if (q.value || kind) apply();
+})();
+</script>
