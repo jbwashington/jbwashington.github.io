@@ -13,3 +13,4 @@ Gemfile.lock
 .claude-routine-exclude
 scripts/
 .inventory/
+__pycache__/
